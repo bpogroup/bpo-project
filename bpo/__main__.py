@@ -37,3 +37,10 @@ print(Simulator.replicate(problem_instances, GreedyPlanner(), 10000, 50000))
 print(Simulator.replicate(problem_instances, HeuristicPlanner(), 10000, 50000))
 print(Simulator.replicate(problem_instances, PredictivePlanner(ImbalancedPredicter), 10000, 50000))
 print(Simulator.replicate(problem_instances, PredictivePlanner(PerfectPredicter), 10000, 50000))
+
+# TODO: make a more general reporter by passing it functions that are handlers for particular reported events; also functions to summarize in the end
+# TODO: one of the reporters should be for process mining
+# TODO: make a general graph drawing module for reporting particular reported variables [as functions of other variables] [with boxplot/confidence over the replications]
+# TODO: design an experiment to draw conclusions
+# TODO: prepare for cluster computer and run many experiments
+# TODO: also test the experiment for a real dataset
