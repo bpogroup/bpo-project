@@ -2,10 +2,12 @@ from enum import Enum
 
 
 class EventType(Enum):
-    ARRIVAL = 0
+    CASE_ARRIVAL = 0
     START_TASK = 1
     COMPLETE_TASK = 2
     PLAN_TASKS = 3
+    TASK_ACTIVATE = 4
+    TASK_PLANNED = 5
 
 
 class Event:
@@ -40,13 +42,13 @@ class Reporter:
     def report(self, event):
         if self.verbose:
             print(event)
-        if event.event_type == EventType.ARRIVAL or event.event_type == EventType.START_TASK or event.event_type == EventType.COMPLETE_TASK:
+        if event.event_type == EventType.TASK_ACTIVATE or event.event_type == EventType.START_TASK or event.event_type == EventType.COMPLETE_TASK:
             if event.task.id not in self.tasks.keys():
                 self.tasks[event.task.id] = []
             self.tasks[event.task.id].append(event)
             es = self.tasks[event.task.id]
             if len(es) == 3:
-                assert es[0].event_type == EventType.ARRIVAL
+                assert es[0].event_type == EventType.TASK_ACTIVATE
                 assert es[1].event_type == EventType.START_TASK
                 assert es[2].event_type == EventType.COMPLETE_TASK
                 if es[0].moment >= self.warmup:
@@ -106,11 +108,10 @@ class Simulator:
         # reset the problem
         self.problem.restart()
 
-        # generate arrival event for the first task
-        task = self.problem.next_task()
-        t = self.problem.arrival_time(task.id)
+        # generate arrival event for the first task of the first case
+        (t, task) = self.problem.next_case()
 
-        self.events.append((t, Event(EventType.ARRIVAL, t, task)))
+        self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
 
     def simulate(self, running_time):
         # repeat until the end of the simulation time:
@@ -123,21 +124,21 @@ class Simulator:
             self.reporter.report(event)
 
             # if e is an arrival event:
-            if event.event_type == EventType.ARRIVAL:
+            if event.event_type == EventType.CASE_ARRIVAL:
                 # add new task
                 self.unassigned_tasks[event.task.id] = event.task
+                self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, event.task))
                 # generate a new planning event to start planning now for the new task
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
-                # generate a new arrival event for the next task
-                task = self.problem.next_task()
-                t = self.problem.arrival_time(task.id)
-                self.events.append((t, Event(EventType.ARRIVAL, t, task)))
+                # generate a new arrival event for the first task of the next case
+                (t, task) = self.problem.next_case()
+                self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
                 self.events.sort()
 
             # if e is a start event:
             elif event.event_type == EventType.START_TASK:
                 # create a complete event for task
-                t = self.now + self.problem.processing_time(event.task.id, event.resource)
+                t = self.now + self.problem.processing_time(event.task, event.resource)
                 self.events.append((t, Event(EventType.COMPLETE_TASK, t, event.task, event.resource)))
                 self.events.sort()
                 # set resource to busy
@@ -151,7 +152,11 @@ class Simulator:
                 self.available_resources.add(event.resource)
                 # remove task from assigned tasks
                 del self.assigned_tasks[event.task.id]
-                # generate a new planning event to start planning now for the newly available resource
+                # generate unassigned tasks for each next task
+                for next_task in event.task.next_tasks:
+                    self.unassigned_tasks[next_task.id] = next_task
+                    self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, next_task))
+                # generate a new planning event to start planning now for the newly available resource and next tasks
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 self.events.sort()
 
@@ -164,6 +169,7 @@ class Simulator:
                     for (task, resource, moment) in assignments:
                         # create start event for task
                         self.events.append((moment, Event(EventType.START_TASK, moment, task, resource)))
+                        self.reporter.report(Event(EventType.TASK_PLANNED, self.now, task))
                         # assign task
                         del self.unassigned_tasks[task.id]
                         self.assigned_tasks[task.id] = (task, resource, moment)

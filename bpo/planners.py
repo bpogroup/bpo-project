@@ -34,9 +34,9 @@ class HeuristicPlanner(Planner):
         for task in environment.unassigned_tasks.values():
             if len(available_resources) == 0:
                 break  # for efficiency
-            if (task.task_type == "T1" and "R1" in available_resources) or (task.task_type == "T2" and "R2" in available_resources):
+            if task.data["optimal_resource"] in available_resources:
                 # if a perfect match is possible, make it
-                resource = "R"+task.task_type[1]
+                resource = task.data["optimal_resource"]
                 available_resources.remove(resource)
                 assignments.append((task, resource, environment.now))
             elif unassigned_tasks_to_process <= len(available_resources):
@@ -62,18 +62,18 @@ class PredictivePlanner(Planner):
         for task in environment.unassigned_tasks.values():
             if len(available_resources) == 0:
                 break  # for efficiency
-            if (task.task_type == "T1" and "R1" in available_resources) or (task.task_type == "T2" and "R2" in available_resources):
+            if task.data["optimal_resource"] in available_resources:
                 # if a perfect match is possible, make it
-                resource = "R"+task.task_type[1]
+                resource = task.data["optimal_resource"]
                 available_resources.remove(resource)
                 assignments.append((task, resource, environment.now))
-            elif (task.task_type == "T1") and ("R1" in environment.busy_resources.keys()) and ("R2" in environment.available_resources) and (self.predicter.predict_remaining_processing_time(environment.problem, "R1", environment.busy_resources["R1"][0], environment.busy_resources["R1"][1], now) + self.predicter.predict_processing_time_task(environment.problem, "R1", task) < self.predicter.predict_processing_time_task(environment.problem, "R2", task)):
+            elif (task.data["optimal_resource"] == "R1") and ("R1" in environment.busy_resources.keys()) and ("R2" in environment.available_resources) and (self.predicter.predict_remaining_processing_time(environment.problem, "R1", environment.busy_resources["R1"][0], environment.busy_resources["R1"][1], now) + self.predicter.predict_processing_time_task(environment.problem, "R1", task) < self.predicter.predict_processing_time_task(environment.problem, "R2", task)):
                 pass
-                # if task is T1 and R1 is busy, but R2 is available:
+                # if R1 is the optimal resource and R1 is busy, but R2 is available:
                 #   if the predicted remaining processing time of R1 + predicted processing time for R1 < predicted processing time for R2:
                 #     do nothing and wait for R1 to become available
-            elif (task.task_type == "T2") and ("R2" in environment.busy_resources.keys()) and ("R1" in environment.available_resources) and (self.predicter.predict_remaining_processing_time(environment.problem, "R2", environment.busy_resources["R2"][0], environment.busy_resources["R2"][1], now) + self.predicter.predict_processing_time_task(environment.problem, "R2", task) < self.predicter.predict_processing_time_task(environment.problem, "R1", task)):
-                # same for T2 and R2
+            elif (task.data["optimal_resource"] == "R2") and ("R2" in environment.busy_resources.keys()) and ("R1" in environment.available_resources) and (self.predicter.predict_remaining_processing_time(environment.problem, "R2", environment.busy_resources["R2"][0], environment.busy_resources["R2"][1], now) + self.predicter.predict_processing_time_task(environment.problem, "R2", task) < self.predicter.predict_processing_time_task(environment.problem, "R1", task)):
+                # same for R2
                 pass
             elif unassigned_tasks_to_process <= len(available_resources):
                 # if no perfect match is possible anymore, make a match anyway
