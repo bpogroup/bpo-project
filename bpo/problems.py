@@ -1,7 +1,7 @@
 import random
 import pickle
 from math import factorial
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 
 
 class Task:
@@ -88,7 +88,7 @@ class Problem(ABC):
             task = self.tasks_pickle[self.next_task_id]["task"]
             self.next_task_id += 1
             return task
-        except e:
+        except KeyError:
             return None
 
     def processing_time(self, task_id, resource):
