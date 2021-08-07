@@ -1,4 +1,5 @@
 from enum import Enum
+from abc import ABC, abstractmethod
 
 
 class EventType(Enum):
@@ -8,6 +9,7 @@ class EventType(Enum):
     PLAN_TASKS = 3
     TASK_ACTIVATE = 4
     TASK_PLANNED = 5
+    COMPLETE_CASE = 6
 
 
 class Event:
@@ -26,48 +28,82 @@ class Event:
         return str(self.event_type) + "\t(" + str(round(self.moment, 2)) + ")\t" + str(self.task) + "," + str(self.resource)
 
 
-class Reporter:
+class ReporterElement(ABC):
+    @abstractmethod
+    def report(self, event):
+        raise NotImplementedError
 
-    def __init__(self, warmup=0, verbose=False):
-        self.warmup = warmup
-        self.verbose = verbose
-        self.tasks = dict()
-        self.nr_tasks = 0
-        self.total_waiting_time = 0
-        self.total_processing_time = 0
-        self.total_tasks_planned = 0
-        self.total_resources_planned = 0
-        self.total_plan_events = 0
+    @abstractmethod
+    def summarize(self):
+        raise NotImplementedError
+
+
+class TasksReporterElement(ReporterElement):
+    def __init__(self):
+        self.nr_tasks_completed = 0
+        self.nr_tasks_started = 0
+        self.processing_time = 0
+        self.waiting_time = 0
+        self.task_start_times = dict()
+        self.task_activation_times = dict()
 
     def report(self, event):
-        if self.verbose:
-            print(event)
-        if event.event_type == EventType.TASK_ACTIVATE or event.event_type == EventType.START_TASK or event.event_type == EventType.COMPLETE_TASK:
-            if event.task.id not in self.tasks.keys():
-                self.tasks[event.task.id] = []
-            self.tasks[event.task.id].append(event)
-            es = self.tasks[event.task.id]
-            if len(es) == 3:
-                assert es[0].event_type == EventType.TASK_ACTIVATE
-                assert es[1].event_type == EventType.START_TASK
-                assert es[2].event_type == EventType.COMPLETE_TASK
-                if es[0].moment >= self.warmup:
-                    self.nr_tasks += 1
-                    self.total_waiting_time += es[1].moment - es[0].moment
-                    self.total_processing_time += es[2].moment - es[1].moment
-        if event.event_type == EventType.PLAN_TASKS:
-            self.total_plan_events += 1
-            self.total_tasks_planned += event.nr_tasks
-            self.total_resources_planned += event.nr_resources
+        if event.event_type == EventType.TASK_ACTIVATE:
+            self.task_activation_times[event.task.id] = event.moment
+        elif event.event_type == EventType.START_TASK:
+            self.task_start_times[event.task.id] = event.moment
+            if event.task.id in self.task_activation_times.keys():
+                self.nr_tasks_started += 1
+                self.waiting_time += event.moment - self.task_activation_times[event.task.id]
+                del self.task_activation_times[event.task.id]
+        elif event.event_type == EventType.COMPLETE_TASK:
+            if event.task.id in self.task_start_times.keys():
+                self.nr_tasks_completed += 1
+                self.processing_time += event.moment - self.task_start_times[event.task.id]
+                del self.task_start_times[event.task.id]
+
+    def summarize(self):
+        return [("tasks completed", self.nr_tasks_completed), ("task proc time", self.processing_time/self.nr_tasks_completed), ("task wait time", self.waiting_time/self.nr_tasks_started)]
+
+
+class CaseReporterElement(ReporterElement):
+    def __init__(self):
+        self.nr_cases_completed = 0
+        self.cycle_time = 0
+        self.case_start_times = dict()
+
+    def report(self, event):
+        if event.event_type == EventType.CASE_ARRIVAL:
+            self.case_start_times[event.task.case_id] = event.moment
+        if event.event_type == EventType.COMPLETE_CASE and event.task.case_id in self.case_start_times.keys():
+            self.nr_cases_completed += 1
+            self.cycle_time += event.moment - self.case_start_times[event.task.case_id]
+            del self.case_start_times[event.task.case_id]
+
+    def summarize(self):
+        return [("cases completed", self.nr_cases_completed), ("case cycle time", self.cycle_time/self.nr_cases_completed)]
+
+
+class Reporter:
+    def __init__(self, warmup=0, reporters=None):
+        self.warmup = warmup
+        if reporters is None:
+            default_reporters = [TasksReporterElement(), CaseReporterElement()]
+            self.reporters = default_reporters
+        else:
+            self.reporters = reporters
+
+    def report(self, event):
+        if event.moment > self.warmup:
+            for reporter in self.reporters:
+                reporter.report(event)
 
     def summarize(self):
         result = dict()
-        result["nr tasks"] = self.nr_tasks
-        result["avg waiting time"] = self.total_waiting_time/self.nr_tasks
-        result["avg processing time"] = self.total_processing_time/self.nr_tasks
-        result["nr plan events"] = self.total_plan_events
-        result["avg tasks per plan event"] = self.total_tasks_planned/self.total_plan_events
-        result["avg resources per plan event"] = self.total_resources_planned/self.total_plan_events
+        for reporter in self.reporters:
+            summary = reporter.summarize()
+            for summary_line in summary:
+                result[summary_line[0]] = summary_line[1]
         return result
 
     @staticmethod
@@ -91,6 +127,7 @@ class Simulator:
         self.assigned_tasks = dict()  # an assignment is a dict task.id -> (task, resource, start), where start is the moment at which the resource starts processing the task
         self.available_resources = set()
         self.busy_resources = dict()  # resource -> (task, start)
+        self.busy_cases = dict()  # case_id -> [active task_id]
         self.reserved_resources = dict()  # resource -> (task, start)
         self.now = 0
 
@@ -128,6 +165,7 @@ class Simulator:
                 # add new task
                 self.unassigned_tasks[event.task.id] = event.task
                 self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, event.task))
+                self.busy_cases[event.task.case_id] = [event.task.id]
                 # generate a new planning event to start planning now for the new task
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 # generate a new arrival event for the first task of the next case
@@ -152,10 +190,14 @@ class Simulator:
                 self.available_resources.add(event.resource)
                 # remove task from assigned tasks
                 del self.assigned_tasks[event.task.id]
+                self.busy_cases[event.task.case_id].remove(event.task.id)
                 # generate unassigned tasks for each next task
                 for next_task in event.task.next_tasks:
                     self.unassigned_tasks[next_task.id] = next_task
                     self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, next_task))
+                    self.busy_cases[event.task.case_id].append(next_task.id)
+                if len(self.busy_cases[event.task.case_id]) == 0:
+                    self.events.append((self.now, Event(EventType.COMPLETE_CASE, self.now, event.task)))
                 # generate a new planning event to start planning now for the newly available resource and next tasks
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 self.events.sort()
