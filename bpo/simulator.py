@@ -1,5 +1,6 @@
 from enum import Enum
 from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 
 
 class EventType(Enum):
@@ -10,6 +11,13 @@ class EventType(Enum):
     TASK_ACTIVATE = 4
     TASK_PLANNED = 5
     COMPLETE_CASE = 6
+
+
+class TimeUnit(Enum):
+    SECONDS = 0
+    MINUTES = 1
+    HOURS = 2
+    DAYS = 3
 
 
 class Event:
@@ -30,6 +38,10 @@ class Event:
 
 class ReporterElement(ABC):
     @abstractmethod
+    def restart(self):
+        raise NotImplementedError
+
+    @abstractmethod
     def report(self, event):
         raise NotImplementedError
 
@@ -46,6 +58,9 @@ class TasksReporterElement(ReporterElement):
         self.waiting_time = 0
         self.task_start_times = dict()
         self.task_activation_times = dict()
+
+    def restart(self):
+        self.__init__()
 
     def report(self, event):
         if event.event_type == EventType.TASK_ACTIVATE:
@@ -72,6 +87,9 @@ class CaseReporterElement(ReporterElement):
         self.cycle_time = 0
         self.case_start_times = dict()
 
+    def restart(self):
+        self.__init__()
+
     def report(self, event):
         if event.event_type == EventType.CASE_ARRIVAL:
             self.case_start_times[event.task.case_id] = event.moment
@@ -84,6 +102,36 @@ class CaseReporterElement(ReporterElement):
         return [("cases completed", self.nr_cases_completed), ("case cycle time", self.cycle_time/self.nr_cases_completed)]
 
 
+class EventLogReporterElement(ReporterElement):
+    def __init__(self, filename, timeunit=TimeUnit.SECONDS, initial_time=datetime(2020, 1, 1), time_format="%Y-%m-%d %H:%M:%S.%f"):
+        self.task_start_times = dict()
+        self.timeunit = timeunit
+        self.initial_time = initial_time
+        self.time_format = time_format
+        self.logfile = open(filename, "wt")
+        self.logfile.write("case_id,task,resource,start_time,completion_time\n")
+
+    def restart(self):
+        raise NotImplementedError
+
+    def report(self, event):
+        def displace(time):
+            return self.initial_time + (timedelta(seconds=time) if self.timeunit == TimeUnit.SECONDS else timedelta(minutes=time) if self.timeunit == TimeUnit.MINUTES else timedelta(hours=time) if self.timeunit == TimeUnit.HOURS else timedelta(days=time) if self.timeunit == TimeUnit.DAYS else None)
+        if event.event_type == EventType.START_TASK:
+            self.task_start_times[event.task.id] = event.moment
+        elif event.event_type == EventType.COMPLETE_TASK and event.task.id in self.task_start_times.keys():
+            self.logfile.write(str(event.task.case_id) + ",")
+            self.logfile.write(str(event.task.task_type) + ",")
+            self.logfile.write(str(event.resource) + ",")
+            self.logfile.write(displace(self.task_start_times[event.task.id]).strftime(self.time_format) + ",")
+            self.logfile.write(displace(event.moment).strftime(self.time_format) + "\n")
+            self.logfile.flush()
+            del self.task_start_times[event.task.id]
+
+    def summarize(self):
+        self.logfile.close()
+
+
 class Reporter:
     def __init__(self, warmup=0, reporters=None):
         self.warmup = warmup
@@ -92,6 +140,10 @@ class Reporter:
             self.reporters = default_reporters
         else:
             self.reporters = reporters
+
+    def restart(self):
+        for reporter in self.reporters:
+            reporter.restart()
 
     def report(self, event):
         if event.moment > self.warmup:
@@ -221,10 +273,10 @@ class Simulator:
                     self.events.sort()
 
     @staticmethod
-    def replicate(problem_instances, planner, warmup_time, simulation_time):
+    def replicate(problem_instances, planner, reporter, simulation_time):
         summaries = []
         for problem_instance in problem_instances:
-            reporter = Reporter(warmup_time)
+            reporter.restart()
             simulator = Simulator(problem_instance, reporter, planner)
             simulator.simulate(simulation_time)
             summaries.append(reporter.summarize())
