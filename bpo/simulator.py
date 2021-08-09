@@ -1,6 +1,8 @@
 from enum import Enum
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
+from statistics import mean
+import scipy.stats as st
 
 
 class EventType(Enum):
@@ -160,14 +162,13 @@ class Reporter:
 
     @staticmethod
     def aggregate(summaries):
-        nr_replications = len(summaries)
-        result = summaries[0].copy()
-        for i in range(1, nr_replications):
-            for k in summaries[i].keys():
-                result[k] += summaries[i][k]
-        for k in result.keys():
-            result[k] /= nr_replications
-        return result
+        aggregation = dict()
+        for key in summaries:
+            avg = mean(summaries[key])
+            n = len(summaries[key])
+            ci = st.t.interval(0.95, n - 1, loc=avg, scale=st.sem(summaries[key]))
+            aggregation[key] = (avg, avg - ci[0])
+        return aggregation
 
 
 class Simulator:
@@ -274,10 +275,16 @@ class Simulator:
 
     @staticmethod
     def replicate(problem_instances, planner, reporter, simulation_time):
-        summaries = []
+        summaries = None
         for problem_instance in problem_instances:
             reporter.restart()
             simulator = Simulator(problem_instance, reporter, planner)
             simulator.simulate(simulation_time)
-            summaries.append(reporter.summarize())
-        return Reporter.aggregate(summaries)
+            summary = reporter.summarize()
+            if summaries is None:
+                summaries = summary.copy()
+                for key in summaries:
+                    summaries[key] = []
+            for key in summary:
+                summaries[key].append(summary[key])
+        return summaries

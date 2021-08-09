@@ -45,22 +45,19 @@ class Problem(ABC):
 
     # Instantiates the problem by preparing all interarrival and processing times up to the specified duration.
     # When running the same instantiation is run, it produces the same interarrival and processing times.
-    @classmethod
-    def from_generator(cls, duration):
-        instance = cls()
+    def from_generator(self, duration):
         now = 0
         next_case_id = 0
         next_task_id = 0
-        instance.cases = dict()
         unfinished_tasks = []
         # Instantiate cases at the interarrival time for the duration.
         # Generate the first task for each case, without processing times and next tasks, add them to the unfinished tasks.
         while now < duration:
-            at = now + instance.interarrival_time_sample()
-            task = Task(next_task_id, next_case_id, instance.initial_task_type, instance.data_sample(instance.initial_task_type))
+            at = now + self.interarrival_time_sample()
+            task = Task(next_task_id, next_case_id, self.initial_task_type, self.data_sample(self.initial_task_type))
             next_task_id += 1
             unfinished_tasks.append(task)
-            instance.cases[next_case_id] = (at, task)
+            self.cases[next_case_id] = (at, task)
             next_case_id += 1
             now = at
         # Finish the tasks by:
@@ -68,15 +65,15 @@ class Problem(ABC):
         # 2. generating the next tasks, without processing times and next tasks, add them to the unfinished tasks.
         while len(unfinished_tasks) > 0:
             task = unfinished_tasks.pop(0)
-            for r in instance.resources:
-                pt = instance.processing_time_sample(r, task)
+            for r in self.resources:
+                pt = self.processing_time_sample(r, task)
                 task.add_processing_time(r, pt)
-            for tt in instance.next_task_types_sample(task):
-                new_task = Task(next_task_id, task.case_id, tt, instance.data_sample(tt))
+            for tt in self.next_task_types_sample(task):
+                new_task = Task(next_task_id, task.case_id, tt, self.data_sample(tt))
                 next_task_id += 1
                 unfinished_tasks.append(new_task)
                 task.add_next_task(new_task)
-        return instance
+        return self
 
     @classmethod
     def from_file(cls, filename):
@@ -156,12 +153,16 @@ class ImbalancedProblem(Problem):
     resources = ["R1", "R2"]
     task_types = ["T"]
 
+    def __init__(self, spread=1.0):
+        super().__init__()
+        self.spread = spread
+
     def processing_time_sample(self, resource, task):
         ep = 18
         if resource == task.data["optimal_resource"]:
-            return random.expovariate(1/(0.5*ep))
+            return random.expovariate(1/((1.0-(self.spread/2.0))*ep))
         else:
-            return random.expovariate(1/(1.5*ep))
+            return random.expovariate(1/((1.0+(self.spread/2.0))*ep))
 
     def interarrival_time_sample(self):
         return random.expovariate(1/10)
