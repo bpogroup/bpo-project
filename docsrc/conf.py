@@ -10,9 +10,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -46,7 +46,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 def setup(app):
     from sphinx.ext import apidoc
     app.connect('builder-inited', lambda _: apidoc.main([
-        '-o', 'docs', '-feM', 'bpo',
+        '-o', 'docsrc', '-feM', 'bpo',
     ]))
 
 
