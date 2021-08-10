@@ -2,14 +2,26 @@ from abc import ABC, abstractmethod
 
 
 class Planner(ABC):
+    """Abstract class that all planners must implement."""
 
     @abstractmethod
     def assign(self, environment):
+        """
+        Assign tasks to resources from the simulation environment.
+
+        :param environment: a :class:`.Simulator`
+        :return: [(task, resource, moment)], where
+            task is an instance of :class:`.Task`,
+            resource is one of :attr:`.Problem.resources`, and
+            moment is a number representing the moment in simulation time
+            at which the resource must be assigned to the task (typically, this can also be :attr:`.Simulator.now`).
+        """
         raise NotImplementedError
 
 
 # Greedy assignment
 class GreedyPlanner(Planner):
+    """A :class:`.Planner` that assigns tasks to resources in an anything-goes manner."""
 
     def assign(self, environment):
         assignments = []
@@ -24,8 +36,11 @@ class GreedyPlanner(Planner):
         return assignments
 
 
-# For each task plans the best available resource, or another resource if the best one is not available
 class HeuristicPlanner(Planner):
+    """A :class:`.Planner` that takes each task and tries to assign it to the optimal resource.
+        The optimal resource must be one of :attr:`.Problem.resources` and specified as
+        value of the 'optimal_resource' of :attr:`.Task.data`. If no such resource is
+        available, it will assign an arbitrary resource."""
 
     def assign(self, environment):
         assignments = []
@@ -51,6 +66,13 @@ class HeuristicPlanner(Planner):
 # For each task plans the best available resource, or another resource if the best one is not available
 # Defers planning if it is likely that a better resource will be available some time in the future
 class PredictivePlanner(Planner):
+    """A :class:`.Planner` that tries to assign a task to the optimal resource,
+        same as the :class:`.HeuristicPlanner`, but failing that will predict
+        if it is better to wait with the assignment or assign to a suboptimal resource.
+        Specifically, if the optimal resource is not available,
+        it will make a prediction, using the passed predicter, to check if the optimal
+        resource will be ready in time before it becomes better to assign another resource.
+        If so, it will not assign the task."""
     def __init__(self, predicter):
         self.predicter = predicter
 

@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from statistics import mean
@@ -6,23 +6,76 @@ import scipy.stats as st
 
 
 class EventType(Enum):
-    CASE_ARRIVAL = 0
-    START_TASK = 1
-    COMPLETE_TASK = 2
-    PLAN_TASKS = 3
-    TASK_ACTIVATE = 4
-    TASK_PLANNED = 5
-    COMPLETE_CASE = 6
+    """An enumeration for the types of event that can happen in the simulator."""
+    CASE_ARRIVAL = auto()
+    """A case arrives.
+    
+    :meta hide-value:"""
+    START_TASK = auto()
+    """A task starts.
+    
+    :meta hide-value:"""
+    COMPLETE_TASK = auto()
+    """A task completes.
+    
+    :meta hide-value:"""
+    PLAN_TASKS = auto()
+    """An action is performed to assign tasks to resources.
+    
+    :meta hide-value:"""
+    TASK_ACTIVATE = auto()
+    """A task becomes ready to perform (but is not assigned to a resource).
+    
+    :meta hide-value:"""
+    TASK_PLANNED = auto()
+    """A task is assigned to a resource.
+    
+    :meta hide-value:"""
+    COMPLETE_CASE = auto()
+    """A case completes.
+    
+    :meta hide-value:"""
 
 
 class TimeUnit(Enum):
-    SECONDS = 0
-    MINUTES = 1
-    HOURS = 2
-    DAYS = 3
+    """An enumeration for the unit in which simulation time is measured."""
+    SECONDS = auto()
+    """
+    Measured in seconds.
+    
+    :meta hide-value:
+    """
+    MINUTES = auto()
+    """
+    Measured in minutes.
+
+    :meta hide-value:
+    """
+    HOURS = auto()
+    """
+    Measured in hours.
+
+    :meta hide-value:
+    """
+    DAYS = auto()
+    """
+    Measured in days.
+
+    :meta hide-value:
+    """
 
 
 class Event:
+    """
+    A simulation event.
+
+    :param event_type: the :class:`.EventType`.
+    :param moment: the moment in simulation time at which the event happens.
+    :param task: the task that triggered, or None for event_type == PLAN_TASKS.
+    :param resource: the resource that performs the task, or None for event_type not in [START_TASK, COMPLETE_TASK]
+    :param nr_tasks: the number of tasks that must be planned, or 0 for event_type != PLAN_TASKS
+    :param nr_resources: the number of resources that is available, or 0 for event_type != PLAN_TASKS
+    """
     def __init__(self, event_type, moment, task, resource=None, nr_tasks=0, nr_resources=0):
         self.event_type = event_type
         self.moment = moment

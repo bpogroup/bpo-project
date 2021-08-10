@@ -2,20 +2,39 @@ from abc import ABC, abstractmethod
 
 
 class Predicter(ABC):
+    """Abstract class that all predicters must implement."""
 
     @staticmethod
     @abstractmethod
     def predict_processing_time_task(problem, resource, task):
+        """
+        Predicts the time it will take a resource to perform a task in a specific problem instance.
+
+        :param problem: an instance of a :class:`.Problem`.
+        :param resource: one of the :attr:`.Problem.resources` of the problem.
+        :param task: a :class:`.Task` that should come from the problem.
+        :return: a float representing a duration in simulation time.
+        """
         raise NotImplementedError
 
     @staticmethod
     @abstractmethod
     def predict_remaining_processing_time(problem, resource, task, start_time, now):
+        """
+        Predicts the time a resource needs to complete a task that was already started.
+
+        :param problem: an instance of a :class:`.Problem`.
+        :param resource: one of the :attr:`.Problem.resources` of the problem.
+        :param task: a :class:`.Task` that should come from the problem.
+        :param start_time: the simulation time at which the resource started processing the task.
+        :param now: the current simulation time.
+        :return: a float representing a duration in simulation time.
+        """
         raise NotImplementedError
 
 
-# Predicter for the imbalanced problem
 class ImbalancedPredicter(Predicter):
+    """A :class:`.Predicter` that predicts for instances of the :class:`.ImbalancedProblem`."""
 
     @staticmethod
     def predict_processing_time_task(problem, resource, task):
@@ -30,8 +49,8 @@ class ImbalancedPredicter(Predicter):
         return ImbalancedPredicter.predict_processing_time_task(problem, resource, task)
 
 
-# Predicter for the imbalanced problem
 class PerfectPredicter(Predicter):
+    """A :class:`.Predicter` with perfect knowledge: it returns the exact values for the requested predictions."""
 
     @staticmethod
     def predict_processing_time_task(problem, resource, task):
