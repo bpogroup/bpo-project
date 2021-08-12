@@ -61,6 +61,7 @@ if __name__ == "__main__":
     main()
 
 # TODO: documentation remaining: simulator, visualizers, README
-# TODO: design an experiment to draw conclusions
+# TODO: clean the BPI 2017 dataset
+# TODO: create the miners, simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
+# TODO: finalize the rest of the experiments
 # TODO: prepare for cluster computer and run many experiments
-# TODO: also test the experiment for a real dataset

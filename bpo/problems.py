@@ -67,10 +67,9 @@ class Problem(ABC):
         """A list of identifiers (typically labels) of task types."""
         raise NotImplementedError
 
-    @property
     @abstractmethod
-    def initial_task_type(self):
-        """An element of :attr:`.Problem.task_types` that is the first to execute in any case."""
+    def sample_initial_task_type(self):
+        """Returns an element of :attr:`.Problem.task_types` that is the first to execute in a case."""
         raise NotImplementedError
 
     @abstractmethod
@@ -104,7 +103,8 @@ class Problem(ABC):
         # Generate the first task for each case, without processing times and next tasks, add them to the unfinished tasks.
         while now < duration:
             at = now + self.interarrival_time_sample()
-            task = Task(next_task_id, next_case_id, self.initial_task_type, self.data_sample(self.initial_task_type))
+            initial_task_type = self.sample_initial_task_type()
+            task = Task(next_task_id, next_case_id, initial_task_type, self.data_sample(initial_task_type))
             next_task_id += 1
             unfinished_tasks.append(task)
             self.cases[next_case_id] = (at, task)
@@ -227,7 +227,6 @@ class MMcProblem(Problem):
     to compute the waiting time analytically for comparison.
     """
 
-    initial_task_type = "T"
     resources = ["R" + str(i) for i in range(1, 3)]
     task_types = ["T"]
 
@@ -236,6 +235,9 @@ class MMcProblem(Problem):
         self.c = len(self.resources)
         self.rate = (1/10) * max(self.c-1, 1)
         self.ep = 9
+
+    def sample_initial_task_type(self):
+        return "T"
 
     def resource_pool(self, task_type):
         return self.resources
@@ -269,13 +271,15 @@ class ImbalancedProblem(Problem):
     a higher spread means that the performance of the resources is more different. The resource that
     performs better on the task is indicated by the data['optimal_resource'] of that task.
     """
-    initial_task_type = "T"
     resources = ["R1", "R2"]
     task_types = ["T"]
 
     def __init__(self, spread=1.0):
         super().__init__()
         self.spread = spread
+
+    def sample_initial_task_type(self):
+        return "T"
 
     def resource_pool(self, task_type):
         return self.resources
@@ -307,9 +311,11 @@ class SequentialProblem(Problem):
     performs better on a task is indicated by the data['optimal_resource'] of that task.
     Resource R1 performs better on task T1 and resource R2 on task T2.
     """
-    initial_task_type = "T1"
     resources = ["R1", "R2"]
     task_types = ["T1", "T2"]
+
+    def sample_initial_task_type(self):
+        return "T1"
 
     def resource_pool(self, task_type):
         return self.resources
