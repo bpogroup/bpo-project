@@ -73,6 +73,16 @@ class Problem(ABC):
         """An element of :attr:`.Problem.task_types` that is the first to execute in any case."""
         raise NotImplementedError
 
+    @abstractmethod
+    def resource_pool(self, task_type):
+        """
+        Returns for each task_type the subset of resources that can perform tasks of that type.
+
+        :param task_type: one of :attr:`.Problem.task_types`
+        :return: a list with elements of :attr:`.Problem.resources`
+        """
+        raise NotImplementedError
+
     def __init__(self):
         self.next_case_id = 0
         self.cases = dict()  # case_id -> (arrival_time, initial_task)
@@ -216,6 +226,7 @@ class MMcProblem(Problem):
     This problem can be simulated, but it also has a method :meth:`.Problem.waiting_time_analytical`
     to compute the waiting time analytically for comparison.
     """
+
     initial_task_type = "T"
     resources = ["R" + str(i) for i in range(1, 3)]
     task_types = ["T"]
@@ -225,6 +236,9 @@ class MMcProblem(Problem):
         self.c = len(self.resources)
         self.rate = (1/10) * max(self.c-1, 1)
         self.ep = 9
+
+    def resource_pool(self, task_type):
+        return self.resources
 
     def processing_time_sample(self, resource, task):
         return random.expovariate(1/self.ep)
@@ -263,6 +277,9 @@ class ImbalancedProblem(Problem):
         super().__init__()
         self.spread = spread
 
+    def resource_pool(self, task_type):
+        return self.resources
+
     def processing_time_sample(self, resource, task):
         ep = 18
         if resource == task.data["optimal_resource"]:
@@ -293,6 +310,9 @@ class SequentialProblem(Problem):
     initial_task_type = "T1"
     resources = ["R1", "R2"]
     task_types = ["T1", "T2"]
+
+    def resource_pool(self, task_type):
+        return self.resources
 
     def processing_time_sample(self, resource, task):
         ep = 18
