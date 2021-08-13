@@ -92,20 +92,50 @@ class Event:
 
 
 class ReporterElement(ABC):
+    """
+    Abstract class that must be implemented by each concrete reporter element.
+    A reporter element is part of a :class:`.Reporter`. It receives a :meth:`.ReporterElement.report` call,
+    each time a simulation event occurs. It can then store information about that event. Once a simulation run
+    is completed, it receives a :meth:`.ReporterElement.summarize` call. It must then report aggregate
+    information that it stored about the events. Each time a simulation run starts, it receives
+    a :meth:`.ReporterElement.restart` call, upon which it must erase all previously stored information.
+    """
     @abstractmethod
     def restart(self):
+        """
+        Is invoked when a simulation run starts. Must erase all information to start a new report.
+        """
         raise NotImplementedError
 
     @abstractmethod
     def report(self, event):
+        """
+        Is invoked when a simulation event occurs. Can store information about the event.
+
+        :param event: the simulation :class:`.Event` that occurred.
+        """
         raise NotImplementedError
 
     @abstractmethod
     def summarize(self):
+        """
+        Is invoked when a simulation run ends. Must return aggregate information about stored event information.
+
+        :return: a list of tuples (label, value), where label is a meaningful name for the reported aggregate information,
+                 and value is the corresponding information.
+        """
         raise NotImplementedError
 
 
 class TasksReporterElement(ReporterElement):
+    """
+    A :class:`.ReporterElement` that keeps information about tasks, specifically:
+    * tasks completed: the number of tasks that completed during the simulation run.
+    * task proc time: the average of the processing times of the completed tasks.
+    * task wait time: the average of the waiting times of the completed tasks.
+    This information is returned by the :meth:`.TasksReporterElement.summarize` method
+    by the specified labels.
+    """
     def __init__(self):
         self.nr_tasks_completed = 0
         self.nr_tasks_started = 0
@@ -137,6 +167,13 @@ class TasksReporterElement(ReporterElement):
 
 
 class CaseReporterElement(ReporterElement):
+    """
+    A :class:`.ReporterElement` that keeps information about cases, specifically:
+    * cases completed: the number of cases that completed during the simulation run.
+    * cases cycle time: the average of the cycle times of the completed cases.
+    This information is returned by the :meth:`.CaseReporterElement.summarize` method
+    by the specified labels.
+    """
     def __init__(self):
         self.nr_cases_completed = 0
         self.cycle_time = 0
@@ -158,6 +195,21 @@ class CaseReporterElement(ReporterElement):
 
 
 class EventLogReporterElement(ReporterElement):
+    """
+    A :class:`.ReporterElement` that stored the simulation events that occur in an event log.
+    The :meth:`.EventLogReporterElement.summarize` method does not return any information.
+    As simulation time is a numerical value, some processing is done to convert simulation time
+    into a time format that can be read and interpreted by a process mining tool. To that end,
+    the timeunit in which simulation time is measured must be passed as well as the
+    initial_time moment in calendar time from which the simulation time will be measured.
+    A particular simulation_time moment will then be stored in the log as:
+    initial_time + simulation_time timeunits
+
+    :param filename: the name of the file in which the event log must be stored.
+    :param timeunit: the :class:`.TimeUnit` of simulation time.
+    :param initial_time: a datetime value.
+    :param time_format: a datetime formatting string.
+    """
     def __init__(self, filename, timeunit=TimeUnit.SECONDS, initial_time=datetime(2020, 1, 1), time_format="%Y-%m-%d %H:%M:%S.%f"):
         self.task_start_times = dict()
         self.timeunit = timeunit
@@ -188,13 +240,31 @@ class EventLogReporterElement(ReporterElement):
 
 
 class Reporter:
-    def __init__(self, warmup=0, reporters=None):
+    """
+    A Reporter consists of :class:`.ReporterElement` and reports on the information that is kept by
+    its elements. Consequently, it does not do much itself, it mainly passes on events to and
+    received aggregate information from its elements.
+
+    It receives a :meth:`.Reporter.report` call, each time a simulation event occurs, which it
+    forwards to its elements to enable them to store information about that event.
+    It receives a :meth:`.ReporterElement.summarize` call when a simulation run completes. It then
+    collects the summaries from each of its elements and returns them in one list.
+    It receives a :meth:`.ReporterElement.restart` call when a simulation run starts, which it
+    forwards to its elements to enable them to restart.
+
+    During the specified warmup time, the reporter will ignore all events.
+
+    :param warmup: a duration in simulation time.
+    :param reporter_elements: a list of :class:`.ReporterElement` instances, when None are provided,
+                              creates a reporter with a :class:`.TaskReporterElement` and a :class:`.Case ReporterElement`.
+    """
+    def __init__(self, warmup=0, reporter_elements=None):
         self.warmup = warmup
-        if reporters is None:
+        if reporter_elements is None:
             default_reporters = [TasksReporterElement(), CaseReporterElement()]
             self.reporters = default_reporters
         else:
-            self.reporters = reporters
+            self.reporters = reporter_elements
 
     def restart(self):
         for reporter in self.reporters:

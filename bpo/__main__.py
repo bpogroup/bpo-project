@@ -45,7 +45,7 @@ def try_multiple_comparison():
 # Printing a trace for the sequential problem
 def try_execution_traces():
     problem_instance = SequentialProblem().from_generator(51000)  # Running for longer than the simulation time, so we do not run out of tasks
-    reporter = Reporter(warmup=0, reporters=[EventLogReporterElement("temp/my_log.csv", TimeUnit.MINUTES)])
+    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("temp/my_log.csv", TimeUnit.MINUTES)])
     simulator = Simulator(problem_instance, reporter, GreedyPlanner())
     simulator.simulate(1000)
 
