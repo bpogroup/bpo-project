@@ -61,7 +61,14 @@
 >
   <div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../howto.html">How to use the framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto.html">How to use the framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto.html#quick-start">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto.html#defining-a-problem">Defining a problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto.html#defining-a-planner">Defining a planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto.html#defining-a-predicter">Defining a predicter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto.html#running-the-simulation">Running the simulation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../bpo.planners.html">bpo.planners module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../bpo.predicters.html">bpo.predicters module</a></li>
@@ -225,9 +232,11 @@
 <div class="viewcode-block" id="TasksReporterElement"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.TasksReporterElement">[docs]</a><span class="k">class</span> <span class="nc">TasksReporterElement</span><span class="p">(</span><span class="n">ReporterElement</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`.ReporterElement` that keeps information about tasks, specifically:</span>
+
 <span class="sd">    * tasks completed: the number of tasks that completed during the simulation run.</span>
 <span class="sd">    * task proc time: the average of the processing times of the completed tasks.</span>
 <span class="sd">    * task wait time: the average of the waiting times of the completed tasks.</span>
+
 <span class="sd">    This information is returned by the :meth:`.TasksReporterElement.summarize` method</span>
 <span class="sd">    by the specified labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -264,8 +273,10 @@
 <div class="viewcode-block" id="CaseReporterElement"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.CaseReporterElement">[docs]</a><span class="k">class</span> <span class="nc">CaseReporterElement</span><span class="p">(</span><span class="n">ReporterElement</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`.ReporterElement` that keeps information about cases, specifically:</span>
+
 <span class="sd">    * cases completed: the number of cases that completed during the simulation run.</span>
 <span class="sd">    * cases cycle time: the average of the cycle times of the completed cases.</span>
+
 <span class="sd">    This information is returned by the :meth:`.CaseReporterElement.summarize` method</span>
 <span class="sd">    by the specified labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -394,19 +405,58 @@
 <span class="sd">    A Simulator simulates a specified :class:`.Problem` using a specified :class:`.Planner`.</span>
 <span class="sd">    The results of the simulation are generated using the specified :class:`.Reporter`.</span>
 <span class="sd">    There are two main entry points into the simulator:</span>
+
 <span class="sd">    * :meth:`.simulate`, which simulates the (single) problem instance passed with the constructor; and</span>
 <span class="sd">    * :meth:`.replicate`, which simulates a collection of problem instances passed via the replicate method itself.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">reporter</span><span class="p">,</span> <span class="n">planner</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">unassigned_tasks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># a dict task.id -&gt; task</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assigned_tasks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># an assignment is a dict task.id -&gt; (task, resource, start), where start is the moment at which the resource starts processing the task</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unassigned_tasks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The tasks that are currently not assigned. A dict task.id -&gt; task, where task is an instance of :class:`.Task`.</span>
+<span class="sd">        A task is in this list if it must still be performed. After a task is completed does not re-appear in this list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assigned_tasks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The tasks that are currently assigned. A dict task.id -&gt; (task, resource, start), where:</span>
+<span class="sd">         </span>
+<span class="sd">        * task is an instance of :class:`.Task`. </span>
+<span class="sd">        * start is the moment in simulation at which the resource will start or has started processing the task.</span>
+<span class="sd">        * resource is the label that identifies a resource in the :class:`.Problem`.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">available_resources</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">busy_resources</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># resource -&gt; (task, start)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">busy_cases</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># case_id -&gt; [active task_id]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reserved_resources</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># resource -&gt; (task, start)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The set of resources that are currently available. Each resource is a label that identifies a resource in the :class:`.Problem`. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">busy_resources</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The resources that are currently busy. A dict resource -&gt; (task, start), where:</span>
+<span class="sd">        </span>
+<span class="sd">        * task is an instance of :class:`.Task` is the task that the resource is working on.</span>
+<span class="sd">        * start is the moment in simulation time at which the resource started working on the task.</span>
+<span class="sd">          </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">busy_cases</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The cases of which a task is currently being performed or must still be performed. A dict case_id -&gt; [active task_id]</span>
+<span class="sd">        that maps case identifiers for which a task exists to the identifiers of those tasks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reserved_resources</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The resources that are currently reserved. A dict resource -&gt; (task, start), where:</span>
+<span class="sd">        </span>
+<span class="sd">        * resource is the label that identifies a resource in the :class:`.Problem`.</span>
+<span class="sd">        * task is an instance of :class:`.Task` is the task on which the resource is expected to work. </span>
+<span class="sd">        * start is the moment in simulation at which the resource starts processing the task.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The current simulation time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reporter</span> <span class="o">=</span> <span class="n">reporter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">planner</span> <span class="o">=</span> <span class="n">planner</span>

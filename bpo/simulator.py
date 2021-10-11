@@ -130,9 +130,11 @@ class ReporterElement(ABC):
 class TasksReporterElement(ReporterElement):
     """
     A :class:`.ReporterElement` that keeps information about tasks, specifically:
+
     * tasks completed: the number of tasks that completed during the simulation run.
     * task proc time: the average of the processing times of the completed tasks.
     * task wait time: the average of the waiting times of the completed tasks.
+
     This information is returned by the :meth:`.TasksReporterElement.summarize` method
     by the specified labels.
     """
@@ -169,8 +171,10 @@ class TasksReporterElement(ReporterElement):
 class CaseReporterElement(ReporterElement):
     """
     A :class:`.ReporterElement` that keeps information about cases, specifically:
+
     * cases completed: the number of cases that completed during the simulation run.
     * cases cycle time: the average of the cycle times of the completed cases.
+
     This information is returned by the :meth:`.CaseReporterElement.summarize` method
     by the specified labels.
     """
@@ -299,19 +303,58 @@ class Simulator:
     A Simulator simulates a specified :class:`.Problem` using a specified :class:`.Planner`.
     The results of the simulation are generated using the specified :class:`.Reporter`.
     There are two main entry points into the simulator:
+
     * :meth:`.simulate`, which simulates the (single) problem instance passed with the constructor; and
     * :meth:`.replicate`, which simulates a collection of problem instances passed via the replicate method itself.
     """
     def __init__(self, problem, reporter, planner):
         self.events = []
 
-        self.unassigned_tasks = dict()  # a dict task.id -> task
-        self.assigned_tasks = dict()  # an assignment is a dict task.id -> (task, resource, start), where start is the moment at which the resource starts processing the task
+        self.unassigned_tasks = dict()
+        """
+        The tasks that are currently not assigned. A dict task.id -> task, where task is an instance of :class:`.Task`.
+        A task is in this list if it must still be performed. After a task is completed does not re-appear in this list.
+        """
+        self.assigned_tasks = dict()
+        """
+        The tasks that are currently assigned. A dict task.id -> (task, resource, start), where:
+         
+        * task is an instance of :class:`.Task`. 
+        * start is the moment in simulation at which the resource will start or has started processing the task.
+        * resource is the label that identifies a resource in the :class:`.Problem`.
+        
+        """
         self.available_resources = set()
-        self.busy_resources = dict()  # resource -> (task, start)
-        self.busy_cases = dict()  # case_id -> [active task_id]
-        self.reserved_resources = dict()  # resource -> (task, start)
+        """
+        The set of resources that are currently available. Each resource is a label that identifies a resource in the :class:`.Problem`. 
+        """
+        self.busy_resources = dict()
+        """
+        The resources that are currently busy. A dict resource -> (task, start), where:
+        
+        * task is an instance of :class:`.Task` is the task that the resource is working on.
+        * start is the moment in simulation time at which the resource started working on the task.
+          
+        """
+        self.busy_cases = dict()
+        """
+        The cases of which a task is currently being performed or must still be performed. A dict case_id -> [active task_id]
+        that maps case identifiers for which a task exists to the identifiers of those tasks.
+        """
+
+        self.reserved_resources = dict()
+        """
+        The resources that are currently reserved. A dict resource -> (task, start), where:
+        
+        * resource is the label that identifies a resource in the :class:`.Problem`.
+        * task is an instance of :class:`.Task` is the task on which the resource is expected to work. 
+        * start is the moment in simulation at which the resource starts processing the task.
+        
+        """
         self.now = 0
+        """
+        The current simulation time.
+        """
 
         self.reporter = reporter
         self.planner = planner

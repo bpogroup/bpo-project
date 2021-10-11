@@ -1,9 +1,19 @@
-from problems import ImbalancedProblem, SequentialProblem
+from problems import ImbalancedProblem, SequentialProblem, MMcProblem
 from simulator import Simulator, Reporter, EventLogReporterElement, TimeUnit
 from planners import GreedyPlanner, HeuristicPlanner, PredictivePlanner
 from predicters import ImbalancedPredicter, PerfectPredicter
 from visualizers import boxplot, line_with_ci
 import numpy as np
+
+
+def try_mmc():
+    problem_instances = []
+    for i in range(20):
+        problem_instances.append(MMcProblem().from_generator(51000))  # Running for longer than the simulation time, so we do not run out of tasks
+    planner = GreedyPlanner()
+    reporter = Reporter(10000)
+    results = Simulator.replicate(problem_instances, planner, reporter, 50000)
+    print(Reporter.aggregate(results))
 
 
 # Simulating several planners and predicters for the imbalanced problem
@@ -51,16 +61,17 @@ def try_execution_traces():
 
 
 def main():
+    try_mmc()
     # try_several_planners()
-    try_comparison()
-    try_multiple_comparison()
-    try_execution_traces()
+    # try_comparison()
+    # try_multiple_comparison()
+    # try_execution_traces()
 
 
 if __name__ == "__main__":
     main()
 
-# TODO: documentation remaining: howto
+# TODO: documentation remaining: howto, start by adding example to planner
 # TODO: clean the BPI 2017 dataset
 # TODO: create the miners, simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
 # TODO: finalize the rest of the experiments

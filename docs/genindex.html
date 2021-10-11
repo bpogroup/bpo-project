@@ -61,7 +61,14 @@
 >
   <div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="howto.html">How to use the framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto.html">How to use the framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#quick-start">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-planner">Defining a planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-predicter">Defining a predicter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#running-the-simulation">Running the simulation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="bpo.planners.html">bpo.planners module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></li>
@@ -111,6 +118,7 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
 </div>
@@ -129,6 +137,12 @@
         <li><a href="bpo.planners.html#bpo.planners.PredictivePlanner.assign">(bpo.planners.PredictivePlanner method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.assigned_tasks">assigned_tasks (bpo.simulator.Simulator attribute)</a>
+</li>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.available_resources">available_resources (bpo.simulator.Simulator attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -158,8 +172,6 @@
         <li><a href="bpo.planners.html#module-bpo.planners">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     bpo.predicters
 
@@ -167,6 +179,8 @@
         <li><a href="bpo.predicters.html#module-bpo.predicters">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     bpo.problems
 
@@ -188,6 +202,10 @@
         <li><a href="bpo.visualizers.html#module-bpo.visualizers">module</a>
 </li>
       </ul></li>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.busy_cases">busy_cases (bpo.simulator.Simulator attribute)</a>
+</li>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.busy_resources">busy_resources (bpo.simulator.Simulator attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -350,6 +368,10 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.now">now (bpo.simulator.Simulator attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
@@ -420,6 +442,8 @@
       <li><a href="bpo.simulator.html#bpo.simulator.Reporter">Reporter (class in bpo.simulator)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.ReporterElement">ReporterElement (class in bpo.simulator)</a>
+</li>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.reserved_resources">reserved_resources (bpo.simulator.Simulator attribute)</a>
 </li>
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.resource_pool">resource_pool() (bpo.problems.ImbalancedProblem method)</a>
 
@@ -528,6 +552,14 @@
       <li><a href="bpo.simulator.html#bpo.simulator.TasksReporterElement">TasksReporterElement (class in bpo.simulator)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.TimeUnit">TimeUnit (class in bpo.simulator)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="bpo.simulator.html#bpo.simulator.Simulator.unassigned_tasks">unassigned_tasks (bpo.simulator.Simulator attribute)</a>
 </li>
   </ul></td>
 </tr></table>
