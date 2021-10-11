@@ -1,60 +1,98 @@
 
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<title>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    
+    <title>
       bpo.simulator | Business Process Optimization  documentation
     </title>
-<link href="../../_static/pygments.css" rel="stylesheet"/>
-<link href="../../_static/theme.css" rel="stylesheet"/>
-<link href="../../search.html" rel="search" title="Search"/>
-<link href="../../genindex.html" rel="index" title="Index"/>
-</head><body class="text-gray-900 antialiased">
-<div class="h-screen md:grid md:grid-layout" id="page">
-<a class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#bpo-simulator" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10">
-<div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
-<a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se" href="../../index.html">
+      <link rel="stylesheet" href="../../_static/pygments.css" />
+      <link rel="stylesheet" href="../../_static/theme.css" />
+        <link rel="search" title="Search" href="../../search.html"/>
+        <link rel="index" title="Index" href="../../genindex.html"/>
+  </head><body class="text-gray-900 antialiased">
+    <div id="page" class="h-screen md:grid md:grid-layout">
+      <a
+  class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform
+  -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75"
+  href="#bpo-simulator"
+  title="Skip navigation links"
+  >Skip to content</a>
+
+      <header class="grid-area-header z-10">
+        <div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
+      <a class=" hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se"
+   href="../../index.html"
+   aria-label="Back to homepage">
+  
 <h2 class="text-xl text-gray-100 mx-5 py-4">Business Process Optimization  documentation</h2>
 </a>
-<form action="../../search.html" class="hidden md:flex my-auto mx-5 justify-between items-center print:hidden" id="searchbox" method="get">
-<input aria-label="Search the docs" class="p-2 flex-1 focus:bg-yellow-50 rounded-none" id="search-input" name="q" placeholder="Search the docs" style="width: 300px;" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+    <form
+    id="searchbox"
+    action="../../search.html"
+    method="get"
+    class="hidden md:flex my-auto mx-5 justify-between items-center print:hidden">
+
+    <input
+      name="q"
+      id="search-input"
+      type="search"
+      aria-label="Search the docs"
+      placeholder="Search the docs"
+      class="p-2 flex-1 focus:bg-yellow-50 rounded-none"
+      style="width: 300px;"
+    />
+    
+<button class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw"
+        aria-label="Get search results">
+  <svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
 </button>
-</form>
+
+  </form>
 </div>
-</header><aside class="grid-area-sidebar h-full fixed md:relative inset-y-0 left-0 z-20 md:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 md:translate-x-0 md:opacity-100" id="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
+      </header><aside id="sidebar" class="grid-area-sidebar h-full fixed md:relative inset-y-0 left-0 z-20 md:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 md:translate-x-0 md:opacity-100">
+          <nav
+  role="navigation"
+  class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col"
+>
+  <div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" href="../../howto.html">How to use the framework</a></div></li>
-<li class="toctree-l1"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="../../api.html">API Documentation</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.planners.html">bpo.planners module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.predicters.html">bpo.predicters module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.problems.html">bpo.problems module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.simulator.html">bpo.simulator module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.visualizers.html">bpo.visualizers module</a></div></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto.html">How to use the framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.planners.html">bpo.planners module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.predicters.html">bpo.predicters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.problems.html">bpo.problems module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.simulator.html">bpo.simulator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.visualizers.html">bpo.visualizers module</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<button aria-label="Close menu" class="text-4xl text-gray-800 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSidebar" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+<button
+    id="closeSidebar"
+    aria-label="Close menu"
+    title="Close menu"
+    class="text-4xl text-gray-800 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center">
+  <svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
 </button>
+
 </nav>
-</aside>
-<main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full"><nav aria-label="breadcrumbs" class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden" role="navigation">
-<a class="text-blue-700" href="../../index.html">Business Process Optimization  documentation</a>
-<span class="text-gray-700 mr-1">/</span><a class="text-blue-700" href="../index.html">Module code</a>
-<span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.simulator</span>
+        </aside>
+
+      <main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full "><nav role="navigation"
+     aria-label="breadcrumbs"
+     class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden">
+  <a class="text-blue-700" href="../../index.html">Business Process Optimization  documentation</a>
+  <span class="text-gray-700 mr-1">/</span><a class="text-blue-700" href="../index.html">Module code</a>
+    <span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.simulator</span>
 </nav>
-<article class="flex-1" role="main">
-<h1>Source code for bpo.simulator</h1><pre>
+        <article role="main" class="flex-1">
+          
+  <h1>Source code for bpo.simulator</h1><pre>
 <code><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
@@ -63,67 +101,67 @@
 
 
 <div class="viewcode-block" id="EventType"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.EventType">[docs]</a><span class="k">class</span> <span class="nc">EventType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">"""An enumeration for the types of event that can happen in the simulator."""</span>
+    <span class="sd">&quot;&quot;&quot;An enumeration for the types of event that can happen in the simulator.&quot;&quot;&quot;</span>
     <span class="n">CASE_ARRIVAL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""A case arrives.</span>
+    <span class="sd">&quot;&quot;&quot;A case arrives.</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span>
     <span class="n">START_TASK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""A task starts.</span>
+    <span class="sd">&quot;&quot;&quot;A task starts.</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span>
     <span class="n">COMPLETE_TASK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""A task completes.</span>
+    <span class="sd">&quot;&quot;&quot;A task completes.</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span>
     <span class="n">PLAN_TASKS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""An action is performed to assign tasks to resources.</span>
+    <span class="sd">&quot;&quot;&quot;An action is performed to assign tasks to resources.</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span>
     <span class="n">TASK_ACTIVATE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""A task becomes ready to perform (but is not assigned to a resource).</span>
+    <span class="sd">&quot;&quot;&quot;A task becomes ready to perform (but is not assigned to a resource).</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span>
     <span class="n">TASK_PLANNED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""A task is assigned to a resource.</span>
+    <span class="sd">&quot;&quot;&quot;A task is assigned to a resource.</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span>
     <span class="n">COMPLETE_CASE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""A case completes.</span>
+    <span class="sd">&quot;&quot;&quot;A case completes.</span>
 <span class="sd">    </span>
-<span class="sd">    :meta hide-value:"""</span></div>
+<span class="sd">    :meta hide-value:&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="TimeUnit"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.TimeUnit">[docs]</a><span class="k">class</span> <span class="nc">TimeUnit</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">"""An enumeration for the unit in which simulation time is measured."""</span>
+    <span class="sd">&quot;&quot;&quot;An enumeration for the unit in which simulation time is measured.&quot;&quot;&quot;</span>
     <span class="n">SECONDS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Measured in seconds.</span>
 <span class="sd">    </span>
 <span class="sd">    :meta hide-value:</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MINUTES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Measured in minutes.</span>
 
 <span class="sd">    :meta hide-value:</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">HOURS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Measured in hours.</span>
 
 <span class="sd">    :meta hide-value:</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">DAYS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Measured in days.</span>
 
 <span class="sd">    :meta hide-value:</span>
-<span class="sd">    """</span></div>
+<span class="sd">    &quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.Event">[docs]</a><span class="k">class</span> <span class="nc">Event</span><span class="p">:</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simulation event.</span>
 
 <span class="sd">    :param event_type: the :class:`.EventType`.</span>
@@ -132,7 +170,7 @@
 <span class="sd">    :param resource: the resource that performs the task, or None for event_type not in [START_TASK, COMPLETE_TASK]</span>
 <span class="sd">    :param nr_tasks: the number of tasks that must be planned, or 0 for event_type != PLAN_TASKS</span>
 <span class="sd">    :param nr_resources: the number of resources that is available, or 0 for event_type != PLAN_TASKS</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">,</span> <span class="n">moment</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nr_tasks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nr_resources</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">event_type</span> <span class="o">=</span> <span class="n">event_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">moment</span> <span class="o">=</span> <span class="n">moment</span>
@@ -145,24 +183,54 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">moment</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">event_type</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">("</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moment</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">")</span><span class="se">\t</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">)</span> <span class="o">+</span> <span class="s2">","</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">event_type</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moment</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;)</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ReporterElement"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.ReporterElement">[docs]</a><span class="k">class</span> <span class="nc">ReporterElement</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class that must be implemented by each concrete reporter element.</span>
+<span class="sd">    A reporter element is part of a :class:`.Reporter`. It receives a :meth:`.ReporterElement.report` call,</span>
+<span class="sd">    each time a simulation event occurs. It can then store information about that event. Once a simulation run</span>
+<span class="sd">    is completed, it receives a :meth:`.ReporterElement.summarize` call. It must then report aggregate</span>
+<span class="sd">    information that it stored about the events. Each time a simulation run starts, it receives</span>
+<span class="sd">    a :meth:`.ReporterElement.restart` call, upon which it must erase all previously stored information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ReporterElement.restart"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.ReporterElement.restart">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Is invoked when a simulation run starts. Must erase all information to start a new report.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="ReporterElement.report"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.ReporterElement.report">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Is invoked when a simulation event occurs. Can store information about the event.</span>
+
+<span class="sd">        :param event: the simulation :class:`.Event` that occurred.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="ReporterElement.summarize"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.ReporterElement.summarize">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Is invoked when a simulation run ends. Must return aggregate information about stored event information.</span>
+
+<span class="sd">        :return: a list of tuples (label, value), where label is a meaningful name for the reported aggregate information,</span>
+<span class="sd">                 and value is the corresponding information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 
 
 <div class="viewcode-block" id="TasksReporterElement"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.TasksReporterElement">[docs]</a><span class="k">class</span> <span class="nc">TasksReporterElement</span><span class="p">(</span><span class="n">ReporterElement</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :class:`.ReporterElement` that keeps information about tasks, specifically:</span>
+<span class="sd">    * tasks completed: the number of tasks that completed during the simulation run.</span>
+<span class="sd">    * task proc time: the average of the processing times of the completed tasks.</span>
+<span class="sd">    * task wait time: the average of the waiting times of the completed tasks.</span>
+<span class="sd">    This information is returned by the :meth:`.TasksReporterElement.summarize` method</span>
+<span class="sd">    by the specified labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_completed</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_started</span> <span class="o">=</span> <span class="mi">0</span>
@@ -190,10 +258,17 @@
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="TasksReporterElement.summarize"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.TasksReporterElement.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[(</span><span class="s2">"tasks completed"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_completed</span><span class="p">),</span> <span class="p">(</span><span class="s2">"task proc time"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_time</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_completed</span><span class="p">),</span> <span class="p">(</span><span class="s2">"task wait time"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting_time</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_started</span><span class="p">)]</span></div></div>
+        <span class="k">return</span> <span class="p">[(</span><span class="s2">&quot;tasks completed&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_completed</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;task proc time&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_time</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_completed</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;task wait time&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting_time</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_tasks_started</span><span class="p">)]</span></div></div>
 
 
 <div class="viewcode-block" id="CaseReporterElement"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.CaseReporterElement">[docs]</a><span class="k">class</span> <span class="nc">CaseReporterElement</span><span class="p">(</span><span class="n">ReporterElement</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :class:`.ReporterElement` that keeps information about cases, specifically:</span>
+<span class="sd">    * cases completed: the number of cases that completed during the simulation run.</span>
+<span class="sd">    * cases cycle time: the average of the cycle times of the completed cases.</span>
+<span class="sd">    This information is returned by the :meth:`.CaseReporterElement.summarize` method</span>
+<span class="sd">    by the specified labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nr_cases_completed</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cycle_time</span> <span class="o">=</span> <span class="mi">0</span>
@@ -211,17 +286,32 @@
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">case_start_times</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="CaseReporterElement.summarize"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.CaseReporterElement.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[(</span><span class="s2">"cases completed"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_cases_completed</span><span class="p">),</span> <span class="p">(</span><span class="s2">"case cycle time"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cycle_time</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_cases_completed</span><span class="p">)]</span></div></div>
+        <span class="k">return</span> <span class="p">[(</span><span class="s2">&quot;cases completed&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_cases_completed</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;case cycle time&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cycle_time</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_cases_completed</span><span class="p">)]</span></div></div>
 
 
 <div class="viewcode-block" id="EventLogReporterElement"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.EventLogReporterElement">[docs]</a><span class="k">class</span> <span class="nc">EventLogReporterElement</span><span class="p">(</span><span class="n">ReporterElement</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">timeunit</span><span class="o">=</span><span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span> <span class="n">initial_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">time_format</span><span class="o">=</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :class:`.ReporterElement` that stored the simulation events that occur in an event log.</span>
+<span class="sd">    The :meth:`.EventLogReporterElement.summarize` method does not return any information.</span>
+<span class="sd">    As simulation time is a numerical value, some processing is done to convert simulation time</span>
+<span class="sd">    into a time format that can be read and interpreted by a process mining tool. To that end,</span>
+<span class="sd">    the timeunit in which simulation time is measured must be passed as well as the</span>
+<span class="sd">    initial_time moment in calendar time from which the simulation time will be measured.</span>
+<span class="sd">    A particular simulation_time moment will then be stored in the log as:</span>
+<span class="sd">    initial_time + simulation_time timeunits</span>
+
+<span class="sd">    :param filename: the name of the file in which the event log must be stored.</span>
+<span class="sd">    :param timeunit: the :class:`.TimeUnit` of simulation time.</span>
+<span class="sd">    :param initial_time: a datetime value.</span>
+<span class="sd">    :param time_format: a datetime formatting string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">timeunit</span><span class="o">=</span><span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span> <span class="n">initial_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">time_format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeunit</span> <span class="o">=</span> <span class="n">timeunit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_time</span> <span class="o">=</span> <span class="n">initial_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span> <span class="o">=</span> <span class="n">time_format</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"wt"</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"case_id,task,resource,start_time,completion_time</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wt&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;case_id,task,resource,start_time,completion_time</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EventLogReporterElement.restart"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.EventLogReporterElement.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -232,11 +322,11 @@
         <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">EventType</span><span class="o">.</span><span class="n">START_TASK</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">moment</span>
         <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">EventType</span><span class="o">.</span><span class="n">COMPLETE_TASK</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">","</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">)</span> <span class="o">+</span> <span class="s2">","</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">resource</span><span class="p">)</span> <span class="o">+</span> <span class="s2">","</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">displace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">","</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">displace</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">moment</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">resource</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">displace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">displace</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">moment</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_start_times</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">]</span></div>
 
@@ -245,13 +335,31 @@
 
 
 <div class="viewcode-block" id="Reporter"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.Reporter">[docs]</a><span class="k">class</span> <span class="nc">Reporter</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warmup</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">reporters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Reporter consists of :class:`.ReporterElement` and reports on the information that is kept by</span>
+<span class="sd">    its elements. Consequently, it does not do much itself, it mainly passes on events to and</span>
+<span class="sd">    received aggregate information from its elements.</span>
+
+<span class="sd">    It receives a :meth:`.Reporter.report` call, each time a simulation event occurs, which it</span>
+<span class="sd">    forwards to its elements to enable them to store information about that event.</span>
+<span class="sd">    It receives a :meth:`.ReporterElement.summarize` call when a simulation run completes. It then</span>
+<span class="sd">    collects the summaries from each of its elements and returns them in one list.</span>
+<span class="sd">    It receives a :meth:`.ReporterElement.restart` call when a simulation run starts, which it</span>
+<span class="sd">    forwards to its elements to enable them to restart.</span>
+
+<span class="sd">    During the specified warmup time, the reporter will ignore all events.</span>
+
+<span class="sd">    :param warmup: a duration in simulation time.</span>
+<span class="sd">    :param reporter_elements: a list of :class:`.ReporterElement` instances, when None are provided,</span>
+<span class="sd">                              creates a reporter with a :class:`.TaskReporterElement` and a :class:`.Case ReporterElement`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warmup</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">reporter_elements</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">warmup</span> <span class="o">=</span> <span class="n">warmup</span>
-        <span class="k">if</span> <span class="n">reporters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">reporter_elements</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">default_reporters</span> <span class="o">=</span> <span class="p">[</span><span class="n">TasksReporterElement</span><span class="p">(),</span> <span class="n">CaseReporterElement</span><span class="p">()]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">reporters</span> <span class="o">=</span> <span class="n">default_reporters</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reporters</span> <span class="o">=</span> <span class="n">reporters</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reporters</span> <span class="o">=</span> <span class="n">reporter_elements</span>
 
 <div class="viewcode-block" id="Reporter.restart"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.Reporter.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">reporter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reporters</span><span class="p">:</span>
@@ -282,7 +390,13 @@
 
 
 <div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">:</span>
-
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Simulator simulates a specified :class:`.Problem` using a specified :class:`.Planner`.</span>
+<span class="sd">    The results of the simulation are generated using the specified :class:`.Reporter`.</span>
+<span class="sd">    There are two main entry points into the simulator:</span>
+<span class="sd">    * :meth:`.simulate`, which simulates the (single) problem instance passed with the constructor; and</span>
+<span class="sd">    * :meth:`.replicate`, which simulates a collection of problem instances passed via the replicate method itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">reporter</span><span class="p">,</span> <span class="n">planner</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -301,6 +415,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">init_simulation</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Simulator.init_simulation"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.Simulator.init_simulation">[docs]</a>    <span class="k">def</span> <span class="nf">init_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Re-initializes the simulation, such that it can be run again.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># set all resources to available</span>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">resources</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">available_resources</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
@@ -314,6 +431,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">Event</span><span class="p">(</span><span class="n">EventType</span><span class="o">.</span><span class="n">CASE_ARRIVAL</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">task</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Simulator.simulate"><a class="viewcode-back" href="../../bpo.simulator.html#bpo.simulator.Simulator.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">running_time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs the simulation for the</span>
+
+<span class="sd">        :param running_time:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># repeat until the end of the simulation time:</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="o">&lt;=</span> <span class="n">running_time</span><span class="p">:</span>
             <span class="c1"># get the first event e from the events</span>
@@ -399,43 +522,84 @@
                 <span class="n">summaries</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">summaries</span></div></div>
 </code></pre>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">Made with <a href="https://www.sphinx-doc.org">Sphinx 4.0.2</a></div>
-</footer>
-</main>
-<div class="sticky bottom-0 md:hidden print:hidden bg-white">
-<div class="flex justify-center items-center">
-<button aria-labelledby="menuLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSidebar">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="menuLabel">Menu</span>
-</button><button aria-labelledby="searchLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSearch">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="searchLabel">Search</span>
-</button>
+
+        </article>
+
+        <footer>
+          
+            <div class="mt-20 mb-4 text-sm text-gray-700">Made with <a href="https://www.sphinx-doc.org">Sphinx 4.0.2</a></div>
+          
+        </footer>
+      </main>
+
+      <div class="sticky bottom-0 md:hidden print:hidden bg-white">
+  <div class="flex justify-center items-center">
+    <button
+      id="openSidebar"
+      aria-labelledby="menuLabel"
+      class="text-3xl p-4 flex items-center focus:bg-gray-200">
+      <svg aria-hidden="true" class="fill-current h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      <span id="menuLabel" class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700">Menu</span>
+    </button><button
+      id="openSearch"
+      aria-labelledby="searchLabel"
+      class="text-3xl p-4 flex items-center focus:bg-gray-200">
+      <svg aria-hidden="true" class="fill-current h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span id="searchLabel" class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700">Search</span>
+    </button>
+  </div>
 </div>
-</div>
-<div class="w-full fixed bottom-0 left-0 z-10 bg-gray-900 overflow-x-hidden pt-10 flex flex-col items-center md:hidden transition-all opacity-0 transform transform-gpu translate-y-full duration-300" id="search-pane">
-<h4 class="text-xl text-white mb-4" id="search-label">Enter search term</h4><form action="../../search.html" class="flex w-full justify-between items-center max-w-sm px-12" id="searchbox" method="get">
-<input aria-labelledby="search-label" class="p-2 flex-1 rounded-none" name="q" placeholder="Search the docs" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+      <div
+  id="search-pane"
+  class="w-full fixed bottom-0 left-0 z-10 bg-gray-900 overflow-x-hidden pt-10 flex flex-col items-center md:hidden transition-all opacity-0 transform transform-gpu translate-y-full duration-300"
+>
+<h4 id="search-label" class="text-xl text-white mb-4">Enter search term</h4><form
+    id="searchbox" action="../../search.html" method="get"
+    class="flex w-full justify-between items-center max-w-sm px-12">
+
+    <input
+      name="q"
+      aria-labelledby="search-label"
+      type="search"
+      placeholder="Search the docs"
+      class="p-2 flex-1 rounded-none"
+    />
+    
+<button class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw"
+        aria-label="Get search results">
+  <svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
 </button>
-</form>
-<button aria-label="Close menu" class="text-4xl text-gray-200 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSearch" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+
+  </form>
+
+  
+<button
+    id="closeSearch"
+    aria-label="Close menu"
+    title="Close menu"
+    class="text-4xl text-gray-200 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center">
+  <svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
 </button>
+
 </div>
-<button class="fixed bottom-0 right-0 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" id="snackbar">
+      <button
+  id="snackbar"
+  class="fixed bottom-0 right-0 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full"
+>
   Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" id="screen"></div>
-</div>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js">
+</button><div id="screen" class="fixed hidden inset-0 bg-black bg-opacity-50"></div>
+    </div>
+    
+      
+<script id="documentation_options"
+        data-url_root="../../"
+        src="../../_static/documentation_options.js">
 </script>
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
 <script src="../../_static/doctools.js"></script>
-<script defer="" src="../../_static/theme.js"></script>
-</body>
+<script src="../../_static/theme.js" defer></script>
+    
+  </body>
 </html>

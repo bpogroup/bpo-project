@@ -12,6 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   bpo.miners
    bpo.planners
    bpo.predicters
    bpo.problems
