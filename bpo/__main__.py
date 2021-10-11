@@ -45,13 +45,13 @@ def try_multiple_comparison():
 # Printing a trace for the sequential problem
 def try_execution_traces():
     problem_instance = SequentialProblem().from_generator(51000)  # Running for longer than the simulation time, so we do not run out of tasks
-    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("temp/my_log.csv", TimeUnit.MINUTES)])
+    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/my_log.csv", TimeUnit.MINUTES)])
     simulator = Simulator(problem_instance, reporter, GreedyPlanner())
     simulator.simulate(1000)
 
 
 def main():
-    try_several_planners()
+    # try_several_planners()
     try_comparison()
     try_multiple_comparison()
     try_execution_traces()
@@ -60,7 +60,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: documentation remaining: simulator, visualizers, README
+# TODO: documentation remaining: README
 # TODO: clean the BPI 2017 dataset
 # TODO: create the miners, simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
 # TODO: finalize the rest of the experiments
