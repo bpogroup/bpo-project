@@ -32,6 +32,18 @@ class Predicter(ABC):
         """
         raise NotImplementedError
 
+    @staticmethod
+    @abstractmethod
+    def predict_next_task(problem, environment):
+        """
+        Predicts the next task that will arrive.
+
+        :param problem: an instance of a :class:`.Problem`.
+        :param environment: an instance of a :class:`.Simulator`.
+        :return: a task that represents the most likely task to arrive next.
+        """
+        raise NotImplementedError
+
 
 class ImbalancedPredicter(Predicter):
     """A :class:`.Predicter` that predicts for instances of the :class:`.ImbalancedProblem`."""

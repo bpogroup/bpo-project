@@ -71,7 +71,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: documentation remaining: howto, start by adding example to planner
 # TODO: clean the BPI 2017 dataset
 # TODO: create the miners, simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
 # TODO: finalize the rest of the experiments
