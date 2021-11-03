@@ -3,6 +3,8 @@ from simulator import Simulator, Reporter, EventLogReporterElement, TimeUnit
 from planners import GreedyPlanner, HeuristicPlanner, PredictivePlanner
 from predicters import ImbalancedPredicter, PerfectPredicter
 from visualizers import boxplot, line_with_ci
+from miners import mine_problem
+import pandas
 import numpy as np
 
 
@@ -60,18 +62,25 @@ def try_execution_traces():
     simulator.simulate(1000)
 
 
+# Mining a problem from an event log
+def try_mining():
+    log = pandas.read_csv("./resources/BPI Challenge 2017 - clean.zip")
+    problem = mine_problem(log)
+
+
 def main():
-    try_mmc()
+    # try_mmc()
     # try_several_planners()
     # try_comparison()
     # try_multiple_comparison()
     # try_execution_traces()
+    try_mining()
 
 
 if __name__ == "__main__":
     main()
 
-# TODO: clean the BPI 2017 dataset
-# TODO: create the miners, simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
+# TODO: finish the miner: need to process resource/task combinations and set minimum number of times a resource executes a task (must be higher than 1 otherwise no standard deviation); cast the whole thing into a problem that can be simulated
+# TODO: simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
 # TODO: finalize the rest of the experiments
 # TODO: prepare for cluster computer and run many experiments
