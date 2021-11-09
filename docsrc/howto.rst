@@ -224,7 +224,7 @@ Now we can create an alternative planner that does not try to assign a task to t
 but rather to the resource that is expected to complete the task fastest, based on the prediction.
 
 Visualizing the results
-----------------------
+-----------------------
 
 There are some convenience functions for visualizing the results of a simulation.
 These are specifically created to work well with the reporters.

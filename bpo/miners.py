@@ -71,16 +71,14 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
         if predecessor not in next_task_distribution.keys():
             next_task_distribution[predecessor] = dict()
             task_occurrences[predecessor] = 0
-        if successor not in next_task_distribution[predecessor].keys():
-            next_task_distribution[predecessor][successor] = 0
-        next_task_distribution[predecessor][successor] += 1
-        task_occurrences[predecessor] += 1
+        next_task_distribution[predecessor][successor] = following_task[(predecessor, successor)]
+        task_occurrences[predecessor] += following_task[(predecessor, successor)]
     for predecessor in next_task_distribution:
         successors = []
         for successor in next_task_distribution[predecessor]:
             successors.append((next_task_distribution[predecessor][successor]/task_occurrences[predecessor], successor))
         next_task_distribution[predecessor] = successors
-    df_resources = df.groupby(['Activity', 'Resource']).agg(Duration_mean=('Duration', 'mean'), Duration_std=('Duration', 'std'), Resource_count=('Resource', 'count'))
+    df_resources = df.groupby(['Activity', 'Resource'], as_index=False).agg(Duration_mean=('Duration', 'mean'), Duration_std=('Duration', 'std'), Resource_count=('Resource', 'count'))
     resource_pool = dict()
     processing_time_distribution = dict()
     for tt in task_types:

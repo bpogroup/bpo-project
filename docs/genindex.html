@@ -66,7 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-planner">Defining a planner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-predicter">Defining a predicter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#visualizing-the-results">Visualizing the results</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
@@ -159,13 +159,6 @@
 </li>
       </ul></li>
       <li>
-    bpo.miners
-
-      <ul>
-        <li><a href="bpo.miners.html#module-bpo.miners">module</a>
-</li>
-      </ul></li>
-      <li>
     bpo.planners
 
       <ul>
@@ -231,6 +224,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.data_sample">data_sample() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.data_sample">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.data_sample">(bpo.problems.MMcProblem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.data_sample">(bpo.problems.Problem method)</a>
@@ -274,6 +269,10 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.generator_from_file">generator_from_file() (bpo.problems.MinedProblem class method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.planners.html#bpo.planners.GreedyPlanner">GreedyPlanner (class in bpo.planners)</a>
 </li>
   </ul></td>
@@ -300,11 +299,15 @@
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.Simulator.init_simulation">init_simulation() (bpo.simulator.Simulator method)</a>
 </li>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.initial_task_distribution">initial_task_distribution (bpo.problems.MinedProblem attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.interarrival_time_sample">interarrival_time_sample() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.interarrival_time_sample">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.interarrival_time_sample">(bpo.problems.MMcProblem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.interarrival_time_sample">(bpo.problems.Problem method)</a>
@@ -326,6 +329,10 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.mean_interarrival_time">mean_interarrival_time (bpo.problems.MinedProblem attribute)</a>
+</li>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem">MinedProblem (class in bpo.problems)</a>
+</li>
       <li><a href="bpo.simulator.html#bpo.simulator.TimeUnit.MINUTES">MINUTES (bpo.simulator.TimeUnit attribute)</a>
 </li>
       <li><a href="bpo.problems.html#bpo.problems.MMcProblem">MMcProblem (class in bpo.problems)</a>
@@ -335,8 +342,6 @@
 
       <ul>
         <li><a href="bpo.html#module-bpo">bpo</a>
-</li>
-        <li><a href="bpo.miners.html#module-bpo.miners">bpo.miners</a>
 </li>
         <li><a href="bpo.planners.html#module-bpo.planners">bpo.planners</a>
 </li>
@@ -357,9 +362,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.problems.html#bpo.problems.Problem.next_case">next_case() (bpo.problems.Problem method)</a>
 </li>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.next_task_distribution">next_task_distribution (bpo.problems.MinedProblem attribute)</a>
+</li>
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.next_task_types_sample">next_task_types_sample() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.next_task_types_sample">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.next_task_types_sample">(bpo.problems.MMcProblem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.next_task_types_sample">(bpo.problems.Problem method)</a>
@@ -382,6 +391,8 @@
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.PLAN_TASKS">PLAN_TASKS (bpo.simulator.EventType attribute)</a>
 </li>
       <li><a href="bpo.planners.html#bpo.planners.Planner">Planner (class in bpo.planners)</a>
+</li>
+      <li><a href="bpo.predicters.html#bpo.predicters.Predicter.predict_next_task">predict_next_task() (bpo.predicters.Predicter static method)</a>
 </li>
       <li><a href="bpo.predicters.html#bpo.predicters.ImbalancedPredicter.predict_processing_time_task">predict_processing_time_task() (bpo.predicters.ImbalancedPredicter static method)</a>
 
@@ -412,6 +423,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.processing_time_sample">processing_time_sample() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.processing_time_sample">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.processing_time_sample">(bpo.problems.MMcProblem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.processing_time_sample">(bpo.problems.Problem method)</a>
@@ -448,6 +461,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.resource_pool">resource_pool() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.resource_pool">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.resource_pool">(bpo.problems.MMcProblem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.resource_pool">(bpo.problems.Problem method)</a>
@@ -460,6 +475,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.resources">resources (bpo.problems.ImbalancedProblem attribute)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.resources">(bpo.problems.MinedProblem attribute)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.resources">(bpo.problems.MMcProblem attribute)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.resources">(bpo.problems.Problem property)</a>
@@ -490,6 +507,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.sample_initial_task_type">sample_initial_task_type() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.sample_initial_task_type">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.sample_initial_task_type">(bpo.problems.MMcProblem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.sample_initial_task_type">(bpo.problems.Problem method)</a>
@@ -497,17 +516,17 @@
         <li><a href="bpo.problems.html#bpo.problems.SequentialProblem.sample_initial_task_type">(bpo.problems.SequentialProblem method)</a>
 </li>
       </ul></li>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.save_generator">save_generator() (bpo.problems.MinedProblem method)</a>
+</li>
       <li><a href="bpo.problems.html#bpo.problems.Problem.save_instance">save_instance() (bpo.problems.Problem method)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.TimeUnit.SECONDS">SECONDS (bpo.simulator.TimeUnit attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.problems.html#bpo.problems.SequentialProblem">SequentialProblem (class in bpo.problems)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.Simulator.simulate">simulate() (bpo.simulator.Simulator method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="bpo.miners.html#bpo.miners.simulation_model_miner">simulation_model_miner() (in module bpo.miners)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.Simulator">Simulator (class in bpo.simulator)</a>
 </li>
@@ -540,6 +559,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.task_types">task_types (bpo.problems.ImbalancedProblem attribute)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.task_types">(bpo.problems.MinedProblem attribute)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.MMcProblem.task_types">(bpo.problems.MMcProblem attribute)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.task_types">(bpo.problems.Problem property)</a>

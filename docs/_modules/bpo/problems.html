@@ -66,7 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../howto.html#defining-a-problem">Defining a problem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto.html#defining-a-planner">Defining a planner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto.html#defining-a-predicter">Defining a predicter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto.html#running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto.html#visualizing-the-results">Visualizing the results</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
@@ -329,6 +329,128 @@
 <span class="sd">        :return: a float representing a duration in simulation time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">task</span><span class="o">.</span><span class="n">processing_times</span><span class="p">[</span><span class="n">resource</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="MinedProblem"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem">[docs]</a><span class="k">class</span> <span class="nc">MinedProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A specific :class:`.Problem` that represents process that is mined from</span>
+<span class="sd">    a business process event log, using :meth:`miners.mine_problem`.</span>
+<span class="sd">    The problem generates customer cases that have the same properties</span>
+<span class="sd">    as the cases in the event log from which it originate in terms of:</span>
+<span class="sd">    arrival rate, next-task probabilities, and performance of resources on</span>
+<span class="sd">    task types in terms of processing time distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">resources</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">task_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The initial task type distribution. A list of tuples of probability/ task type, where probability is</span>
+<span class="sd">        the probability that the task type is the initial task type of a case.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The next task type distribution per task type. Maps a task type to a list of probability/ task type tuples, </span>
+<span class="sd">        where each pair is a next task type and the probability that that task type is the next task type. If</span>
+<span class="sd">        a tuple is probability/ None, this represents the probability that there is no next task and the </span>
+<span class="sd">        case completes. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The average interarrival time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_interarrival_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that </span>
+<span class="sd">        type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resource_pool</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The processing time distribution per task type/resource combination. Maps a tuple of a task type/ resource</span>
+<span class="sd">        combination to a tuple of a mean/ standard deviation of the time the resource spends processing tasks of</span>
+<span class="sd">        the type. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processing_time_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MinedProblem.sample_initial_task_type"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.sample_initial_task_type">[docs]</a>    <span class="k">def</span> <span class="nf">sample_initial_task_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">:</span>
+            <span class="n">rs</span> <span class="o">+=</span> <span class="n">p</span>
+            <span class="k">if</span> <span class="n">rd</span> <span class="o">&lt;</span> <span class="n">rs</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tt</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: the probabilities of initial tasks do not add up to 1.0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.resource_pool"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.resource_pool">[docs]</a>    <span class="k">def</span> <span class="nf">resource_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource_pool</span><span class="p">[</span><span class="n">task_type</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.interarrival_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.interarrival_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">interarrival_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">expovariate</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_interarrival_time</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MinedProblem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MinedProblem.next_task_types_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.next_task_types_sample">[docs]</a>    <span class="k">def</span> <span class="nf">next_task_types_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="n">rd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">]:</span>
+            <span class="n">rs</span> <span class="o">+=</span> <span class="n">p</span>
+            <span class="k">if</span> <span class="n">rd</span> <span class="o">&lt;</span> <span class="n">rs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">tt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">tt</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: the probabilities of next tasks do not add up to 1.0&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.processing_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.processing_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">processing_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_time_distribution</span><span class="p">[(</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span> <span class="n">resource</span><span class="p">)]</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">pt</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># We do not allow negative values for processing time.</span>
+            <span class="n">pt</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pt</span></div>
+
+<div class="viewcode-block" id="MinedProblem.generator_from_file"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.generator_from_file">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generator_from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads a problem instance generator from the specified file.</span>
+<span class="sd">        The loaded generator is a normal problem, but without instance.</span>
+<span class="sd">        Instances still must be created using :meth:`.from_generator`.</span>
+
+<span class="sd">        :param filename: the name of the file from which to read the problem.</span>
+<span class="sd">        :return: an object of the :class:`.Problem` without instance information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">MinedProblem</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">resources</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">task_types</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">next_task_distribution</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">mean_interarrival_time</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">resource_pool</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">processing_time_distribution</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">o</span></div>
+
+<div class="viewcode-block" id="MinedProblem.save_generator"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.save_generator">[docs]</a>    <span class="k">def</span> <span class="nf">save_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the problem to file without instance information.</span>
+
+<span class="sd">        :param filename: the name of the file to save the problem to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_types</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_interarrival_time</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource_pool</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processing_time_distribution</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="MMcProblem"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MMcProblem">[docs]</a><span class="k">class</span> <span class="nc">MMcProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>

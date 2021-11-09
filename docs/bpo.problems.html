@@ -77,7 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-planner">Defining a planner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-predicter">Defining a predicter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html#visualizing-the-results">Visualizing the results</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
@@ -125,13 +125,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MMcProblem" title="bpo.problems.MMcProblem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MMcProblem</span></code></a>()</p></td>
 <td><p>A specific <a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> that represents an M/M/c queue, i.e.: it has one task type, multiple resources and exponential arrival and processing times.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Problem</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem" title="bpo.problems.MinedProblem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MinedProblem</span></code></a>()</p></td>
+<td><p>A specific <a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> that represents process that is mined from a business process event log, using <code class="xref py py-meth docutils literal notranslate"><span class="pre">miners.mine_problem()</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Problem</span></code></a>()</p></td>
 <td><p>Abstract class that all problems must implement.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.SequentialProblem" title="bpo.problems.SequentialProblem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequentialProblem</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.SequentialProblem" title="bpo.problems.SequentialProblem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequentialProblem</span></code></a>()</p></td>
 <td><p>A specific <a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> with two resources and two task types.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code></a>(task_id, case_id, task_type, data)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code></a>(task_id, case_id, task_type, data)</p></td>
 <td><p>A task.</p></td>
 </tr>
 </tbody>
@@ -434,6 +437,218 @@ to compute the waiting time analytically for comparison.</p>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="bpo.problems.MMcProblem.waiting_time_analytical">
 <code class="sig-name descname"><span class="pre">waiting_time_analytical</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MMcProblem.waiting_time_analytical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MMcProblem.waiting_time_analytical" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">bpo.problems.</span></code><code class="sig-name descname"><span class="pre">MinedProblem</span></code><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.problems.Problem</span></code></a></p>
+<p>A specific <a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> that represents process that is mined from
+a business process event log, using <code class="xref py py-meth docutils literal notranslate"><span class="pre">miners.mine_problem()</span></code>.
+The problem generates customer cases that have the same properties
+as the cases in the event log from which it originate in terms of:
+arrival rate, next-task probabilities, and performance of resources on
+task types in terms of processing time distribution.</p>
+<p><strong>Methods:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.data_sample" title="bpo.problems.MinedProblem.data_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_sample</span></code></a>(task_type)</p></td>
+<td><p>Randomly samples data for the task type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.generator_from_file" title="bpo.problems.MinedProblem.generator_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generator_from_file</span></code></a>(filename)</p></td>
+<td><p>Loads a problem instance generator from the specified file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.interarrival_time_sample" title="bpo.problems.MinedProblem.interarrival_time_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interarrival_time_sample</span></code></a>()</p></td>
+<td><p>Randomly samples the interarrival time of cases.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.next_task_types_sample" title="bpo.problems.MinedProblem.next_task_types_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next_task_types_sample</span></code></a>(task)</p></td>
+<td><p>Randomly samples the task types that will be performed for the case of the specified task, when that task completes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.processing_time_sample" title="bpo.problems.MinedProblem.processing_time_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">processing_time_sample</span></code></a>(resource, task)</p></td>
+<td><p>Randomly samples the duration of the simulation time it will take the resource to perform the task.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.resource_pool" title="bpo.problems.MinedProblem.resource_pool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resource_pool</span></code></a>(task_type)</p></td>
+<td><p>The processing time distribution per task type/resource combination.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.sample_initial_task_type" title="bpo.problems.MinedProblem.sample_initial_task_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_initial_task_type</span></code></a>()</p></td>
+<td><p>Returns an element of <a class="reference internal" href="#bpo.problems.Problem.task_types" title="bpo.problems.Problem.task_types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Problem.task_types</span></code></a> that is the first to execute in a case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.save_generator" title="bpo.problems.MinedProblem.save_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_generator</span></code></a>(filename)</p></td>
+<td><p>Saves the problem to file without instance information.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.initial_task_distribution" title="bpo.problems.MinedProblem.initial_task_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initial_task_distribution</span></code></a></p></td>
+<td><p>The next task type distribution per task type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.mean_interarrival_time" title="bpo.problems.MinedProblem.mean_interarrival_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_interarrival_time</span></code></a></p></td>
+<td><p>The resource pool per task type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.next_task_distribution" title="bpo.problems.MinedProblem.next_task_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next_task_distribution</span></code></a></p></td>
+<td><p>The average interarrival time.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.resources" title="bpo.problems.MinedProblem.resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resources</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.problems.MinedProblem.task_types" title="bpo.problems.MinedProblem.task_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">task_types</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.data_sample">
+<code class="sig-name descname"><span class="pre">data_sample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.data_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.data_sample" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Randomly samples data for the task type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>task_type</strong> – one of the <a class="reference internal" href="#bpo.problems.Problem.task_types" title="bpo.problems.Problem.task_types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Problem.task_types</span></code></a> of the problem.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dictionary with additional data that can be stored in <code class="xref py py-attr docutils literal notranslate"><span class="pre">Task.data</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.generator_from_file">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">generator_from_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.generator_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.generator_from_file" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Loads a problem instance generator from the specified file.
+The loaded generator is a normal problem, but without instance.
+Instances still must be created using <a class="reference internal" href="#bpo.problems.Problem.from_generator" title="bpo.problems.Problem.from_generator"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_generator()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – the name of the file from which to read the problem.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an object of the <a class="reference internal" href="#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> without instance information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.initial_task_distribution">
+<code class="sig-name descname"><span class="pre">initial_task_distribution</span></code><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.initial_task_distribution" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>The next task type distribution per task type. Maps a task type to a list of probability/ task type tuples, 
+where each pair is a next task type and the probability that that task type is the next task type. If
+a tuple is probability/ None, this represents the probability that there is no next task and the 
+case completes.</p>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.interarrival_time_sample">
+<code class="sig-name descname"><span class="pre">interarrival_time_sample</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.interarrival_time_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.interarrival_time_sample" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Randomly samples the interarrival time of cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a float representing a duration in simulation time.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.mean_interarrival_time">
+<code class="sig-name descname"><span class="pre">mean_interarrival_time</span></code><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.mean_interarrival_time" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that 
+type.</p>
+</dd></dl>
+
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.next_task_distribution">
+<code class="sig-name descname"><span class="pre">next_task_distribution</span></code><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.next_task_distribution" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>The average interarrival time.</p>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.next_task_types_sample">
+<code class="sig-name descname"><span class="pre">next_task_types_sample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.next_task_types_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.next_task_types_sample" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Randomly samples the task types that will be performed for the case of the specified task, when that task completes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>task</strong> – a <a class="reference internal" href="#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> of this problem.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a sublist of <a class="reference internal" href="#bpo.problems.Problem.task_types" title="bpo.problems.Problem.task_types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Problem.task_types</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.processing_time_sample">
+<code class="sig-name descname"><span class="pre">processing_time_sample</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.processing_time_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.processing_time_sample" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Randomly samples the duration of the simulation time it will take the resource to perform the task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource</strong> – one of the <a class="reference internal" href="#bpo.problems.Problem.resources" title="bpo.problems.Problem.resources"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Problem.resources</span></code></a> of the problem.</p></li>
+<li><p><strong>task</strong> – a <a class="reference internal" href="#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> that should come from the problem.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a float representing a duration in simulation time.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.resource_pool">
+<code class="sig-name descname"><span class="pre">resource_pool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.resource_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.resource_pool" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>The processing time distribution per task type/resource combination. Maps a tuple of a task type/ resource
+combination to a tuple of a mean/ standard deviation of the time the resource spends processing tasks of
+the type.</p>
+</dd></dl>
+
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.resources">
+<code class="sig-name descname"><span class="pre">resources</span></code><em class="property"> <span class="pre">=</span> <span class="pre">[]</span></em><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.resources" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.sample_initial_task_type">
+<code class="sig-name descname"><span class="pre">sample_initial_task_type</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.sample_initial_task_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.sample_initial_task_type" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Returns an element of <a class="reference internal" href="#bpo.problems.Problem.task_types" title="bpo.problems.Problem.task_types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Problem.task_types</span></code></a> that is the first to execute in a case.</p>
+</dd></dl>
+
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.save_generator">
+<code class="sig-name descname"><span class="pre">save_generator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/problems.html#MinedProblem.save_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.save_generator" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
+<dd>
+<p>Saves the problem to file without instance information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – the name of the file to save the problem to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="bpo.problems.MinedProblem.task_types">
+<code class="sig-name descname"><span class="pre">task_types</span></code><em class="property"> <span class="pre">=</span> <span class="pre">[]</span></em><a role="button" class="headerlink tooltipped tooltipped-ne" href="#bpo.problems.MinedProblem.task_types" aria-label="Copy link to this definition."><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></dt>
 <dd>
 </dd></dl>
 

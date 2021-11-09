@@ -8,17 +8,15 @@
 <meta charset="utf-8"/>
 <meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <title>
-      API Documentation | Business Process Optimization  documentation
+      bpo.miners module | Business Process Optimization  documentation
     </title>
 <link href="_static/pygments.css" rel="stylesheet"/>
 <link href="_static/theme.css" rel="stylesheet"/>
 <link href="search.html" rel="search" title="Search"/>
 <link href="genindex.html" rel="index" title="Index"/>
-<link href="bpo.planners.html" rel="next" title="bpo.planners module"/>
-<link href="howto.html" rel="prev" title="How to use the framework"/>
 </head><body class="text-gray-900 antialiased">
 <div class="h-screen md:grid md:grid-layout" id="page">
-<a class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#api-documentation" title="Skip navigation links">Skip to content</a>
+<a class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#bpo-miners-module" title="Skip navigation links">Skip to content</a>
 <header class="grid-area-header z-10">
 <div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
 <a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se" href="index.html">
@@ -34,7 +32,7 @@
 </header><aside class="grid-area-sidebar h-full fixed md:relative inset-y-0 left-0 z-20 md:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 md:translate-x-0 md:opacity-100" id="sidebar">
 <nav class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col" role="navigation">
 <div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="howto.html">How to use the framework</a></div><ul>
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#quick-start">Quick start</a></div></li>
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></div></li>
@@ -43,7 +41,7 @@
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#visualizing-the-results">Visualizing the results</a></div></li>
 </ul>
 </li>
-<li class="toctree-l1 current expanded"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="current reference internal" href="#">API Documentation</a></div><ul>
+<li class="toctree-l1"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="api.html">API Documentation</a></div><ul>
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.planners.html">bpo.planners module</a></div></li>
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></div></li>
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.problems.html">bpo.problems module</a></div></li>
@@ -60,21 +58,11 @@
 </aside>
 <main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full"><nav aria-label="breadcrumbs" class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden" role="navigation">
 <a class="text-blue-700" href="index.html">Business Process Optimization  documentation</a>
-<span class="text-gray-700 mr-1">/</span><span aria-current="page">API Documentation</span>
+<span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.miners module</span>
 </nav>
 <article class="flex-1" role="main">
-<section id="api-documentation">
-<h1>API Documentation<a aria-label="Copy link to section: API Documentation." class="headerlink tooltipped tooltipped-ne" href="#api-documentation" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="bpo.planners.html">bpo.planners module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bpo.problems.html">bpo.problems module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bpo.simulator.html">bpo.simulator module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bpo.visualizers.html">bpo.visualizers module</a></li>
-</ul>
-</div>
-<p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p>
+<section id="bpo-miners-module">
+<h1>bpo.miners module<a aria-label="Copy link to section: bpo.miners module." class="headerlink tooltipped tooltipped-ne" href="#bpo-miners-module" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></h1>
 </section>
 </article>
 <footer>

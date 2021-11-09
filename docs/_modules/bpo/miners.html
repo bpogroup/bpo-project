@@ -8,32 +8,32 @@
     <meta charset="utf-8" />
     
     <title>
-      Search | Business Process Optimization  documentation
+      bpo.miners | Business Process Optimization  documentation
     </title>
-      <link rel="stylesheet" href="_static/pygments.css" />
-      <link rel="stylesheet" href="_static/theme.css" />
-        <link rel="search" title="Search" href="#"/>
-        <link rel="index" title="Index" href="genindex.html"/>
+      <link rel="stylesheet" href="../../_static/pygments.css" />
+      <link rel="stylesheet" href="../../_static/theme.css" />
+        <link rel="search" title="Search" href="../../search.html"/>
+        <link rel="index" title="Index" href="../../genindex.html"/>
   </head><body class="text-gray-900 antialiased">
     <div id="page" class="h-screen md:grid md:grid-layout">
       <a
   class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform
   -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75"
-  href="#search"
+  href="#bpo-miners"
   title="Skip navigation links"
   >Skip to content</a>
 
       <header class="grid-area-header z-10">
         <div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
       <a class=" hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se"
-   href="index.html"
+   href="../../index.html"
    aria-label="Back to homepage">
   
 <h2 class="text-xl text-gray-100 mx-5 py-4">Business Process Optimization  documentation</h2>
 </a>
     <form
     id="searchbox"
-    action="#"
+    action="../../search.html"
     method="get"
     class="hidden md:flex my-auto mx-5 justify-between items-center print:hidden">
 
@@ -61,20 +61,13 @@
 >
   <div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="howto.html">How to use the framework</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#quick-start">Quick start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-planner">Defining a planner</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#defining-a-predicter">Defining a predicter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html#visualizing-the-results">Visualizing the results</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bpo.planners.html">bpo.planners module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bpo.problems.html">bpo.problems module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bpo.simulator.html">bpo.simulator module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bpo.visualizers.html">bpo.visualizers module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto.html">How to use the framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.planners.html">bpo.planners module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.predicters.html">bpo.predicters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.problems.html">bpo.problems module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.simulator.html">bpo.simulator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bpo.visualizers.html">bpo.visualizers module</a></li>
 </ul>
 </li>
 </ul>
@@ -93,18 +86,36 @@
       <main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full "><nav role="navigation"
      aria-label="breadcrumbs"
      class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden">
-  <a class="text-blue-700" href="index.html">Business Process Optimization  documentation</a>
-  <span class="text-gray-700 mr-1">/</span><span aria-current="page">Search</span>
+  <a class="text-blue-700" href="../../index.html">Business Process Optimization  documentation</a>
+  <span class="text-gray-700 mr-1">/</span><a class="text-blue-700" href="../index.html">Module code</a>
+    <span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.miners</span>
 </nav>
         <article role="main" class="flex-1">
           
-<div id="fallback" class="my-8 text-sm text-red-700">
-  <script>document.querySelector("#fallback").style.display = "none"</script>
-  
-    Please activate Javascript to enable searching the documentation.
-  
-</div>
-<section id="search-results"></section>
+  <h1>Source code for bpo.miners</h1><pre>
+<code>
+
+<div class="viewcode-block" id="simulation_model_miner"><a class="viewcode-back" href="../../bpo.miners.html#bpo.miners.simulation_model_miner">[docs]</a><span class="k">def</span> <span class="nf">simulation_model_miner</span><span class="p">(</span><span class="n">log</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mines a simulation model and returns it as a :class:`.Problem` that can be simulated.</span>
+<span class="sd">    The log from which the model is mined must at least have the columns</span>
+<span class="sd">    Case ID, Activity, Resource, Start Timestamp, Complete Timestamp,</span>
+<span class="sd">    which identify the corresponding event log information.</span>
+
+<span class="sd">    :param log: a pandas dataframe from which the problem must be mined.</span>
+<span class="sd">    :return: a :class:`.Problem`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Mine the task types</span>
+    <span class="c1"># Mine the resources</span>
+    <span class="c1"># Mine the initial task type distribution</span>
+    <span class="c1"># Mine the resource pool per task type</span>
+    <span class="c1"># Mine the processing time distribution per task_type/resource combination</span>
+    <span class="c1"># Mine the interarrival time</span>
+    <span class="c1"># Mine the next task type distribution per task type</span>
+    <span class="c1"># TODO: Data distribution is empty for now, future work</span>
+    <span class="k">pass</span></div>
+</code></pre>
 
         </article>
 
@@ -137,7 +148,7 @@
   class="w-full fixed bottom-0 left-0 z-10 bg-gray-900 overflow-x-hidden pt-10 flex flex-col items-center md:hidden transition-all opacity-0 transform transform-gpu translate-y-full duration-300"
 >
 <h4 id="search-label" class="text-xl text-white mb-4">Enter search term</h4><form
-    id="searchbox" action="#" method="get"
+    id="searchbox" action="../../search.html" method="get"
     class="flex w-full justify-between items-center max-w-sm px-12">
 
     <input
@@ -173,21 +184,16 @@
 </button><div id="screen" class="fixed hidden inset-0 bg-black bg-opacity-50"></div>
     </div>
     
-
       
 <script id="documentation_options"
-        data-url_root="./"
-        src="_static/documentation_options.js">
+        data-url_root="../../"
+        src="../../_static/documentation_options.js">
 </script>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-<script src="_static/jquery.js"></script>
-<script src="_static/underscore.js"></script>
-<script src="_static/doctools.js"></script>
-<script src="_static/theme.js" defer></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/theme.js" defer></script>
     
-<script src="_static/searchtools.js" defer></script>
-<script src="_static/language_data.js" defer></script>
-<script src="searchindex.js" defer></script>
-
   </body>
 </html>

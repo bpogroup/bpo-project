@@ -1,4 +1,4 @@
-from problems import ImbalancedProblem, SequentialProblem, MMcProblem
+from problems import ImbalancedProblem, SequentialProblem, MMcProblem, MinedProblem
 from simulator import Simulator, Reporter, EventLogReporterElement, TimeUnit
 from planners import GreedyPlanner, HeuristicPlanner, PredictivePlanner
 from predicters import ImbalancedPredicter, PerfectPredicter
@@ -62,10 +62,16 @@ def try_execution_traces():
     simulator.simulate(1000)
 
 
-# Mining a problem from an event log
+# Mining a problem from an event log and saving it to file
 def try_mining():
     log = pandas.read_csv("./resources/BPI Challenge 2017 - clean.zip")
     problem = mine_problem(log)
+    problem.save_generator("../temp/BPI Challenge 2017 - generator.pickle")
+
+
+# Loading a mined problem from file, simulating it and saving the log
+def simulate_mined_problem():
+    problem = MinedProblem.generator_from_file("../temp/BPI Challenge 2017 - generator.pickle")
 
 
 def main():
@@ -74,14 +80,13 @@ def main():
     # try_comparison()
     # try_multiple_comparison()
     # try_execution_traces()
-    try_mining()
+    # try_mining()
+    simulate_mined_problem()
 
 
 if __name__ == "__main__":
     main()
 
-# TODO: check the creation of the next task distribution. It does not seem to be correct.
-# TODO: create the saver/loader for the MinedProblem.
 # TODO: simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
 # TODO: finalize the rest of the experiments
 # TODO: prepare for cluster computer and run many experiments

@@ -314,11 +314,41 @@ class MinedProblem(Problem):
             pt = random.gauss(mu, sigma)
         return pt
 
-    def save_generator(self):
-        pass
+    @classmethod
+    def generator_from_file(cls, filename):
+        """
+        Loads a problem instance generator from the specified file.
+        The loaded generator is a normal problem, but without instance.
+        Instances still must be created using :meth:`.from_generator`.
 
-    def load_generator(self):
-        pass
+        :param filename: the name of the file from which to read the problem.
+        :return: an object of the :class:`.Problem` without instance information.
+        """
+        o = MinedProblem()
+        with open(filename, 'rb') as handle:
+            o.resources = pickle.load(handle)
+            o.task_types = pickle.load(handle)
+            o.initial_task_distribution = pickle.load(handle)
+            o.next_task_distribution = pickle.load(handle)
+            o.mean_interarrival_time = pickle.load(handle)
+            o.resource_pool = pickle.load(handle)
+            o.processing_time_distribution = pickle.load(handle)
+        return o
+
+    def save_generator(self, filename):
+        """
+        Saves the problem to file without instance information.
+
+        :param filename: the name of the file to save the problem to.
+        """
+        with open(filename, 'wb') as handle:
+            pickle.dump(self.resources, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.task_types, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.initial_task_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.next_task_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.mean_interarrival_time, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.resource_pool, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.processing_time_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 class MMcProblem(Problem):
