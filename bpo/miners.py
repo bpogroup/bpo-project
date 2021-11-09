@@ -9,6 +9,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     Case ID, Activity, Resource, Start Timestamp, Complete Timestamp,
     which identify the corresponding event log information. Activity labels
     are the same as Task Types for the purposes of the problem definition.
+    The timing distributions associated with the problem are all in hours.
 
     :param log: a pandas dataframe from which the problem must be mined.
     :param task_type_filter: a function that takes the name of a task type/ activity
@@ -79,13 +80,13 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
             successors.append((next_task_distribution[predecessor][successor]/task_occurrences[predecessor], successor))
         next_task_distribution[predecessor] = successors
     df_resources = df.groupby(['Activity', 'Resource'], as_index=False).agg(Duration_mean=('Duration', 'mean'), Duration_std=('Duration', 'std'), Resource_count=('Resource', 'count'))
-    resource_pool = dict()
+    resource_pools = dict()
     processing_time_distribution = dict()
     for tt in task_types:
-        resource_pool[tt] = []
+        resource_pools[tt] = []
     for index, row in df_resources.iterrows():
         if row["Resource_count"] > min_resource_count:
-            resource_pool[row['Activity']].append(row['Resource'])
+            resource_pools[row['Activity']].append(row['Resource'])
             processing_time_distribution[(row['Activity'], row['Resource'])] = (row['Duration_mean'], row['Duration_std'])
 
     # Now create the problem and return it
@@ -95,7 +96,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     result.initial_task_distribution = initial_task_distribution  # The initial task type distribution
     result.next_task_distribution = next_task_distribution # The next task type distribution per task type
     result.mean_interarrival_time = mean_interarrival_time  # The interarrival time
-    result.resource_pool = resource_pool  # The resource pool per task type
+    result.resource_pools = resource_pools  # The resource pool per task type
     result.processing_time_distribution = processing_time_distribution # The processing time distribution per task_type/resource combination
 
     return result

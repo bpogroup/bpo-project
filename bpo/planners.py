@@ -28,9 +28,11 @@ class GreedyPlanner(Planner):
         available_resources = environment.available_resources.copy()
         # assign the first unassigned task to the first available resource, the second task to the second resource, etc.
         for task in environment.unassigned_tasks.values():
-            if len(available_resources) > 0:
-                resource = available_resources.pop()
-                assignments.append((task, resource, environment.now))
+            for resource in available_resources:
+                if resource in environment.problem.resource_pool(task.task_type):
+                    available_resources.remove(resource)
+                    assignments.append((task, resource, environment.now))
+                    break
             else:
                 break  # for efficiency purposes
         return assignments

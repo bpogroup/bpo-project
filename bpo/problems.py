@@ -125,7 +125,7 @@ class Problem(ABC):
         # 2. generating the next tasks, without processing times and next tasks, add them to the unfinished tasks.
         while len(unfinished_tasks) > 0:
             task = unfinished_tasks.pop(0)
-            for r in self.resources:
+            for r in self.resource_pool(task.task_type):
                 pt = self.processing_time_sample(r, task)
                 task.add_processing_time(r, pt)
             for tt in self.next_task_types_sample(task):
@@ -264,7 +264,7 @@ class MinedProblem(Problem):
         The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that 
         type.
         """
-        self.resource_pool = dict()
+        self.resource_pools = dict()
         """
         The processing time distribution per task type/resource combination. Maps a tuple of a task type/ resource
         combination to a tuple of a mean/ standard deviation of the time the resource spends processing tasks of
@@ -283,7 +283,7 @@ class MinedProblem(Problem):
         return self.initial_task_distribution[0]
 
     def resource_pool(self, task_type):
-        return self.resource_pool[task_type]
+        return self.resource_pools[task_type]
 
     def interarrival_time_sample(self):
         return random.expovariate(1/self.mean_interarrival_time)
@@ -331,7 +331,7 @@ class MinedProblem(Problem):
             o.initial_task_distribution = pickle.load(handle)
             o.next_task_distribution = pickle.load(handle)
             o.mean_interarrival_time = pickle.load(handle)
-            o.resource_pool = pickle.load(handle)
+            o.resource_pools = pickle.load(handle)
             o.processing_time_distribution = pickle.load(handle)
         return o
 
@@ -347,7 +347,7 @@ class MinedProblem(Problem):
             pickle.dump(self.initial_task_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.next_task_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.mean_interarrival_time, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.resource_pool, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.resource_pools, handle, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.processing_time_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 

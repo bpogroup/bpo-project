@@ -72,6 +72,10 @@ def try_mining():
 # Loading a mined problem from file, simulating it and saving the log
 def simulate_mined_problem():
     problem = MinedProblem.generator_from_file("../temp/BPI Challenge 2017 - generator.pickle")
+    problem_instance = problem.from_generator(24*31)  # Running for longer than the simulation time, so we do not run out of tasks
+    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - simulated.csv", TimeUnit.HOURS)])
+    simulator = Simulator(problem_instance, reporter, GreedyPlanner())
+    simulator.simulate(24*30)
 
 
 def main():
@@ -87,6 +91,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
+# TODO: allow increase of the utilization rate of the resources in the problem, simulate again, check if the resulting logs match
 # TODO: finalize the rest of the experiments
 # TODO: prepare for cluster computer and run many experiments
