@@ -80,7 +80,8 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: finish the miner: need to process resource/task combinations and set minimum number of times a resource executes a task (must be higher than 1 otherwise no standard deviation); cast the whole thing into a problem that can be simulated
+# TODO: check the creation of the next task distribution. It does not seem to be correct.
+# TODO: create the saver/loader for the MinedProblem.
 # TODO: simulate the mined BPI 2017 problem, create event log, check if it corresponds to the original event log
 # TODO: finalize the rest of the experiments
 # TODO: prepare for cluster computer and run many experiments
