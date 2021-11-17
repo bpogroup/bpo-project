@@ -72,10 +72,10 @@ def try_mining():
 # Loading a mined problem from file, simulating it and saving the log
 def simulate_mined_problem():
     problem = MinedProblem.generator_from_file("../temp/BPI Challenge 2017 - generator.pickle")
-    problem_instance = problem.from_generator(24*31)  # Running for longer than the simulation time, so we do not run out of tasks
+    problem_instance = problem.from_generator(24*30*13)  # Running for longer than the simulation time, so we do not run out of tasks
     reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - simulated.csv", TimeUnit.HOURS)])
     simulator = Simulator(problem_instance, reporter, GreedyPlanner())
-    simulator.simulate(24*30)
+    simulator.simulate(24*30*12, 0.90)
 
 
 def main():
@@ -91,6 +91,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: allow increase of the utilization rate of the resources in the problem, simulate again, check if the resulting logs match
-# TODO: finalize the rest of the experiments
-# TODO: prepare for cluster computer and run many experiments
+# TODO: finalize the rest of the experiments:
+#       - currently, the mean processing time is quite long, this is probably due to random selection of resources, check what happens if we optimize the selection of resources
+#       - currently, the mean waiting time is quite short, there can be different reasons for this: 1. waiting over the working day; 2. waiting for the customer to respond. Take those into account in the mining/simulation
+

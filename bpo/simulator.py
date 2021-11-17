@@ -35,6 +35,10 @@ class EventType(Enum):
     """A case completes.
     
     :meta hide-value:"""
+    FREE_RESOURCE = auto()
+    """A resource is freed up from performing 'other tasks' (i.e. tasks not part of the problem).
+
+    :meta hide-value:"""
 
 
 class TimeUnit(Enum):
@@ -338,6 +342,13 @@ class Simulator:
         """
         self.busy_cases = dict()
         """
+        The amount of time a resource spent being utilized until now. This includes:
+        
+        * the time a resource spent processing a :class:`.Task` (not including the time the resource spent processing the current task, if it is currently processing a task); and
+        * the time a resource spent processing other activities; these are activities other than the tasks that are being simulated that bring the resource to the desired utilization rate (see :meth:`.simulate`).
+        """
+        self.resource_utilization = dict()
+        """
         The cases of which a task is currently being performed or must still be performed. A dict case_id -> [active task_id]
         that maps case identifiers for which a task exists to the identifiers of those tasks.
         """
@@ -366,9 +377,10 @@ class Simulator:
         """
         Re-initializes the simulation, such that it can be run again.
         """
-        # set all resources to available
+        # set all resources to available and set their occupation time to 0
         for r in self.problem.resources:
             self.available_resources.add(r)
+            self.resource_utilization[r] = 0
 
         # reset the problem
         self.problem.restart()
@@ -378,14 +390,20 @@ class Simulator:
 
         self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
 
-    def simulate(self, running_time):
+    def simulate(self, running_time, target_utilization_rate=None):
         """
         Runs the simulation for the instance that was passed in the constructor.
         The simulator generates events (i.e. cases with their associated arrival times, data, and tasks)
         as they are produced by the problem instance. The simulator generates a plan event each time a
         task or resource becomes available. Events are handled by the reporter.
 
+        If the target utilization rate is set to a value (a fraction f) other than None, the simulator will ensure that resources
+        are occupied for approximately the targeted fraction f of the time. It does that by making resources busy with 'other
+        tasks' (i.e. tasks other than the ones of the problem being simulated, like tasks in another process). These 'other tasks'
+        are not specified further and their activity is not logged, but the resources are being kept busy on those tasks.
+
         :param running_time: the amount of simulation time the simulation should be run for.
+        :param target_utilization_rate: the targeted fraction (0 < target_utilization_rate < 1) of time resources should be occupied.
         """
         # repeat until the end of the simulation time:
         while self.now <= running_time:
@@ -421,9 +439,21 @@ class Simulator:
 
             # if e is a complete event:
             elif event.event_type == EventType.COMPLETE_TASK:
-                # set resource to available
-                del self.busy_resources[event.resource]
-                self.available_resources.add(event.resource)
+                # update the resource occupation time
+                self.resource_utilization[event.resource] += self.now - self.busy_resources[event.resource][1]
+                # if the resource has been busy more than the target utilization rate, or if there is no target utilization rate
+                if (target_utilization_rate is None) or (self.resource_utilization[event.resource]/self.now > target_utilization_rate):
+                    # set resource to available
+                    del self.busy_resources[event.resource]
+                    self.available_resources.add(event.resource)
+                else:
+                    # otherwise, keep the resource busy until it has reached the target utilization rate
+                    # this is some amount of time x, s.t. (resource_utilization + x)/(now + x) == target_utilization_rate
+                    # do this by setting the resource to busy on 'no task', and creating a free resource event
+                    self.busy_resources[event.resource] = (None, self.now)
+                    t = (self.resource_utilization[event.resource] - self.now)/(target_utilization_rate-1)
+                    self.events.append((t, Event(EventType.FREE_RESOURCE, t, None, event.resource)))
+                    self.events.sort()
                 # remove task from assigned tasks
                 del self.assigned_tasks[event.task.id]
                 self.busy_cases[event.task.case_id].remove(event.task.id)
@@ -435,6 +465,15 @@ class Simulator:
                 if len(self.busy_cases[event.task.case_id]) == 0:
                     self.events.append((self.now, Event(EventType.COMPLETE_CASE, self.now, event.task)))
                 # generate a new planning event to start planning now for the newly available resource and next tasks
+                self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
+                self.events.sort()
+
+            # if e is a free resource event: free the resource
+            elif event.event_type == EventType.FREE_RESOURCE:
+                self.resource_utilization[event.resource] += self.now - self.busy_resources[event.resource][1]
+                del self.busy_resources[event.resource]
+                self.available_resources.add(event.resource)
+                # generate a new planning event to start planning now for the newly available resource
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 self.events.sort()
 
@@ -456,12 +495,13 @@ class Simulator:
                         self.reserved_resources[resource] = (event.task, moment)
                     self.events.sort()
 
+
     @staticmethod
     def replicate(problem_instances, planner, reporter, simulation_time):
         """
         Creates a simulator for each of the problem_instances, using the specified planner and reporter.
         Simulates each problem instance by calling the :meth:`.simulate` method on it using the
-        speficied simulation time. Returns the list of summaries generated by the reporter, one summary for
+        specified simulation time. Returns the list of summaries generated by the reporter, one summary for
         each simulated problem_instance.
 
         :param problem_instances: a list of instances of a :class:`.Problem`.
