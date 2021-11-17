@@ -35,7 +35,14 @@
 <nav class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col" role="navigation">
 <div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" href="howto.html">How to use the framework</a></div></li>
+<li class="toctree-l1"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="howto.html">How to use the framework</a></div><ul>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#quick-start">Quick start</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-planner">Defining a planner</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-predicter">Defining a predicter</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#visualizing-the-results">Visualizing the results</a></div></li>
+</ul>
+</li>
 <li class="toctree-l1 current expanded"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="api.html">API Documentation</a></div><ul class="current">
 <li class="toctree-l2 current expanded"><div class="nav-link"><a class="current reference internal" href="#">bpo.planners module</a></div></li>
 <li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></div></li>
@@ -112,7 +119,7 @@
 task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a>,
 resource is one of <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem.resources" title="bpo.problems.Problem.resources"><code class="xref py py-attr docutils literal notranslate">Problem.resources</code></a>, and
 moment is a number representing the moment in simulation time
-at which the resource must be assigned to the task (typically, this can also be <code class="xref py py-attr docutils literal notranslate">Simulator.now</code>).</p>
+at which the resource must be assigned to the task (typically, this can also be <a class="reference internal" href="bpo.simulator.html#bpo.simulator.Simulator.now" title="bpo.simulator.Simulator.now"><code class="xref py py-attr docutils literal notranslate">Simulator.now</code></a>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -152,7 +159,7 @@ available, it will assign an arbitrary resource.</p>
 task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a>,
 resource is one of <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem.resources" title="bpo.problems.Problem.resources"><code class="xref py py-attr docutils literal notranslate">Problem.resources</code></a>, and
 moment is a number representing the moment in simulation time
-at which the resource must be assigned to the task (typically, this can also be <code class="xref py py-attr docutils literal notranslate">Simulator.now</code>).</p>
+at which the resource must be assigned to the task (typically, this can also be <a class="reference internal" href="bpo.simulator.html#bpo.simulator.Simulator.now" title="bpo.simulator.Simulator.now"><code class="xref py py-attr docutils literal notranslate">Simulator.now</code></a>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -189,7 +196,7 @@ at which the resource must be assigned to the task (typically, this can also be 
 task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a>,
 resource is one of <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem.resources" title="bpo.problems.Problem.resources"><code class="xref py py-attr docutils literal notranslate">Problem.resources</code></a>, and
 moment is a number representing the moment in simulation time
-at which the resource must be assigned to the task (typically, this can also be <code class="xref py py-attr docutils literal notranslate">Simulator.now</code>).</p>
+at which the resource must be assigned to the task (typically, this can also be <a class="reference internal" href="bpo.simulator.html#bpo.simulator.Simulator.now" title="bpo.simulator.Simulator.now"><code class="xref py py-attr docutils literal notranslate">Simulator.now</code></a>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -232,7 +239,7 @@ If so, it will not assign the task.</p>
 task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a>,
 resource is one of <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem.resources" title="bpo.problems.Problem.resources"><code class="xref py py-attr docutils literal notranslate">Problem.resources</code></a>, and
 moment is a number representing the moment in simulation time
-at which the resource must be assigned to the task (typically, this can also be <code class="xref py py-attr docutils literal notranslate">Simulator.now</code>).</p>
+at which the resource must be assigned to the task (typically, this can also be <a class="reference internal" href="bpo.simulator.html#bpo.simulator.Simulator.now" title="bpo.simulator.Simulator.now"><code class="xref py py-attr docutils literal notranslate">Simulator.now</code></a>).</p>
 </dd>
 </dl>
 </dd></dl>
