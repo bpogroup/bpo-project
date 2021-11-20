@@ -91,7 +91,8 @@ def main():
 if __name__ == "__main__":
     main()
 
+# TODO: add schedule, resource_weights to the simulator
+# TODO: check again if the simulator generates reasonable results
 # TODO: finalize the rest of the experiments:
 #       - currently, the mean processing time is quite long, this is probably due to random selection of resources, check what happens if we optimize the selection of resources
-#       - currently, the mean waiting time is quite short, there can be different reasons for this: 1. waiting over the working day; 2. waiting for the customer to respond. Take those into account in the mining/simulation
-
+#       - currently, the mean waiting time is quite short, there can be different reasons for this: 2. waiting for the customer to respond. If necessary take those into account in the mining/simulation

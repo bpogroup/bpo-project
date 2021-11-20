@@ -1,8 +1,10 @@
 import pandas
 from problems import MinedProblem
+import datetime
+from statistics import mean
 
 
-def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S", min_resource_count=2):
+def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S", min_resource_count=2, resource_schedule_timeunit=datetime.timedelta(hours=1), resource_schedule_repeat=168):
     """
     Mines a problem and returns it as a :class:`.Problem` that can be simulated.
     The log from which the model is mined must at least have the columns
@@ -19,9 +21,12 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
                                of a particular type, for it to be considered in the pool of resources for
                                the task type. This must be greater than 1, otherwise the standard deviation
                                of the processing time cannot be computed.
+    :param resource_schedule_timeunit: the timeunit in which resource schedules should be represented. Default is 1 hour.
+    :param resource_schedule_repeat: the number of times after which the resource schedule is expected to repeat itself. Default is 168 repeats (of 1 hour is a week).
     :return: a :class:`.Problem`.
     """
 
+    # MINE THE BASICS
     # Mine the task types
     # Mine the resources
     # Mine the initial task type distribution
@@ -89,8 +94,35 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
             resource_pools[row['Activity']].append(row['Resource'])
             processing_time_distribution[(row['Activity'], row['Resource'])] = (row['Duration_mean'], row['Duration_std'])
 
-    # Now create the problem and return it
+    # MINE THE RESOURCE SCHEDULE
+    begin = min(df['Start Timestamp'])
+    end = max(df['Complete Timestamp'])
+    hr = (begin, begin + resource_schedule_timeunit)
+    schedule = [[]]*resource_schedule_repeat
+    resource_presence = dict()  # nr of hours during which a resource was present
+    for r in resources:
+        resource_presence[r] = 0
+    x = 0
+    while hr[1] <= end:
+        # Tasks are within the hour hr (or other timeunit if that is chosen), if they hour ends or begins between the start and end of the task
+        tasks_in_hour = df[((df['Start Timestamp'] <= hr[0]) & (df['Complete Timestamp'] >= hr[0])) | (
+                (df['Start Timestamp'] <= hr[1]) & (df['Complete Timestamp'] >= hr[1]))]
+        resources_in_hour = tasks_in_hour['Resource'].unique()
+        for r in resources_in_hour:
+            resource_presence[r] += 1
+        schedule[x % resource_schedule_repeat].append(len(resources_in_hour))
+        x += 1
+        hr = (hr[0] + datetime.timedelta(hours=1), hr[1] + datetime.timedelta(hours=1))
+    for x in range(resource_schedule_repeat):
+        schedule[x] = round(mean(schedule[x]))
+    resource_weights = []
+    for r in resources:
+        resource_weights.append(resource_presence[r])
+
+    # CREATE THE PROBLEM
     result = MinedProblem()
+    result.schedule = schedule
+    result.resource_weights = resource_weights
     result.task_types = list(task_types)  # The task types
     result.resources = list(resources)  # The resources
     result.initial_task_distribution = initial_task_distribution  # The initial task type distribution

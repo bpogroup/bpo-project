@@ -72,6 +72,33 @@ class Problem(ABC):
         raise NotImplementedError
 
     @property
+    def resource_weights(self):
+        """A list of weights, in the same order as the list of resources.
+        resource_weights[i] represents how much resources[i] works compared to the other resources.
+        A resource with a weight 2 is expected to work twice as much as a resource with weight 1.
+        Using resource_weights, we can randomly select a resource using random.choices(resources, resource_weights)[0],
+        to get a resource with the likelihood that that resource is indeed supposed to work.
+        By default all resources have equal weight, i.e. are equally available."""
+        return [1]*len(self.resources)
+
+    @resource_weights.setter
+    def resource_weights(self, v):
+        self.resource_weights = v
+
+    @property
+    def schedule(self):
+        """A schedule that represents how many resources are available at a particular point in simulation time.
+        The schedule is a list, where schedule[t % len(schedule)] represents the number of resources that are
+        available during time interval t in simulation time. For example, if simulation time is measured in hours,
+        schedule[3 % len(schedule)] represents the number of resources available during the third hour.
+        By default all resources are always available."""
+        return [len(self.resources)]
+
+    @schedule.setter
+    def schedule(self, v):
+        self.schedule = v
+
+    @property
     @abstractmethod
     def task_types(self):
         """A list of identifiers (typically labels) of task types."""
@@ -82,7 +109,6 @@ class Problem(ABC):
         """Returns an element of :attr:`.Problem.task_types` that is the first to execute in a case."""
         raise NotImplementedError
 
-    @abstractmethod
     def resource_pool(self, task_type):
         """
         Returns for each task_type the subset of resources that can perform tasks of that type.
@@ -90,7 +116,7 @@ class Problem(ABC):
         :param task_type: one of :attr:`.Problem.task_types`
         :return: a list with elements of :attr:`.Problem.resources`
         """
-        raise NotImplementedError
+        return self.resources
 
     def __init__(self):
         self.next_case_id = 0
@@ -176,7 +202,6 @@ class Problem(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def data_sample(self, task_type):
         """
         Randomly samples data for the task type.
@@ -184,9 +209,8 @@ class Problem(ABC):
         :param task_type: one of the :attr:`.Problem.task_types` of the problem.
         :return: a dictionary with additional data that can be stored in :attr:`.Task.data`.
         """
-        raise NotImplementedError
+        return dict()
 
-    @abstractmethod
     def next_task_types_sample(self, task):
         """
         Randomly samples the task types that will be performed for the case of the specified task, when that task completes.
@@ -194,7 +218,7 @@ class Problem(ABC):
         :param task: a :class:`.Task` of this problem.
         :return: a sublist of :attr:`.Problem.task_types`.
         """
-        raise NotImplementedError
+        return []
 
     def restart(self):
         """
@@ -288,9 +312,6 @@ class MinedProblem(Problem):
     def interarrival_time_sample(self):
         return random.expovariate(1/self.mean_interarrival_time)
 
-    def data_sample(self, task_type):
-        return dict()
-
     def next_task_types_sample(self, task):
         rd = random.random()
         rs = 0
@@ -333,6 +354,8 @@ class MinedProblem(Problem):
             o.mean_interarrival_time = pickle.load(handle)
             o.resource_pools = pickle.load(handle)
             o.processing_time_distribution = pickle.load(handle)
+            o.resource_weights = pickle.load(handle)
+            o.schedule = pickle.load(handle)
         return o
 
     def save_generator(self, filename):
@@ -349,6 +372,8 @@ class MinedProblem(Problem):
             pickle.dump(self.mean_interarrival_time, handle, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.resource_pools, handle, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.processing_time_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.resource_weights, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.schedule, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 class MMcProblem(Problem):
@@ -371,20 +396,11 @@ class MMcProblem(Problem):
     def sample_initial_task_type(self):
         return "T"
 
-    def resource_pool(self, task_type):
-        return self.resources
-
     def processing_time_sample(self, resource, task):
         return random.expovariate(1/self.ep)
 
     def interarrival_time_sample(self):
         return random.expovariate(self.rate)
-
-    def data_sample(self, task_type):
-        return dict()
-
-    def next_task_types_sample(self, task):
-        return []
 
     def waiting_time_analytical(self):
         rate = self.rate
@@ -413,9 +429,6 @@ class ImbalancedProblem(Problem):
     def sample_initial_task_type(self):
         return "T"
 
-    def resource_pool(self, task_type):
-        return self.resources
-
     def processing_time_sample(self, resource, task):
         ep = 18
         if resource == task.data["optimal_resource"]:
@@ -431,9 +444,6 @@ class ImbalancedProblem(Problem):
         data["optimal_resource"] = random.choice(self.resources)
         return data
 
-    def next_task_types_sample(self, task):
-        return []
-
 
 class SequentialProblem(Problem):
     """
@@ -448,9 +458,6 @@ class SequentialProblem(Problem):
 
     def sample_initial_task_type(self):
         return "T1"
-
-    def resource_pool(self, task_type):
-        return self.resources
 
     def processing_time_sample(self, resource, task):
         ep = 18
