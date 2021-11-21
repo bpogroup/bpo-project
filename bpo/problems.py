@@ -79,11 +79,11 @@ class Problem(ABC):
         Using resource_weights, we can randomly select a resource using random.choices(resources, resource_weights)[0],
         to get a resource with the likelihood that that resource is indeed supposed to work.
         By default all resources have equal weight, i.e. are equally available."""
-        return [1]*len(self.resources)
+        return self._resource_weights
 
     @resource_weights.setter
-    def resource_weights(self, v):
-        self.resource_weights = v
+    def resource_weights(self, value):
+        self._resource_weights = value
 
     @property
     def schedule(self):
@@ -92,11 +92,11 @@ class Problem(ABC):
         available during time interval t in simulation time. For example, if simulation time is measured in hours,
         schedule[3 % len(schedule)] represents the number of resources available during the third hour.
         By default all resources are always available."""
-        return [len(self.resources)]
+        return self._schedule
 
     @schedule.setter
-    def schedule(self, v):
-        self.schedule = v
+    def schedule(self, value):
+        self._schedule = value
 
     @property
     @abstractmethod
@@ -121,6 +121,8 @@ class Problem(ABC):
     def __init__(self):
         self.next_case_id = 0
         self.cases = dict()  # case_id -> (arrival_time, initial_task)
+        self._resource_weights = [1]*len(self.resources)
+        self._schedule = [len(self.resources)]
 
     def from_generator(self, duration):
         """

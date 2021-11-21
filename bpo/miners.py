@@ -98,7 +98,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     begin = min(df['Start Timestamp'])
     end = max(df['Complete Timestamp'])
     hr = (begin, begin + resource_schedule_timeunit)
-    schedule = [[]]*resource_schedule_repeat
+    schedule = [[] for i in range(resource_schedule_repeat)]
     resource_presence = dict()  # nr of hours during which a resource was present
     for r in resources:
         resource_presence[r] = 0
