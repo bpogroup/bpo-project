@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from statistics import mean
 import scipy.stats as st
+import random
 
 
 class EventType(Enum):
@@ -35,8 +36,8 @@ class EventType(Enum):
     """A case completes.
     
     :meta hide-value:"""
-    FREE_RESOURCE = auto()
-    """A resource is freed up from performing 'other tasks' (i.e. tasks not part of the problem).
+    SCHEDULE_RESOURCES = auto()
+    """Resources are scheduled every full clock tick.
 
     :meta hide-value:"""
 
@@ -332,6 +333,13 @@ class Simulator:
         """
         The set of resources that are currently available. Each resource is a label that identifies a resource in the :class:`.Problem`. 
         """
+        self.away_resources = []
+        self.away_resources_weights = []
+        """
+        The set of resources that are currently away (on a break, home, or working in another process) and consequently not available.
+        An away resource is a pair (resource, weight), such that the weight is the weight belonging to the resource according to the problem, i.e.:
+        away_resources_weights[i] == problem.resource_weights[problem.resources.index(away_resources[i])] 
+        """
         self.busy_resources = dict()
         """
         The resources that are currently busy. A dict resource -> (task, start), where:
@@ -341,13 +349,6 @@ class Simulator:
           
         """
         self.busy_cases = dict()
-        """
-        The amount of time a resource spent being utilized until now. This includes:
-        
-        * the time a resource spent processing a :class:`.Task` (not including the time the resource spent processing the current task, if it is currently processing a task); and
-        * the time a resource spent processing other activities; these are activities other than the tasks that are being simulated that bring the resource to the desired utilization rate (see :meth:`.simulate`).
-        """
-        self.resource_utilization = dict()
         """
         The cases of which a task is currently being performed or must still be performed. A dict case_id -> [active task_id]
         that maps case identifiers for which a task exists to the identifiers of those tasks.
@@ -377,18 +378,35 @@ class Simulator:
         """
         Re-initializes the simulation, such that it can be run again.
         """
-        # set all resources to available and set their occupation time to 0
+        # set all resources to available
         for r in self.problem.resources:
             self.available_resources.add(r)
-            self.resource_utilization[r] = 0
+
+        # generate resource scheduling event to start the schedule
+        self.events.append((0, Event(EventType.SCHEDULE_RESOURCES, 0, None)))
 
         # reset the problem
         self.problem.restart()
 
         # generate arrival event for the first task of the first case
         (t, task) = self.problem.next_case()
-
         self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
+
+    def desired_nr_resources(self):
+        """
+        The number of resources that is currently desired to be working now according to the problem schedule.
+
+        :return: a number of resources.
+        """
+        return self.problem.schedule[self.now % len(self.problem.schedule)]
+
+    def working_nr_resources(self):
+        """
+        The number of resources that is actually on the work floor now, either available, busy or reserved.
+
+        :return: a number of resources.
+        """
+        return len(self.available_resources) + len(self.busy_resources) + len(self.reserved_resources)
 
     def simulate(self, running_time, target_utilization_rate=None):
         """
@@ -439,21 +457,12 @@ class Simulator:
 
             # if e is a complete event:
             elif event.event_type == EventType.COMPLETE_TASK:
-                # update the resource occupation time
-                self.resource_utilization[event.resource] += self.now - self.busy_resources[event.resource][1]
-                # if the resource has been busy more than the target utilization rate, or if there is no target utilization rate
-                if (target_utilization_rate is None) or (self.resource_utilization[event.resource]/self.now > target_utilization_rate):
-                    # set resource to available
-                    del self.busy_resources[event.resource]
+                # set resource to available, if it is still desired, otherwise set it to away
+                del self.busy_resources[event.resource]
+                if self.working_nr_resources() <= self.desired_nr_resources():
                     self.available_resources.add(event.resource)
                 else:
-                    # otherwise, keep the resource busy until it has reached the target utilization rate
-                    # this is some amount of time x, s.t. (resource_utilization + x)/(now + x) == target_utilization_rate
-                    # do this by setting the resource to busy on 'no task', and creating a free resource event
-                    self.busy_resources[event.resource] = (None, self.now)
-                    t = (self.resource_utilization[event.resource] - self.now)/(target_utilization_rate-1)
-                    self.events.append((t, Event(EventType.FREE_RESOURCE, t, None, event.resource)))
-                    self.events.sort()
+                    self.away_resources.add(event.resource)
                 # remove task from assigned tasks
                 del self.assigned_tasks[event.task.id]
                 self.busy_cases[event.task.case_id].remove(event.task.id)
@@ -468,14 +477,42 @@ class Simulator:
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 self.events.sort()
 
-            # if e is a free resource event: free the resource
-            elif event.event_type == EventType.FREE_RESOURCE:
-                self.resource_utilization[event.resource] += self.now - self.busy_resources[event.resource][1]
-                del self.busy_resources[event.resource]
-                self.available_resources.add(event.resource)
-                # generate a new planning event to start planning now for the newly available resource
-                self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
-                self.events.sort()
+            # if e is a schedule resources event: move resources between available/away,
+            # depending to how many resources should be available according to the schedule.
+            elif event.event_type == EventType.SCHEDULE_RESOURCES:
+                assert self.working_nr_resources() + len(self.away_resources) == len(self.problem.resources)  # the number of resources must be constant
+                assert len(self.problem.resources) == len(self.problem.resource_weights)  # each resource must have a resource weight
+                assert len(self.away_resources) == len(self.away_resources_weights)  # each away resource must have a resource weight
+                if len(self.away_resources) > 0:  # for each away resource, the resource weight must be taken from the problem resource weights
+                    i = random.randrange(len(self.away_resources))
+                    assert self.away_resources_weights[i] == self.problem.resource_weights[self.problem.resources.index(self.away_resources[i])]
+                required_resources = self.desired_nr_resources() - self.working_nr_resources()
+                if required_resources > 0:
+                    # if there are not enough resources working
+                    # randomly select away resources to work, as many as required
+                    for i in range(required_resources):
+                        random_resource = random.choices(self.away_resources, self.away_resources_weights)[0]
+                        # remove them from away and add them to available resources
+                        away_resource_i = self.away_resources.index(random_resource)
+                        del self.away_resources[away_resource_i]
+                        del self.away_resources_weights[away_resource_i]
+                        self.available_resources.add(random_resource)
+                    # generate a new planning event to put them to work
+                    self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
+                    self.events.sort()
+                elif required_resources < 0:
+                    # if there are too many resources working
+                    # remove as many as possible, i.e. min(available_resources, -required_resources)
+                    nr_resources_to_remove = min(len(self.available_resources), -required_resources)
+                    resources_to_remove = random.sample(self.available_resources, nr_resources_to_remove)
+                    for r in resources_to_remove:
+                        # remove them from the available resources
+                        self.available_resources.remove(r)
+                        # add them to the away resources
+                        self.away_resources.append(r)
+                        self.away_resources_weights.append(self.problem.resource_weights[self.problem.resources.index(r)])
+                # plan the next resource schedule event
+                self.events.append((self.now+1, Event(EventType.SCHEDULE_RESOURCES, self.now+1, None)))
 
             # if e is a planning event: do assignment
             elif event.event_type == EventType.PLAN_TASKS:
@@ -494,7 +531,6 @@ class Simulator:
                         self.available_resources.remove(resource)
                         self.reserved_resources[resource] = (event.task, moment)
                     self.events.sort()
-
 
     @staticmethod
     def replicate(problem_instances, planner, reporter, simulation_time):
