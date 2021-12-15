@@ -1,3 +1,4 @@
+import random
 from abc import ABC, abstractmethod
 
 
@@ -64,11 +65,47 @@ class HeuristicPlanner(Planner):
         return assignments
 
 
+class PredictiveHeuristicPlanner(Planner):
+    """ A :class:`.Planner` that tries to assign a task to the optimal resource.
+        This is the resource that is predicted to have the lowest processing time
+        on the task. It takes the list of unassigned tasks and the list of available resources
+        and creates the assignment with the lowest processing time (in a greedy manner).
+        To avoid starvation of tasks, it only looks in the first nr_lookahead tasks and with
+        probability epsilon simply assigns the first task. If nr_lookahead is 0, it looks at all tasks."""
+    def __init__(self, predicter, nr_lookahead, epsilon):
+        self.predicter = predicter
+        self.nr_lookahead = nr_lookahead
+        self.epsilon = epsilon
+
+    def assign(self, environment):
+        nr_lookahead = self.nr_lookahead
+        if random.uniform(0, 1) < self.epsilon:
+            nr_lookahead = 1
+        elif nr_lookahead == 0:
+            nr_lookahead = len(environment.unassigned_tasks)
+
+        possible_assignments = []
+        for task in list(environment.unassigned_tasks.values())[:nr_lookahead]:
+            for resource in environment.available_resources:
+                if resource in environment.problem.resource_pool(task.task_type):
+                    possible_assignments.append((self.predicter.predict_processing_time_task(environment.problem, resource, task), resource, task))
+        possible_assignments.sort(key=lambda pa: (pa[0], pa[1]))
+
+        assignments = []
+        while len(possible_assignments) > 0:
+            (processing_time, resource, task) = possible_assignments[0]
+            assignments.append((task, resource, environment.now))
+            possible_assignments = [(p, r, t) for (p, r, t) in possible_assignments if r != resource and t != task]
+
+        return assignments
+
+
 # Variant of the heuristic planner:
 # For each task plans the best available resource, or another resource if the best one is not available
 # Defers planning if it is likely that a better resource will be available some time in the future
-class PredictivePlanner(Planner):
-    """A :class:`.Planner` that tries to assign a task to the optimal resource,
+class ImbalancedPredictivePlanner(Planner):
+    """ Specific planner for the :class:`.problem.ImbalancedProblem`, to be used for test purposes.
+        A :class:`.Planner` that tries to assign a task to the optimal resource,
         same as the :class:`.HeuristicPlanner`, but failing that will predict
         if it is better to wait with the assignment or assign to a suboptimal resource.
         Specifically, if the optimal resource is not available,

@@ -1,96 +1,89 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>
-      bpo.visualizers module | Business Process Optimization  documentation
-    </title>
-<link href="_static/pygments.css" rel="stylesheet"/>
-<link href="_static/theme.css" rel="stylesheet"/>
-<link href="search.html" rel="search" title="Search"/>
-<link href="genindex.html" rel="index" title="Index"/>
-<link href="bpo.simulator.html" rel="prev" title="bpo.simulator module"/>
-</head><body class="text-gray-900 antialiased">
-<div class="h-screen md:grid md:grid-layout" id="page">
-<a class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#bpo-visualizers-module" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10">
-<div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
-<a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se" href="index.html">
-<h2 class="text-xl text-gray-100 mx-5 py-4">Business Process Optimization  documentation</h2>
-</a>
-<form action="search.html" class="hidden md:flex my-auto mx-5 justify-between items-center print:hidden" id="searchbox" method="get">
-<input aria-label="Search the docs" class="p-2 flex-1 focus:bg-yellow-50 rounded-none" id="search-input" name="q" placeholder="Search the docs" style="width: 300px;" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-</form>
-</div>
-</header><aside class="grid-area-sidebar h-full fixed md:relative inset-y-0 left-0 z-20 md:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 md:translate-x-0 md:opacity-100" id="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
-<ul class="current">
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" href="howto.html">How to use the framework</a></div></li>
-<li class="toctree-l1 current expanded"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="api.html">API Documentation</a></div><ul class="current">
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.planners.html">bpo.planners module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.problems.html">bpo.problems module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.simulator.html">bpo.simulator module</a></div></li>
-<li class="toctree-l2 current expanded"><div class="nav-link"><a class="current reference internal" href="#">bpo.visualizers module</a></div></li>
-</ul>
-</li>
-</ul>
-</div>
-<button aria-label="Close menu" class="text-4xl text-gray-800 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSidebar" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</nav>
-</aside>
-<main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full"><nav aria-label="breadcrumbs" class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden" role="navigation">
-<a class="text-blue-700" href="index.html">Business Process Optimization  documentation</a>
-<span class="text-gray-700 mr-1">/</span><a class="text-blue-700" href="api.html">API Documentation</a>
-<span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.visualizers module</span>
-</nav>
-<article class="flex-1" role="main">
-<section id="module-bpo.visualizers">
-<span id="bpo-visualizers-module"></span><h1>bpo.visualizers module<a aria-label="Copy link to section: bpo.visualizers module." class="headerlink tooltipped tooltipped-ne" href="#module-bpo.visualizers" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></h1>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>bpo.visualizers module &#8212; Business Process Optimization  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/readable.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bpo.miners module" href="bpo.miners.html" />
+    <link rel="prev" title="bpo.simulator module" href="bpo.simulator.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bpo.miners.html" title="bpo.miners module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="bpo.simulator.html" title="bpo.simulator module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Business Process Optimization  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" accesskey="U">API Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">bpo.visualizers module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-bpo.visualizers">
+<span id="bpo-visualizers-module"></span><h1>bpo.visualizers module<a class="headerlink" href="#module-bpo.visualizers" title="Permalink to this headline">¶</a></h1>
 <p><strong>Functions:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.visualizers.boxplot" title="bpo.visualizers.boxplot"><code class="xref py py-obj docutils literal notranslate">boxplot</code></a>(series)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.visualizers.boxplot" title="bpo.visualizers.boxplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">boxplot</span></code></a>(series)</p></td>
 <td><p>Creates a boxplot for each element in the data series.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.visualizers.line_with_ci" title="bpo.visualizers.line_with_ci"><code class="xref py py-obj docutils literal notranslate">line_with_ci</code></a>(series)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.visualizers.line_with_ci" title="bpo.visualizers.line_with_ci"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line_with_ci</span></code></a>(series)</p></td>
 <td><p>Creates a line graph for the data series.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py function code-definition">
+<dl class="py function">
 <dt class="sig sig-object py" id="bpo.visualizers.boxplot">
-<code class="sig-prename descclassname">bpo.visualizers.</code><code class="sig-name descname">boxplot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/visualizers.html#boxplot"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.visualizers.boxplot" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Creates a boxplot for each element in the data series.
+<span class="sig-prename descclassname"><span class="pre">bpo.visualizers.</span></span><span class="sig-name descname"><span class="pre">boxplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/visualizers.html#boxplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.visualizers.boxplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a boxplot for each element in the data series.
 The data series is a dictionary. Each key is used as the label of the boxplot.
 Each value is a list of numerical data that is used to construct the boxplot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>series</strong> � a dictionary that maps a label to a list of numerical data.</p>
+<dd class="field-odd"><p><strong>series</strong> – a dictionary that maps a label to a list of numerical data.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py function code-definition">
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bpo.visualizers.line_with_ci">
-<code class="sig-prename descclassname">bpo.visualizers.</code><code class="sig-name descname">line_with_ci</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">series</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/visualizers.html#line_with_ci"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.visualizers.line_with_ci" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Creates a line graph for the data series.
+<span class="sig-prename descclassname"><span class="pre">bpo.visualizers.</span></span><span class="sig-name descname"><span class="pre">line_with_ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/visualizers.html#line_with_ci"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.visualizers.line_with_ci" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a line graph for the data series.
 The data series is a dictionary. Each key is a numerical value that represents an x-coordinate.
 Each value is a pair of numerical values, where the first element is the y-coordinate and the
 second element is an interval ci around the y-coordinate. A line graph is creates based on the
@@ -98,48 +91,53 @@ second element is an interval ci around the y-coordinate. A line graph is create
 confidence interval.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>series</strong> � a dictionary that maps numerical x values to (y, ci) numerical pairs.</p>
+<dd class="field-odd"><p><strong>series</strong> – a dictionary that maps numerical x values to (y, ci) numerical pairs.</p>
 </dd>
 </dl>
 </dd></dl>
+
 </section>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">Made with <a href="https://www.sphinx-doc.org">Sphinx 4.0.2</a></div>
-</footer>
-</main>
-<div class="sticky bottom-0 md:hidden print:hidden bg-white">
-<div class="flex justify-center items-center">
-<button aria-labelledby="menuLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSidebar">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="menuLabel">Menu</span>
-</button><button aria-labelledby="searchLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSearch">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="searchLabel">Search</span>
-</button>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation index</a><ul>
+  <li><a href="api.html">API Documentation</a><ul>
+      <li>Previous: <a href="bpo.simulator.html" title="previous chapter">bpo.simulator module</a></li>
+      <li>Next: <a href="bpo.miners.html" title="next chapter">bpo.miners module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bpo.visualizers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
 </div>
-</div>
-<div class="w-full fixed bottom-0 left-0 z-10 bg-gray-900 overflow-x-hidden pt-10 flex flex-col items-center md:hidden transition-all opacity-0 transform transform-gpu translate-y-full duration-300" id="search-pane">
-<h4 class="text-xl text-white mb-4" id="search-label">Enter search term</h4><form action="search.html" class="flex w-full justify-between items-center max-w-sm px-12" id="searchbox" method="get">
-<input aria-labelledby="search-label" class="p-2 flex-1 rounded-none" name="q" placeholder="Search the docs" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-</form>
-<button aria-label="Close menu" class="text-4xl text-gray-200 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSearch" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</div>
-<button class="fixed bottom-0 right-0 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" id="snackbar">
-  Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" id="screen"></div>
-</div>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js">
-</script>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-<script src="_static/jquery.js"></script>
-<script src="_static/underscore.js"></script>
-<script src="_static/doctools.js"></script>
-<script defer="" src="_static/theme.js"></script>
-</body>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright .
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+  </div>
+  
+  </body>
 </html>

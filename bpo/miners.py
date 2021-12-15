@@ -6,7 +6,7 @@ from statistics import mean
 
 def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S", min_resource_count=2, resource_schedule_timeunit=datetime.timedelta(hours=1), resource_schedule_repeat=168):
     """
-    Mines a problem and returns it as a :class:`.Problem` that can be simulated.
+    Mines a problem and returns it as a :class:`.problems.Problem` that can be simulated.
     The log from which the model is mined must at least have the columns
     Case ID, Activity, Resource, Start Timestamp, Complete Timestamp,
     which identify the corresponding event log information. Activity labels
@@ -23,7 +23,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
                                of the processing time cannot be computed.
     :param resource_schedule_timeunit: the timeunit in which resource schedules should be represented. Default is 1 hour.
     :param resource_schedule_repeat: the number of times after which the resource schedule is expected to repeat itself. Default is 168 repeats (of 1 hour is a week).
-    :return: a :class:`.Problem`.
+    :return: a :class:`.problems.Problem`.
     """
 
     # MINE THE BASICS
@@ -40,11 +40,11 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     task_types = df['Activity'].unique()
     df['Start Timestamp'] = pandas.to_datetime(df['Start Timestamp'], format=datetime_format)
     df['Complete Timestamp'] = pandas.to_datetime(df['Complete Timestamp'], format=datetime_format)
-    df['Duration'] = df[['Start Timestamp', 'Complete Timestamp']].apply(lambda x: (x[1]-x[0]).total_seconds()/3600, axis=1)
+    df['Duration'] = df[['Start Timestamp', 'Complete Timestamp']].apply(lambda tss: (tss[1]-tss[0]).total_seconds()/3600, axis=1)
     if task_type_filter is not None:
         task_types = [tt for tt in task_types if task_type_filter(tt)]
     resources = df['Resource'].unique()
-    df_cases = df.groupby('Case ID').agg({'Start Timestamp': 'min', 'Activity': lambda x: list(x)})
+    df_cases = df.groupby('Case ID').agg({'Start Timestamp': 'min', 'Activity': lambda tss: list(tss)})
     df_cases = df_cases.rename(columns={'Activity': 'Trace'})
     df_cases = df_cases.sort_values(by='Start Timestamp')
     initial_tasks = dict()
@@ -70,7 +70,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     mean_interarrival_time = sum(interarrival_times)/len(interarrival_times)  # Assuming exponential distribution, so we only need the mean
     initial_task_distribution = []
     for it in initial_tasks:
-        initial_task_distribution.append((initial_tasks[it]/len(df_cases), it))        
+        initial_task_distribution.append((initial_tasks[it]/len(df_cases), it))
     next_task_distribution = dict()
     task_occurrences = dict()
     for (predecessor, successor) in following_task:
@@ -126,9 +126,9 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     result.task_types = list(task_types)  # The task types
     result.resources = list(resources)  # The resources
     result.initial_task_distribution = initial_task_distribution  # The initial task type distribution
-    result.next_task_distribution = next_task_distribution # The next task type distribution per task type
+    result.next_task_distribution = next_task_distribution  # The next task type distribution per task type
     result.mean_interarrival_time = mean_interarrival_time  # The interarrival time
     result.resource_pools = resource_pools  # The resource pool per task type
-    result.processing_time_distribution = processing_time_distribution # The processing time distribution per task_type/resource combination
+    result.processing_time_distribution = processing_time_distribution  # The processing time distribution per task_type/resource combination
 
     return result

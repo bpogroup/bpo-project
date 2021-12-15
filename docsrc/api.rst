@@ -8,5 +8,6 @@ API Documentation
    bpo.problems
    bpo.simulator
    bpo.visualizers
+   bpo.miners
 
 :ref:`genindex`

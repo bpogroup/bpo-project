@@ -60,6 +60,10 @@ class ImbalancedPredicter(Predicter):
     def predict_remaining_processing_time(problem, resource, task, start_time, now):
         return ImbalancedPredicter.predict_processing_time_task(problem, resource, task)
 
+    @staticmethod
+    def predict_next_task(problem, environment):
+        raise NotImplementedError
+
 
 class PerfectPredicter(Predicter):
     """A :class:`.Predicter` with perfect knowledge: it returns the exact values for the requested predictions."""
@@ -71,3 +75,25 @@ class PerfectPredicter(Predicter):
     @staticmethod
     def predict_remaining_processing_time(problem, resource, task, start_time, now):
         return start_time + problem.processing_time(task, resource) - now
+
+    @staticmethod
+    def predict_next_task(problem, environment):
+        raise NotImplementedError
+
+
+class MeanPredicter(Predicter):
+    """A :class:`.Predicter` that predicts that the time a resource will take to perform a task
+    is the historical mean. Works only for instances of the :class:`.problems.MinedProblem`."""
+
+    @staticmethod
+    def predict_processing_time_task(problem, resource, task):
+        (mu, sigma) = problem.processing_time_distribution[(task.task_type, resource)]
+        return mu
+
+    @staticmethod
+    def predict_remaining_processing_time(problem, resource, task, start_time, now):
+        raise NotImplementedError
+
+    @staticmethod
+    def predict_next_task(problem, environment):
+        raise NotImplementedError

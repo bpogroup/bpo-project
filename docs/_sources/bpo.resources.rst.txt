@@ -1,0 +1,10 @@
+bpo.resources namespace
+=======================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   bpo.resources.BPI Challenge 2017 cleaner

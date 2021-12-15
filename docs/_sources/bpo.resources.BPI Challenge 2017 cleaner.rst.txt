@@ -1,0 +1,7 @@
+bpo.resources.BPI Challenge 2017 cleaner module
+===============================================
+
+.. automodule:: bpo.resources.BPI Challenge 2017 cleaner
+   :members:
+   :undoc-members:
+   :show-inheritance:

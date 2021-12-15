@@ -1,7 +1,7 @@
 from problems import ImbalancedProblem, SequentialProblem, MMcProblem, MinedProblem
 from simulator import Simulator, Reporter, EventLogReporterElement, TimeUnit
-from planners import GreedyPlanner, HeuristicPlanner, PredictivePlanner
-from predicters import ImbalancedPredicter, PerfectPredicter
+from planners import GreedyPlanner, HeuristicPlanner, ImbalancedPredictivePlanner, PredictiveHeuristicPlanner
+from predicters import ImbalancedPredicter, PerfectPredicter, MeanPredicter
 from visualizers import boxplot, line_with_ci
 from miners import mine_problem
 import pandas
@@ -25,8 +25,8 @@ def try_several_planners():
         problem_instances.append(ImbalancedProblem(spread=1.0).from_generator(51000))  # Running for longer than the simulation time, so we do not run out of tasks
     print(Reporter.aggregate(Simulator.replicate(problem_instances, GreedyPlanner(), Reporter(10000), 50000)))
     print(Reporter.aggregate(Simulator.replicate(problem_instances, HeuristicPlanner(), Reporter(10000), 50000)))
-    print(Reporter.aggregate(Simulator.replicate(problem_instances, PredictivePlanner(ImbalancedPredicter), Reporter(10000), 50000)))
-    print(Reporter.aggregate(Simulator.replicate(problem_instances, PredictivePlanner(PerfectPredicter), Reporter(10000), 50000)))
+    print(Reporter.aggregate(Simulator.replicate(problem_instances, ImbalancedPredictivePlanner(ImbalancedPredicter), Reporter(10000), 50000)))
+    print(Reporter.aggregate(Simulator.replicate(problem_instances, ImbalancedPredictivePlanner(PerfectPredicter), Reporter(10000), 50000)))
 
 
 # Comparing two spreads of the imbalanced problem in a box plot
@@ -63,19 +63,25 @@ def try_execution_traces():
 
 
 # Mining a problem from an event log and saving it to file
-def try_mining():
+def try_mine_problem_generator():
     log = pandas.read_csv("./resources/BPI Challenge 2017 - clean.zip")
     problem = mine_problem(log)
     problem.save_generator("../temp/BPI Challenge 2017 - generator.pickle")
 
 
-# Loading a mined problem from file, simulating it and saving the log
-def simulate_mined_problem():
+# Load a mined problem from a file, generate a problem instance
+def try_generate_mined_problem_instance():
     problem = MinedProblem.generator_from_file("../temp/BPI Challenge 2017 - generator.pickle")
     problem_instance = problem.from_generator(24*30*13)  # Running for longer than the simulation time, so we do not run out of tasks
+    problem_instance.save_instance("../temp/BPI Challenge 2017 - instance.pickle")
+
+
+# Load a mined problem from file, simulating it and saving the log
+def try_simulate_mined_problem():
+    problem_instance = MinedProblem.from_file("../temp/BPI Challenge 2017 - instance.pickle")
     reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - simulated.csv", TimeUnit.HOURS)])
-    simulator = Simulator(problem_instance, reporter, GreedyPlanner())
-    simulator.simulate(24*30*12, 0.90)
+    simulator = Simulator(problem_instance, reporter, PredictiveHeuristicPlanner(MeanPredicter(), 10, 0.1))
+    simulator.simulate(24*30*12)
 
 
 def main():
@@ -84,16 +90,10 @@ def main():
     # try_comparison()
     # try_multiple_comparison()
     # try_execution_traces()
-    # try_mining()
-    simulate_mined_problem()
+    try_mine_problem_generator()
+    try_generate_mined_problem_instance()
+    try_simulate_mined_problem()
 
 
 if __name__ == "__main__":
     main()
-
-# TODO: test scheduling in the simulator
-# TODO: remove testing assertions in the simulator
-# TODO: check again if the simulator generates reasonable results
-# TODO: finalize the rest of the experiments:
-#       - currently, the mean processing time is quite long, this is probably due to random selection of resources, check what happens if we optimize the selection of resources
-#       - currently, the mean waiting time is quite short, there can be different reasons for this: 2. waiting for the customer to respond. If necessary take those into account in the mining/simulation

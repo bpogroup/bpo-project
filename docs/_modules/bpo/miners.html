@@ -1,120 +1,213 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<title>
-      bpo.miners | Business Process Optimization  documentation
-    </title>
-<link href="../../_static/pygments.css" rel="stylesheet"/>
-<link href="../../_static/theme.css" rel="stylesheet"/>
-<link href="../../search.html" rel="search" title="Search"/>
-<link href="../../genindex.html" rel="index" title="Index"/>
-</head><body class="text-gray-900 antialiased">
-<div class="h-screen md:grid md:grid-layout" id="page">
-<a class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#bpo-miners" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10">
-<div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
-<a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se" href="../../index.html">
-<h2 class="text-xl text-gray-100 mx-5 py-4">Business Process Optimization  documentation</h2>
-</a>
-<form action="../../search.html" class="hidden md:flex my-auto mx-5 justify-between items-center print:hidden" id="searchbox" method="get">
-<input aria-label="Search the docs" class="p-2 flex-1 focus:bg-yellow-50 rounded-none" id="search-input" name="q" placeholder="Search the docs" style="width: 300px;" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-</form>
-</div>
-</header><aside class="grid-area-sidebar h-full fixed md:relative inset-y-0 left-0 z-20 md:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 md:translate-x-0 md:opacity-100" id="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" href="../../howto.html">How to use the framework</a></div></li>
-<li class="toctree-l1"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="../../api.html">API Documentation</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.planners.html">bpo.planners module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.predicters.html">bpo.predicters module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.problems.html">bpo.problems module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.simulator.html">bpo.simulator module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="../../bpo.visualizers.html">bpo.visualizers module</a></div></li>
-</ul>
-</li>
-</ul>
-</div>
-<button aria-label="Close menu" class="text-4xl text-gray-800 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSidebar" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</nav>
-</aside>
-<main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full"><nav aria-label="breadcrumbs" class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden" role="navigation">
-<a class="text-blue-700" href="../../index.html">Business Process Optimization  documentation</a>
-<span class="text-gray-700 mr-1">/</span><a class="text-blue-700" href="../index.html">Module code</a>
-<span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.miners</span>
-</nav>
-<article class="flex-1" role="main">
-<h1>Source code for bpo.miners</h1><pre>
-<code>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bpo.miners &#8212; Business Process Optimization  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/readable.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
-<div class="viewcode-block" id="simulation_model_miner"><a class="viewcode-back" href="../../bpo.miners.html#bpo.miners.simulation_model_miner">[docs]</a><span class="k">def</span> <span class="nf">simulation_model_miner</span><span class="p">(</span><span class="n">log</span><span class="p">):</span>
-    <span class="sd">"""</span>
-<span class="sd">    Mines a simulation model and returns it as a :class:`.Problem` that can be simulated.</span>
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Business Process Optimization  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">bpo.miners</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for bpo.miners</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">from</span> <span class="nn">problems</span> <span class="kn">import</span> <span class="n">MinedProblem</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span>
+
+
+<div class="viewcode-block" id="mine_problem"><a class="viewcode-back" href="../../bpo.miners.html#bpo.miners.mine_problem">[docs]</a><span class="k">def</span> <span class="nf">mine_problem</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">task_type_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datetime_format</span><span class="o">=</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">,</span> <span class="n">min_resource_count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">resource_schedule_timeunit</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">resource_schedule_repeat</span><span class="o">=</span><span class="mi">168</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mines a problem and returns it as a :class:`.problems.Problem` that can be simulated.</span>
 <span class="sd">    The log from which the model is mined must at least have the columns</span>
 <span class="sd">    Case ID, Activity, Resource, Start Timestamp, Complete Timestamp,</span>
-<span class="sd">    which identify the corresponding event log information.</span>
+<span class="sd">    which identify the corresponding event log information. Activity labels</span>
+<span class="sd">    are the same as Task Types for the purposes of the problem definition.</span>
+<span class="sd">    The timing distributions associated with the problem are all in hours.</span>
 
 <span class="sd">    :param log: a pandas dataframe from which the problem must be mined.</span>
-<span class="sd">    :return: a :class:`.Problem`.</span>
-<span class="sd">    """</span>
+<span class="sd">    :param task_type_filter: a function that takes the name of a task type/ activity</span>
+<span class="sd">                             and returns if it should be included, or None to include all task types.</span>
+<span class="sd">    :param datetime_format: the datetime format the Start Timestamp and Complete Timestamp columns use.</span>
+<span class="sd">    :param min_resource_count: the minimum number of times a resource must have executed a task</span>
+<span class="sd">                               of a particular type, for it to be considered in the pool of resources for</span>
+<span class="sd">                               the task type. This must be greater than 1, otherwise the standard deviation</span>
+<span class="sd">                               of the processing time cannot be computed.</span>
+<span class="sd">    :param resource_schedule_timeunit: the timeunit in which resource schedules should be represented. Default is 1 hour.</span>
+<span class="sd">    :param resource_schedule_repeat: the number of times after which the resource schedule is expected to repeat itself. Default is 168 repeats (of 1 hour is a week).</span>
+<span class="sd">    :return: a :class:`.problems.Problem`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># MINE THE BASICS</span>
     <span class="c1"># Mine the task types</span>
     <span class="c1"># Mine the resources</span>
     <span class="c1"># Mine the initial task type distribution</span>
+    <span class="c1"># Mine the next task type distribution per task type</span>
+    <span class="c1"># Mine the interarrival time</span>
     <span class="c1"># Mine the resource pool per task type</span>
     <span class="c1"># Mine the processing time distribution per task_type/resource combination</span>
-    <span class="c1"># Mine the interarrival time</span>
-    <span class="c1"># Mine the next task type distribution per task type</span>
     <span class="c1"># TODO: Data distribution is empty for now, future work</span>
-    <span class="k">pass</span></div>
-</code></pre>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">Made with <a href="https://www.sphinx-doc.org">Sphinx 4.0.2</a></div>
-</footer>
-</main>
-<div class="sticky bottom-0 md:hidden print:hidden bg-white">
-<div class="flex justify-center items-center">
-<button aria-labelledby="menuLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSidebar">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="menuLabel">Menu</span>
-</button><button aria-labelledby="searchLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSearch">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="searchLabel">Search</span>
-</button>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">task_types</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Activity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="n">datetime_format</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Complete Timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Complete Timestamp&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="n">datetime_format</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Duration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;Complete Timestamp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tss</span><span class="p">:</span> <span class="p">(</span><span class="n">tss</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">tss</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="mi">3600</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">task_type_filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">task_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">tt</span> <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="n">task_types</span> <span class="k">if</span> <span class="n">task_type_filter</span><span class="p">(</span><span class="n">tt</span><span class="p">)]</span>
+    <span class="n">resources</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Resource&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">df_cases</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Case ID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;Activity&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">tss</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">tss</span><span class="p">)})</span>
+    <span class="n">df_cases</span> <span class="o">=</span> <span class="n">df_cases</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Activity&#39;</span><span class="p">:</span> <span class="s1">&#39;Trace&#39;</span><span class="p">})</span>
+    <span class="n">df_cases</span> <span class="o">=</span> <span class="n">df_cases</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">)</span>
+    <span class="n">initial_tasks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">following_task</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">interarrival_times</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">last_arrival_time</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_cases</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">last_arrival_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">interarrival_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">last_arrival_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span>
+        <span class="n">last_arrival_time</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">initial_tasks</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">initial_tasks</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">initial_tasks</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">])):</span>
+            <span class="n">predecessor</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">]):</span>
+                <span class="n">successor</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">successor</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Trace&#39;</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">predecessor</span><span class="p">,</span> <span class="n">successor</span><span class="p">)</span> <span class="ow">in</span> <span class="n">following_task</span><span class="p">:</span>
+                <span class="n">following_task</span><span class="p">[(</span><span class="n">predecessor</span><span class="p">,</span> <span class="n">successor</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">following_task</span><span class="p">[(</span><span class="n">predecessor</span><span class="p">,</span> <span class="n">successor</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">mean_interarrival_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">interarrival_times</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">interarrival_times</span><span class="p">)</span>  <span class="c1"># Assuming exponential distribution, so we only need the mean</span>
+    <span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">initial_tasks</span><span class="p">:</span>
+        <span class="n">initial_task_distribution</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">initial_tasks</span><span class="p">[</span><span class="n">it</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_cases</span><span class="p">),</span> <span class="n">it</span><span class="p">))</span>
+    <span class="n">next_task_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">task_occurrences</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">predecessor</span><span class="p">,</span> <span class="n">successor</span><span class="p">)</span> <span class="ow">in</span> <span class="n">following_task</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">predecessor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">next_task_distribution</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">next_task_distribution</span><span class="p">[</span><span class="n">predecessor</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">task_occurrences</span><span class="p">[</span><span class="n">predecessor</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">next_task_distribution</span><span class="p">[</span><span class="n">predecessor</span><span class="p">][</span><span class="n">successor</span><span class="p">]</span> <span class="o">=</span> <span class="n">following_task</span><span class="p">[(</span><span class="n">predecessor</span><span class="p">,</span> <span class="n">successor</span><span class="p">)]</span>
+        <span class="n">task_occurrences</span><span class="p">[</span><span class="n">predecessor</span><span class="p">]</span> <span class="o">+=</span> <span class="n">following_task</span><span class="p">[(</span><span class="n">predecessor</span><span class="p">,</span> <span class="n">successor</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">predecessor</span> <span class="ow">in</span> <span class="n">next_task_distribution</span><span class="p">:</span>
+        <span class="n">successors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">successor</span> <span class="ow">in</span> <span class="n">next_task_distribution</span><span class="p">[</span><span class="n">predecessor</span><span class="p">]:</span>
+            <span class="n">successors</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="n">predecessor</span><span class="p">][</span><span class="n">successor</span><span class="p">]</span><span class="o">/</span><span class="n">task_occurrences</span><span class="p">[</span><span class="n">predecessor</span><span class="p">],</span> <span class="n">successor</span><span class="p">))</span>
+        <span class="n">next_task_distribution</span><span class="p">[</span><span class="n">predecessor</span><span class="p">]</span> <span class="o">=</span> <span class="n">successors</span>
+    <span class="n">df_resources</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Activity&#39;</span><span class="p">,</span> <span class="s1">&#39;Resource&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">Duration_mean</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Duration&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">),</span> <span class="n">Duration_std</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Duration&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">),</span> <span class="n">Resource_count</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Resource&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">))</span>
+    <span class="n">resource_pools</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">processing_time_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="n">task_types</span><span class="p">:</span>
+        <span class="n">resource_pools</span><span class="p">[</span><span class="n">tt</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_resources</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Resource_count&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_resource_count</span><span class="p">:</span>
+            <span class="n">resource_pools</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Activity&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Resource&#39;</span><span class="p">])</span>
+            <span class="n">processing_time_distribution</span><span class="p">[(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Activity&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Resource&#39;</span><span class="p">])]</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Duration_mean&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Duration_std&#39;</span><span class="p">])</span>
+
+    <span class="c1"># MINE THE RESOURCE SCHEDULE</span>
+    <span class="n">begin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">])</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Complete Timestamp&#39;</span><span class="p">])</span>
+    <span class="n">hr</span> <span class="o">=</span> <span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">begin</span> <span class="o">+</span> <span class="n">resource_schedule_timeunit</span><span class="p">)</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">resource_schedule_repeat</span><span class="p">)]</span>
+    <span class="n">resource_presence</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># nr of hours during which a resource was present</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resources</span><span class="p">:</span>
+        <span class="n">resource_presence</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">hr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+        <span class="c1"># Tasks are within the hour hr (or other timeunit if that is chosen), if they hour ends or begins between the start and end of the task</span>
+        <span class="n">tasks_in_hour</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">hr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Complete Timestamp&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">hr</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">|</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Start Timestamp&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">hr</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Complete Timestamp&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">hr</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]</span>
+        <span class="n">resources_in_hour</span> <span class="o">=</span> <span class="n">tasks_in_hour</span><span class="p">[</span><span class="s1">&#39;Resource&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resources_in_hour</span><span class="p">:</span>
+            <span class="n">resource_presence</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">schedule</span><span class="p">[</span><span class="n">x</span> <span class="o">%</span> <span class="n">resource_schedule_repeat</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">resources_in_hour</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">hr</span> <span class="o">=</span> <span class="p">(</span><span class="n">hr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">hr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">resource_schedule_repeat</span><span class="p">):</span>
+        <span class="n">schedule</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+    <span class="n">resource_weights</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resources</span><span class="p">:</span>
+        <span class="n">resource_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource_presence</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
+
+    <span class="c1"># CREATE THE PROBLEM</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">MinedProblem</span><span class="p">()</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">schedule</span> <span class="o">=</span> <span class="n">schedule</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">resource_weights</span> <span class="o">=</span> <span class="n">resource_weights</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">task_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">task_types</span><span class="p">)</span>  <span class="c1"># The task types</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">resources</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span>  <span class="c1"># The resources</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="n">initial_task_distribution</span>  <span class="c1"># The initial task type distribution</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">next_task_distribution</span> <span class="o">=</span> <span class="n">next_task_distribution</span>  <span class="c1"># The next task type distribution per task type</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">mean_interarrival_time</span> <span class="o">=</span> <span class="n">mean_interarrival_time</span>  <span class="c1"># The interarrival time</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">resource_pools</span> <span class="o">=</span> <span class="n">resource_pools</span>  <span class="c1"># The resource pool per task type</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">processing_time_distribution</span> <span class="o">=</span> <span class="n">processing_time_distribution</span>  <span class="c1"># The processing time distribution per task_type/resource combination</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation index</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
 </div>
-</div>
-<div class="w-full fixed bottom-0 left-0 z-10 bg-gray-900 overflow-x-hidden pt-10 flex flex-col items-center md:hidden transition-all opacity-0 transform transform-gpu translate-y-full duration-300" id="search-pane">
-<h4 class="text-xl text-white mb-4" id="search-label">Enter search term</h4><form action="../../search.html" class="flex w-full justify-between items-center max-w-sm px-12" id="searchbox" method="get">
-<input aria-labelledby="search-label" class="p-2 flex-1 rounded-none" name="q" placeholder="Search the docs" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-</form>
-<button aria-label="Close menu" class="text-4xl text-gray-200 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSearch" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</div>
-<button class="fixed bottom-0 right-0 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" id="snackbar">
-  Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" id="screen"></div>
-</div>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js">
-</script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script defer="" src="../../_static/theme.js"></script>
-</body>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright .
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+  </div>
+  
+  </body>
 </html>

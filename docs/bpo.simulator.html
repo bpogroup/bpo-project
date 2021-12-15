@@ -1,159 +1,143 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>
-      bpo.simulator module | Business Process Optimization  documentation
-    </title>
-<link href="_static/pygments.css" rel="stylesheet"/>
-<link href="_static/theme.css" rel="stylesheet"/>
-<link href="search.html" rel="search" title="Search"/>
-<link href="genindex.html" rel="index" title="Index"/>
-<link href="bpo.visualizers.html" rel="next" title="bpo.visualizers module"/>
-<link href="bpo.problems.html" rel="prev" title="bpo.problems module"/>
-</head><body class="text-gray-900 antialiased">
-<div class="h-screen md:grid md:grid-layout" id="page">
-<a class="block text-xl bg-white px-8 py-4 z-20 absolute top-0 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#bpo-simulator-module" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10">
-<div class="bg-gray-900 shadow-md flex justify-between items-center z-10">
-<a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 tooltipped tooltipped-se" href="index.html">
-<h2 class="text-xl text-gray-100 mx-5 py-4">Business Process Optimization  documentation</h2>
-</a>
-<form action="search.html" class="hidden md:flex my-auto mx-5 justify-between items-center print:hidden" id="searchbox" method="get">
-<input aria-label="Search the docs" class="p-2 flex-1 focus:bg-yellow-50 rounded-none" id="search-input" name="q" placeholder="Search the docs" style="width: 300px;" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-</form>
-</div>
-</header><aside class="grid-area-sidebar h-full fixed md:relative inset-y-0 left-0 z-20 md:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 md:translate-x-0 md:opacity-100" id="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-700 border-r pt-16 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 px-5"><p class="caption"><span class="caption-text">Contents</span></p>
-<ul class="current">
-<li class="toctree-l1"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="howto.html">How to use the framework</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#quick-start">Quick start</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-problem">Defining a problem</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-planner">Defining a planner</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#defining-a-predicter">Defining a predicter</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="howto.html#visualizing-the-results">Visualizing the results</a></div></li>
-</ul>
-</li>
-<li class="toctree-l1 current expanded"><div class="nav-link"><svg aria-hidden="true" class="expand" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" href="api.html">API Documentation</a></div><ul class="current">
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.planners.html">bpo.planners module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.predicters.html">bpo.predicters module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.problems.html">bpo.problems module</a></div></li>
-<li class="toctree-l2 current expanded"><div class="nav-link"><a class="current reference internal" href="#">bpo.simulator module</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" href="bpo.visualizers.html">bpo.visualizers module</a></div></li>
-</ul>
-</li>
-</ul>
-</div>
-<button aria-label="Close menu" class="text-4xl text-gray-800 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSidebar" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</nav>
-</aside>
-<main class="px-5 lg:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full"><nav aria-label="breadcrumbs" class="mt-16 mb-12 text-sm text-gray-700 leading-tight print:hidden" role="navigation">
-<a class="text-blue-700" href="index.html">Business Process Optimization  documentation</a>
-<span class="text-gray-700 mr-1">/</span><a class="text-blue-700" href="api.html">API Documentation</a>
-<span class="text-gray-700 mr-1">/</span><span aria-current="page">bpo.simulator module</span>
-</nav>
-<article class="flex-1" role="main">
-<section id="module-bpo.simulator">
-<span id="bpo-simulator-module"></span><h1>bpo.simulator module<a aria-label="Copy link to section: bpo.simulator module." class="headerlink tooltipped tooltipped-ne" href="#module-bpo.simulator" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></h1>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>bpo.simulator module &#8212; Business Process Optimization  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/readable.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bpo.visualizers module" href="bpo.visualizers.html" />
+    <link rel="prev" title="bpo.problems module" href="bpo.problems.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bpo.visualizers.html" title="bpo.visualizers module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="bpo.problems.html" title="bpo.problems module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Business Process Optimization  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" accesskey="U">API Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">bpo.simulator module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-bpo.simulator">
+<span id="bpo-simulator-module"></span><h1>bpo.simulator module<a class="headerlink" href="#module-bpo.simulator" title="Permalink to this headline">¶</a></h1>
 <p><strong>Classes:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement" title="bpo.simulator.CaseReporterElement"><code class="xref py py-obj docutils literal notranslate">CaseReporterElement</code></a>()</p></td>
-<td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> that keeps information about cases, specifically:</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement" title="bpo.simulator.CaseReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CaseReporterElement</span></code></a>()</p></td>
+<td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about cases, specifically:</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-obj docutils literal notranslate">Event</code></a>(event_type,�moment,�task[,�resource,��])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Event</span></code></a>(event_type, moment, task[, resource, …])</p></td>
 <td><p>A simulation event.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement" title="bpo.simulator.EventLogReporterElement"><code class="xref py py-obj docutils literal notranslate">EventLogReporterElement</code></a>(filename[,��])</p></td>
-<td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> that stored the simulation events that occur in an event log.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement" title="bpo.simulator.EventLogReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventLogReporterElement</span></code></a>(filename[, …])</p></td>
+<td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that stored the simulation events that occur in an event log.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType" title="bpo.simulator.EventType"><code class="xref py py-obj docutils literal notranslate">EventType</code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType" title="bpo.simulator.EventType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventType</span></code></a>(value)</p></td>
 <td><p>An enumeration for the types of event that can happen in the simulator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-obj docutils literal notranslate">Reporter</code></a>([warmup,�reporter_elements])</p></td>
-<td><p>A Reporter consists of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> and reports on the information that is kept by its elements.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reporter</span></code></a>([warmup, reporter_elements])</p></td>
+<td><p>A Reporter consists of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> and reports on the information that is kept by its elements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-obj docutils literal notranslate">ReporterElement</code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReporterElement</span></code></a>()</p></td>
 <td><p>Abstract class that must be implemented by each concrete reporter element.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator" title="bpo.simulator.Simulator"><code class="xref py py-obj docutils literal notranslate">Simulator</code></a>(problem,�reporter,�planner)</p></td>
-<td><p>A Simulator simulates a specified <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate">Problem</code></a> using a specified <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate">Planner</code></a>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator" title="bpo.simulator.Simulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simulator</span></code></a>(problem, reporter, planner)</p></td>
+<td><p>A Simulator simulates a specified <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> using a specified <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement" title="bpo.simulator.TasksReporterElement"><code class="xref py py-obj docutils literal notranslate">TasksReporterElement</code></a>()</p></td>
-<td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> that keeps information about tasks, specifically:</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement" title="bpo.simulator.TasksReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TasksReporterElement</span></code></a>()</p></td>
+<td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about tasks, specifically:</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit" title="bpo.simulator.TimeUnit"><code class="xref py py-obj docutils literal notranslate">TimeUnit</code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit" title="bpo.simulator.TimeUnit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeUnit</span></code></a>(value)</p></td>
 <td><p>An enumeration for the unit in which simulation time is measured.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py class code-definition">
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.CaseReporterElement">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">CaseReporterElement</code><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.CaseReporterElement" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">bpo.simulator.ReporterElement</code></a></p>
-<p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> that keeps information about cases, specifically:</p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">CaseReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.CaseReporterElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
+<p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about cases, specifically:</p>
 <ul class="simple">
 <li><p>cases completed: the number of cases that completed during the simulation run.</p></li>
 <li><p>cases cycle time: the average of the cycle times of the completed cases.</p></li>
 </ul>
-<p>This information is returned by the <a class="reference internal" href="#bpo.simulator.CaseReporterElement.summarize" title="bpo.simulator.CaseReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate">CaseReporterElement.summarize()</code></a> method
+<p>This information is returned by the <a class="reference internal" href="#bpo.simulator.CaseReporterElement.summarize" title="bpo.simulator.CaseReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CaseReporterElement.summarize()</span></code></a> method
 by the specified labels.</p>
 <p><strong>Methods:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement.report" title="bpo.simulator.CaseReporterElement.report"><code class="xref py py-obj docutils literal notranslate">report</code></a>(event)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement.report" title="bpo.simulator.CaseReporterElement.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>(event)</p></td>
 <td><p>Is invoked when a simulation event occurs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement.restart" title="bpo.simulator.CaseReporterElement.restart"><code class="xref py py-obj docutils literal notranslate">restart</code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement.restart" title="bpo.simulator.CaseReporterElement.restart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restart</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run starts.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement.summarize" title="bpo.simulator.CaseReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate">summarize</code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement.summarize" title="bpo.simulator.CaseReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run ends.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method code-definition">
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.CaseReporterElement.report">
-<code class="sig-name descname">report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement.report"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.CaseReporterElement.report" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation event occurs. Can store information about the event.</p>
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.CaseReporterElement.report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation event occurs. Can store information about the event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>event</strong> � the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate">Event</code></a> that occurred.</p>
+<dd class="field-odd"><p><strong>event</strong> – the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a> that occurred.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.CaseReporterElement.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement.restart"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.CaseReporterElement.restart" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.CaseReporterElement.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.CaseReporterElement.summarize">
-<code class="sig-name descname">summarize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement.summarize"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.CaseReporterElement.summarize" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
+<span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.CaseReporterElement.summarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a list of tuples (label, value), where label is a meaningful name for the reported aggregate information,
@@ -161,33 +145,34 @@ and value is the corresponding information.</p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.Event">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">Event</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_type</span></em>, <em class="sig-param"><span class="n">moment</span></em>, <em class="sig-param"><span class="n">task</span></em>, <em class="sig-param"><span class="n">resource</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nr_tasks</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">nr_resources</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Event"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Event" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_tasks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A simulation event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>event_type</strong> � the <a class="reference internal" href="#bpo.simulator.EventType" title="bpo.simulator.EventType"><code class="xref py py-class docutils literal notranslate">EventType</code></a>.</p></li>
-<li><p><strong>moment</strong> � the moment in simulation time at which the event happens.</p></li>
-<li><p><strong>task</strong> � the task that triggered, or None for event_type == PLAN_TASKS.</p></li>
-<li><p><strong>resource</strong> � the resource that performs the task, or None for event_type not in [START_TASK, COMPLETE_TASK]</p></li>
-<li><p><strong>nr_tasks</strong> � the number of tasks that must be planned, or 0 for event_type != PLAN_TASKS</p></li>
-<li><p><strong>nr_resources</strong> � the number of resources that is available, or 0 for event_type != PLAN_TASKS</p></li>
+<li><p><strong>event_type</strong> – the <a class="reference internal" href="#bpo.simulator.EventType" title="bpo.simulator.EventType"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventType</span></code></a>.</p></li>
+<li><p><strong>moment</strong> – the moment in simulation time at which the event happens.</p></li>
+<li><p><strong>task</strong> – the task that triggered, or None for event_type == PLAN_TASKS.</p></li>
+<li><p><strong>resource</strong> – the resource that performs the task, or None for event_type not in [START_TASK, COMPLETE_TASK]</p></li>
+<li><p><strong>nr_tasks</strong> – the number of tasks that must be planned, or 0 for event_type != PLAN_TASKS</p></li>
+<li><p><strong>nr_resources</strong> – the number of resources that is available, or 0 for event_type != PLAN_TASKS</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.EventLogReporterElement">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">EventLogReporterElement</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">timeunit=&lt;TimeUnit.SECONDS: 1&gt;</em>, <em class="sig-param">initial_time=datetime.datetime(2020</em>, <em class="sig-param">1</em>, <em class="sig-param">1</em>, <em class="sig-param">0</em>, <em class="sig-param">0)</em>, <em class="sig-param">time_format='%Y-%m-%d %H:%M:%S.%f'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventLogReporterElement" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">bpo.simulator.ReporterElement</code></a></p>
-<p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> that stored the simulation events that occur in an event log.
-The <a class="reference internal" href="#bpo.simulator.EventLogReporterElement.summarize" title="bpo.simulator.EventLogReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate">EventLogReporterElement.summarize()</code></a> method does not return any information.
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventLogReporterElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em>, <em class="sig-param"><span class="pre">timeunit=&lt;TimeUnit.SECONDS:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">initial_time=datetime.datetime(2020</span></em>, <em class="sig-param"><span class="pre">1</span></em>, <em class="sig-param"><span class="pre">1</span></em>, <em class="sig-param"><span class="pre">0</span></em>, <em class="sig-param"><span class="pre">0)</span></em>, <em class="sig-param"><span class="pre">time_format='%Y-%m-%d</span> <span class="pre">%H:%M:%S.%f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
+<p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that stored the simulation events that occur in an event log.
+The <a class="reference internal" href="#bpo.simulator.EventLogReporterElement.summarize" title="bpo.simulator.EventLogReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EventLogReporterElement.summarize()</span></code></a> method does not return any information.
 As simulation time is a numerical value, some processing is done to convert simulation time
 into a time format that can be read and interpreted by a process mining tool. To that end,
 the timeunit in which simulation time is measured must be passed as well as the
@@ -197,53 +182,52 @@ initial_time + simulation_time timeunits</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> � the name of the file in which the event log must be stored.</p></li>
-<li><p><strong>timeunit</strong> � the <a class="reference internal" href="#bpo.simulator.TimeUnit" title="bpo.simulator.TimeUnit"><code class="xref py py-class docutils literal notranslate">TimeUnit</code></a> of simulation time.</p></li>
-<li><p><strong>initial_time</strong> � a datetime value.</p></li>
-<li><p><strong>time_format</strong> � a datetime formatting string.</p></li>
+<li><p><strong>filename</strong> – the name of the file in which the event log must be stored.</p></li>
+<li><p><strong>timeunit</strong> – the <a class="reference internal" href="#bpo.simulator.TimeUnit" title="bpo.simulator.TimeUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeUnit</span></code></a> of simulation time.</p></li>
+<li><p><strong>initial_time</strong> – a datetime value.</p></li>
+<li><p><strong>time_format</strong> – a datetime formatting string.</p></li>
 </ul>
 </dd>
 </dl>
 <p><strong>Methods:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement.report" title="bpo.simulator.EventLogReporterElement.report"><code class="xref py py-obj docutils literal notranslate">report</code></a>(event)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement.report" title="bpo.simulator.EventLogReporterElement.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>(event)</p></td>
 <td><p>Is invoked when a simulation event occurs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement.restart" title="bpo.simulator.EventLogReporterElement.restart"><code class="xref py py-obj docutils literal notranslate">restart</code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement.restart" title="bpo.simulator.EventLogReporterElement.restart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restart</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run starts.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement.summarize" title="bpo.simulator.EventLogReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate">summarize</code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement.summarize" title="bpo.simulator.EventLogReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run ends.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method code-definition">
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.EventLogReporterElement.report">
-<code class="sig-name descname">report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement.report"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventLogReporterElement.report" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation event occurs. Can store information about the event.</p>
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement.report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation event occurs. Can store information about the event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>event</strong> � the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate">Event</code></a> that occurred.</p>
+<dd class="field-odd"><p><strong>event</strong> – the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a> that occurred.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.EventLogReporterElement.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement.restart"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventLogReporterElement.restart" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.EventLogReporterElement.summarize">
-<code class="sig-name descname">summarize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement.summarize"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventLogReporterElement.summarize" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
+<span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement.summarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a list of tuples (label, value), where label is a meaningful name for the reported aggregate information,
@@ -251,228 +235,228 @@ and value is the corresponding information.</p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.EventType">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">EventType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventType"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">enum.Enum</code></p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration for the types of event that can happen in the simulator.</p>
 <p><strong>Attributes:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.CASE_ARRIVAL" title="bpo.simulator.EventType.CASE_ARRIVAL"><code class="xref py py-obj docutils literal notranslate">CASE_ARRIVAL</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.CASE_ARRIVAL" title="bpo.simulator.EventType.CASE_ARRIVAL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CASE_ARRIVAL</span></code></a></p></td>
 <td><p>A case arrives.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.COMPLETE_CASE" title="bpo.simulator.EventType.COMPLETE_CASE"><code class="xref py py-obj docutils literal notranslate">COMPLETE_CASE</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.COMPLETE_CASE" title="bpo.simulator.EventType.COMPLETE_CASE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">COMPLETE_CASE</span></code></a></p></td>
 <td><p>A case completes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.COMPLETE_TASK" title="bpo.simulator.EventType.COMPLETE_TASK"><code class="xref py py-obj docutils literal notranslate">COMPLETE_TASK</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.COMPLETE_TASK" title="bpo.simulator.EventType.COMPLETE_TASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">COMPLETE_TASK</span></code></a></p></td>
 <td><p>A task completes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.FREE_RESOURCE" title="bpo.simulator.EventType.FREE_RESOURCE"><code class="xref py py-obj docutils literal notranslate">FREE_RESOURCE</code></a></p></td>
-<td><p>A resource is freed up from performing �other tasks� (i.e.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.PLAN_TASKS" title="bpo.simulator.EventType.PLAN_TASKS"><code class="xref py py-obj docutils literal notranslate">PLAN_TASKS</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.PLAN_TASKS" title="bpo.simulator.EventType.PLAN_TASKS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PLAN_TASKS</span></code></a></p></td>
 <td><p>An action is performed to assign tasks to resources.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.START_TASK" title="bpo.simulator.EventType.START_TASK"><code class="xref py py-obj docutils literal notranslate">START_TASK</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.SCHEDULE_RESOURCES" title="bpo.simulator.EventType.SCHEDULE_RESOURCES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SCHEDULE_RESOURCES</span></code></a></p></td>
+<td><p>Resources are scheduled every full clock tick.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.START_TASK" title="bpo.simulator.EventType.START_TASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">START_TASK</span></code></a></p></td>
 <td><p>A task starts.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.TASK_ACTIVATE" title="bpo.simulator.EventType.TASK_ACTIVATE"><code class="xref py py-obj docutils literal notranslate">TASK_ACTIVATE</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventType.TASK_ACTIVATE" title="bpo.simulator.EventType.TASK_ACTIVATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TASK_ACTIVATE</span></code></a></p></td>
 <td><p>A task becomes ready to perform (but is not assigned to a resource).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.TASK_PLANNED" title="bpo.simulator.EventType.TASK_PLANNED"><code class="xref py py-obj docutils literal notranslate">TASK_PLANNED</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType.TASK_PLANNED" title="bpo.simulator.EventType.TASK_PLANNED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TASK_PLANNED</span></code></a></p></td>
 <td><p>A task is assigned to a resource.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py attribute code-definition">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.CASE_ARRIVAL">
-<code class="sig-name descname">CASE_ARRIVAL</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.CASE_ARRIVAL" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A case arrives.</p>
+<span class="sig-name descname"><span class="pre">CASE_ARRIVAL</span></span><a class="headerlink" href="#bpo.simulator.EventType.CASE_ARRIVAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>A case arrives.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.COMPLETE_CASE">
-<code class="sig-name descname">COMPLETE_CASE</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.COMPLETE_CASE" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A case completes.</p>
+<span class="sig-name descname"><span class="pre">COMPLETE_CASE</span></span><a class="headerlink" href="#bpo.simulator.EventType.COMPLETE_CASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A case completes.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.COMPLETE_TASK">
-<code class="sig-name descname">COMPLETE_TASK</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.COMPLETE_TASK" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A task completes.</p>
+<span class="sig-name descname"><span class="pre">COMPLETE_TASK</span></span><a class="headerlink" href="#bpo.simulator.EventType.COMPLETE_TASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>A task completes.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="bpo.simulator.EventType.FREE_RESOURCE">
-<code class="sig-name descname">FREE_RESOURCE</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.FREE_RESOURCE" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A resource is freed up from performing �other tasks� (i.e. tasks not part of the problem).</p>
-<dl class="field-list simple">
-</dl>
-</dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.PLAN_TASKS">
-<code class="sig-name descname">PLAN_TASKS</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.PLAN_TASKS" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>An action is performed to assign tasks to resources.</p>
+<span class="sig-name descname"><span class="pre">PLAN_TASKS</span></span><a class="headerlink" href="#bpo.simulator.EventType.PLAN_TASKS" title="Permalink to this definition">¶</a></dt>
+<dd><p>An action is performed to assign tasks to resources.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bpo.simulator.EventType.SCHEDULE_RESOURCES">
+<span class="sig-name descname"><span class="pre">SCHEDULE_RESOURCES</span></span><a class="headerlink" href="#bpo.simulator.EventType.SCHEDULE_RESOURCES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resources are scheduled every full clock tick.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.START_TASK">
-<code class="sig-name descname">START_TASK</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.START_TASK" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A task starts.</p>
+<span class="sig-name descname"><span class="pre">START_TASK</span></span><a class="headerlink" href="#bpo.simulator.EventType.START_TASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>A task starts.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.TASK_ACTIVATE">
-<code class="sig-name descname">TASK_ACTIVATE</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.TASK_ACTIVATE" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A task becomes ready to perform (but is not assigned to a resource).</p>
+<span class="sig-name descname"><span class="pre">TASK_ACTIVATE</span></span><a class="headerlink" href="#bpo.simulator.EventType.TASK_ACTIVATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A task becomes ready to perform (but is not assigned to a resource).</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.EventType.TASK_PLANNED">
-<code class="sig-name descname">TASK_PLANNED</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.EventType.TASK_PLANNED" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>A task is assigned to a resource.</p>
+<span class="sig-name descname"><span class="pre">TASK_PLANNED</span></span><a class="headerlink" href="#bpo.simulator.EventType.TASK_PLANNED" title="Permalink to this definition">¶</a></dt>
+<dd><p>A task is assigned to a resource.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">Reporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">warmup</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">reporter_elements</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Reporter" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
-<p>A Reporter consists of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> and reports on the information that is kept by
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Reporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">warmup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Reporter consists of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> and reports on the information that is kept by
 its elements. Consequently, it does not do much itself, it mainly passes on events to and
 received aggregate information from its elements.</p>
-<p>It receives a <a class="reference internal" href="#bpo.simulator.Reporter.report" title="bpo.simulator.Reporter.report"><code class="xref py py-meth docutils literal notranslate">Reporter.report()</code></a> call, each time a simulation event occurs, which it
+<p>It receives a <a class="reference internal" href="#bpo.simulator.Reporter.report" title="bpo.simulator.Reporter.report"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Reporter.report()</span></code></a> call, each time a simulation event occurs, which it
 forwards to its elements to enable them to store information about that event.
-It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.summarize" title="bpo.simulator.ReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate">ReporterElement.summarize()</code></a> call when a simulation run completes. It then
+It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.summarize" title="bpo.simulator.ReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReporterElement.summarize()</span></code></a> call when a simulation run completes. It then
 collects the summaries from each of its elements and returns them in one list.
-It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.restart" title="bpo.simulator.ReporterElement.restart"><code class="xref py py-meth docutils literal notranslate">ReporterElement.restart()</code></a> call when a simulation run starts, which it
+It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.restart" title="bpo.simulator.ReporterElement.restart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReporterElement.restart()</span></code></a> call when a simulation run starts, which it
 forwards to its elements to enable them to restart.</p>
 <p>During the specified warmup time, the reporter will ignore all events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>warmup</strong> � a duration in simulation time.</p></li>
-<li><p><strong>reporter_elements</strong> � a list of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> instances, when None are provided,
-creates a reporter with a <code class="xref py py-class docutils literal notranslate">TaskReporterElement</code> and a <code class="xref py py-class docutils literal notranslate">Case ReporterElement</code>.</p></li>
+<li><p><strong>warmup</strong> – a duration in simulation time.</p></li>
+<li><p><strong>reporter_elements</strong> – a list of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> instances, when None are provided,
+creates a reporter with a <code class="xref py py-class docutils literal notranslate"><span class="pre">TaskReporterElement</span></code> and a <code class="xref py py-class docutils literal notranslate"><span class="pre">Case</span> <span class="pre">ReporterElement</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
 <p><strong>Methods:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.aggregate" title="bpo.simulator.Reporter.aggregate"><code class="xref py py-obj docutils literal notranslate">aggregate</code></a>(summaries)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.aggregate" title="bpo.simulator.Reporter.aggregate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aggregate</span></code></a>(summaries)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.report" title="bpo.simulator.Reporter.report"><code class="xref py py-obj docutils literal notranslate">report</code></a>(event)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.report" title="bpo.simulator.Reporter.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>(event)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.restart" title="bpo.simulator.Reporter.restart"><code class="xref py py-obj docutils literal notranslate">restart</code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.restart" title="bpo.simulator.Reporter.restart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restart</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.summarize" title="bpo.simulator.Reporter.summarize"><code class="xref py py-obj docutils literal notranslate">summarize</code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Reporter.summarize" title="bpo.simulator.Reporter.summarize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method code-definition">
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter.aggregate">
-<em class="property">static </em><code class="sig-name descname">aggregate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">summaries</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.aggregate"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Reporter.aggregate" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-</dd></dl>
-<dl class="py method code-definition">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summaries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter.aggregate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter.report">
-<code class="sig-name descname">report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.report"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Reporter.report" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-</dd></dl>
-<dl class="py method code-definition">
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter.report" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.restart"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Reporter.restart" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-</dd></dl>
-<dl class="py method code-definition">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter.restart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter.summarize">
-<code class="sig-name descname">summarize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.summarize"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Reporter.summarize" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
+<span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter.summarize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
-</dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">ReporterElement</code><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.ReporterElement" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">abc.ABC</code></p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">ReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class that must be implemented by each concrete reporter element.
-A reporter element is part of a <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate">Reporter</code></a>. It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.report" title="bpo.simulator.ReporterElement.report"><code class="xref py py-meth docutils literal notranslate">ReporterElement.report()</code></a> call,
+A reporter element is part of a <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reporter</span></code></a>. It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.report" title="bpo.simulator.ReporterElement.report"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReporterElement.report()</span></code></a> call,
 each time a simulation event occurs. It can then store information about that event. Once a simulation run
-is completed, it receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.summarize" title="bpo.simulator.ReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate">ReporterElement.summarize()</code></a> call. It must then report aggregate
+is completed, it receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.summarize" title="bpo.simulator.ReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReporterElement.summarize()</span></code></a> call. It must then report aggregate
 information that it stored about the events. Each time a simulation run starts, it receives
-a <a class="reference internal" href="#bpo.simulator.ReporterElement.restart" title="bpo.simulator.ReporterElement.restart"><code class="xref py py-meth docutils literal notranslate">ReporterElement.restart()</code></a> call, upon which it must erase all previously stored information.</p>
+a <a class="reference internal" href="#bpo.simulator.ReporterElement.restart" title="bpo.simulator.ReporterElement.restart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReporterElement.restart()</span></code></a> call, upon which it must erase all previously stored information.</p>
 <p><strong>Methods:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement.report" title="bpo.simulator.ReporterElement.report"><code class="xref py py-obj docutils literal notranslate">report</code></a>(event)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement.report" title="bpo.simulator.ReporterElement.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>(event)</p></td>
 <td><p>Is invoked when a simulation event occurs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement.restart" title="bpo.simulator.ReporterElement.restart"><code class="xref py py-obj docutils literal notranslate">restart</code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement.restart" title="bpo.simulator.ReporterElement.restart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restart</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run starts.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement.summarize" title="bpo.simulator.ReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate">summarize</code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.ReporterElement.summarize" title="bpo.simulator.ReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run ends.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method code-definition">
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement.report">
-<em class="property">abstract </em><code class="sig-name descname">report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.report"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.ReporterElement.report" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation event occurs. Can store information about the event.</p>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation event occurs. Can store information about the event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>event</strong> � the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate">Event</code></a> that occurred.</p>
+<dd class="field-odd"><p><strong>event</strong> – the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a> that occurred.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement.restart">
-<em class="property">abstract </em><code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.restart"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.ReporterElement.restart" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement.summarize">
-<em class="property">abstract </em><code class="sig-name descname">summarize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.summarize"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.ReporterElement.summarize" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.summarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a list of tuples (label, value), where label is a meaningful name for the reported aggregate information,
@@ -480,48 +464,49 @@ and value is the corresponding information.</p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">Simulator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">problem</span></em>, <em class="sig-param"><span class="n">reporter</span></em>, <em class="sig-param"><span class="n">planner</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
-<p>A Simulator simulates a specified <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate">Problem</code></a> using a specified <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate">Planner</code></a>.
-The results of the simulation are generated using the specified <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate">Reporter</code></a>.
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Simulator simulates a specified <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> using a specified <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a>.
+The results of the simulation are generated using the specified <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reporter</span></code></a>.
 There are two main entry points into the simulator:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-meth docutils literal notranslate">simulate()</code></a>, which simulates the (single) problem instance passed with the constructor; and</p></li>
-<li><p><a class="reference internal" href="#bpo.simulator.Simulator.replicate" title="bpo.simulator.Simulator.replicate"><code class="xref py py-meth docutils literal notranslate">replicate()</code></a>, which simulates a collection of problem instances passed via the replicate method itself.</p></li>
+<li><p><a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code></a>, which simulates the (single) problem instance passed with the constructor; and</p></li>
+<li><p><a class="reference internal" href="#bpo.simulator.Simulator.replicate" title="bpo.simulator.Simulator.replicate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">replicate()</span></code></a>, which simulates a collection of problem instances passed via the replicate method itself.</p></li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.assigned_tasks" title="bpo.simulator.Simulator.assigned_tasks"><code class="xref py py-obj docutils literal notranslate">assigned_tasks</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.assigned_tasks" title="bpo.simulator.Simulator.assigned_tasks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assigned_tasks</span></code></a></p></td>
 <td><p>The tasks that are currently assigned.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.available_resources" title="bpo.simulator.Simulator.available_resources"><code class="xref py py-obj docutils literal notranslate">available_resources</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.available_resources" title="bpo.simulator.Simulator.available_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">available_resources</span></code></a></p></td>
 <td><p>The set of resources that are currently available.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.busy_cases" title="bpo.simulator.Simulator.busy_cases"><code class="xref py py-obj docutils literal notranslate">busy_cases</code></a></p></td>
-<td><p>The amount of time a resource spent being utilized until now.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.away_resources_weights" title="bpo.simulator.Simulator.away_resources_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">away_resources_weights</span></code></a></p></td>
+<td><p>The set of resources that are currently away (on a break, home, or working in another process) and consequently not available.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.busy_resources" title="bpo.simulator.Simulator.busy_resources"><code class="xref py py-obj docutils literal notranslate">busy_resources</code></a></p></td>
-<td><p>The resources that are currently busy.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.now" title="bpo.simulator.Simulator.now"><code class="xref py py-obj docutils literal notranslate">now</code></a></p></td>
-<td><p>The current simulation time.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.reserved_resources" title="bpo.simulator.Simulator.reserved_resources"><code class="xref py py-obj docutils literal notranslate">reserved_resources</code></a></p></td>
-<td><p>The resources that are currently reserved.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.resource_utilization" title="bpo.simulator.Simulator.resource_utilization"><code class="xref py py-obj docutils literal notranslate">resource_utilization</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.busy_cases" title="bpo.simulator.Simulator.busy_cases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">busy_cases</span></code></a></p></td>
 <td><p>The cases of which a task is currently being performed or must still be performed.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.unassigned_tasks" title="bpo.simulator.Simulator.unassigned_tasks"><code class="xref py py-obj docutils literal notranslate">unassigned_tasks</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.busy_resources" title="bpo.simulator.Simulator.busy_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">busy_resources</span></code></a></p></td>
+<td><p>The resources that are currently busy.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.now" title="bpo.simulator.Simulator.now"><code class="xref py py-obj docutils literal notranslate"><span class="pre">now</span></code></a></p></td>
+<td><p>The current simulation time.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.reserved_resources" title="bpo.simulator.Simulator.reserved_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reserved_resources</span></code></a></p></td>
+<td><p>The resources that are currently reserved.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.unassigned_tasks" title="bpo.simulator.Simulator.unassigned_tasks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unassigned_tasks</span></code></a></p></td>
 <td><p>The tasks that are currently not assigned.</p></td>
 </tr>
 </tbody>
@@ -529,85 +514,106 @@ There are two main entry points into the simulator:</p>
 <p><strong>Methods:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.init_simulation" title="bpo.simulator.Simulator.init_simulation"><code class="xref py py-obj docutils literal notranslate">init_simulation</code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.desired_nr_resources" title="bpo.simulator.Simulator.desired_nr_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_nr_resources</span></code></a>()</p></td>
+<td><p>The number of resources that is currently desired to be working now according to the problem schedule.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.init_simulation" title="bpo.simulator.Simulator.init_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_simulation</span></code></a>()</p></td>
 <td><p>Re-initializes the simulation, such that it can be run again.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.replicate" title="bpo.simulator.Simulator.replicate"><code class="xref py py-obj docutils literal notranslate">replicate</code></a>(problem_instances,�planner,��)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.replicate" title="bpo.simulator.Simulator.replicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replicate</span></code></a>(problem_instances, planner, …)</p></td>
 <td><p>Creates a simulator for each of the problem_instances, using the specified planner and reporter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-obj docutils literal notranslate">simulate</code></a>(running_time[,�target_utilization_rate])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(running_time)</p></td>
 <td><p>Runs the simulation for the instance that was passed in the constructor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.working_nr_resources" title="bpo.simulator.Simulator.working_nr_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">working_nr_resources</span></code></a>()</p></td>
+<td><p>The number of resources that is actually on the work floor now, either available, busy or reserved.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py attribute code-definition">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.assigned_tasks">
-<code class="sig-name descname">assigned_tasks</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.assigned_tasks" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The tasks that are currently assigned. A dict task.id -&gt; (task, resource, start), where:</p>
+<span class="sig-name descname"><span class="pre">assigned_tasks</span></span><a class="headerlink" href="#bpo.simulator.Simulator.assigned_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>The tasks that are currently assigned. A dict task.id -&gt; (task, resource, start), where:</p>
 <ul class="simple">
-<li><p>task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a>.</p></li>
+<li><p>task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a>.</p></li>
 <li><p>start is the moment in simulation at which the resource will start or has started processing the task.</p></li>
-<li><p>resource is the label that identifies a resource in the <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate">Problem</code></a>.</p></li>
+<li><p>resource is the label that identifies a resource in the <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a>.</p></li>
 </ul>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.available_resources">
-<code class="sig-name descname">available_resources</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.available_resources" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The set of resources that are currently available. Each resource is a label that identifies a resource in the <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate">Problem</code></a>.</p>
+<span class="sig-name descname"><span class="pre">available_resources</span></span><a class="headerlink" href="#bpo.simulator.Simulator.available_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of resources that are currently available. Each resource is a label that identifies a resource in the <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a>.</p>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bpo.simulator.Simulator.away_resources_weights">
+<span class="sig-name descname"><span class="pre">away_resources_weights</span></span><a class="headerlink" href="#bpo.simulator.Simulator.away_resources_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of resources that are currently away (on a break, home, or working in another process) and consequently not available.
+An away resource is a pair (resource, weight), such that the weight is the weight belonging to the resource according to the problem, i.e.:
+away_resources_weights[i] == problem.resource_weights[problem.resources.index(away_resources[i])]</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.busy_cases">
-<code class="sig-name descname">busy_cases</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.busy_cases" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The amount of time a resource spent being utilized until now. This includes:</p>
-<ul class="simple">
-<li><p>the time a resource spent processing a <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a> (not including the time the resource spent processing the current task, if it is currently processing a task); and</p></li>
-<li><p>the time a resource spent processing other activities; these are activities other than the tasks that are being simulated that bring the resource to the desired utilization rate (see <a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-meth docutils literal notranslate">simulate()</code></a>).</p></li>
-</ul>
+<span class="sig-name descname"><span class="pre">busy_cases</span></span><a class="headerlink" href="#bpo.simulator.Simulator.busy_cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cases of which a task is currently being performed or must still be performed. A dict case_id -&gt; [active task_id]
+that maps case identifiers for which a task exists to the identifiers of those tasks.</p>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.busy_resources">
-<code class="sig-name descname">busy_resources</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.busy_resources" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The resources that are currently busy. A dict resource -&gt; (task, start), where:</p>
+<span class="sig-name descname"><span class="pre">busy_resources</span></span><a class="headerlink" href="#bpo.simulator.Simulator.busy_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>The resources that are currently busy. A dict resource -&gt; (task, start), where:</p>
 <ul class="simple">
-<li><p>task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a> is the task that the resource is working on.</p></li>
+<li><p>task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> is the task that the resource is working on.</p></li>
 <li><p>start is the moment in simulation time at which the resource started working on the task.</p></li>
 </ul>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bpo.simulator.Simulator.desired_nr_resources">
+<span class="sig-name descname"><span class="pre">desired_nr_resources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.desired_nr_resources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.desired_nr_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of resources that is currently desired to be working now according to the problem schedule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a number of resources.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.init_simulation">
-<code class="sig-name descname">init_simulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.init_simulation"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.init_simulation" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Re-initializes the simulation, such that it can be run again.</p>
+<span class="sig-name descname"><span class="pre">init_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.init_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.init_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-initializes the simulation, such that it can be run again.</p>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.now">
-<code class="sig-name descname">now</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.now" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The current simulation time.</p>
+<span class="sig-name descname"><span class="pre">now</span></span><a class="headerlink" href="#bpo.simulator.Simulator.now" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current simulation time.</p>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.replicate">
-<em class="property">static </em><code class="sig-name descname">replicate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">problem_instances</span></em>, <em class="sig-param"><span class="n">planner</span></em>, <em class="sig-param"><span class="n">reporter</span></em>, <em class="sig-param"><span class="n">simulation_time</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.replicate"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.replicate" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Creates a simulator for each of the problem_instances, using the specified planner and reporter.
-Simulates each problem instance by calling the <a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-meth docutils literal notranslate">simulate()</code></a> method on it using the
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">replicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_instances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.replicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.replicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a simulator for each of the problem_instances, using the specified planner and reporter.
+Simulates each problem instance by calling the <a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code></a> method on it using the
 specified simulation time. Returns the list of summaries generated by the reporter, one summary for
 each simulated problem_instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>problem_instances</strong> � a list of instances of a <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate">Problem</code></a>.</p></li>
-<li><p><strong>planner</strong> � a <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate">Planner</code></a>.</p></li>
-<li><p><strong>reporter</strong> � a <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate">Reporter</code></a>.</p></li>
-<li><p><strong>simulation_time</strong> � the amount of simulation time for which each problem instance should be simulated.</p></li>
+<li><p><strong>problem_instances</strong> – a list of instances of a <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a>.</p></li>
+<li><p><strong>planner</strong> – a <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a>.</p></li>
+<li><p><strong>reporter</strong> – a <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reporter</span></code></a>.</p></li>
+<li><p><strong>simulation_time</strong> – the amount of simulation time for which each problem instance should be simulated.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -615,106 +621,107 @@ each simulated problem_instance.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.reserved_resources">
-<code class="sig-name descname">reserved_resources</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.reserved_resources" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The resources that are currently reserved. A dict resource -&gt; (task, start), where:</p>
+<span class="sig-name descname"><span class="pre">reserved_resources</span></span><a class="headerlink" href="#bpo.simulator.Simulator.reserved_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>The resources that are currently reserved. A dict resource -&gt; (task, start), where:</p>
 <ul class="simple">
-<li><p>resource is the label that identifies a resource in the <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate">Problem</code></a>.</p></li>
-<li><p>task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a> is the task on which the resource is expected to work.</p></li>
+<li><p>resource is the label that identifies a resource in the <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a>.</p></li>
+<li><p>task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> is the task on which the resource is expected to work.</p></li>
 <li><p>start is the moment in simulation at which the resource starts processing the task.</p></li>
 </ul>
 </dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="bpo.simulator.Simulator.resource_utilization">
-<code class="sig-name descname">resource_utilization</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.resource_utilization" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The cases of which a task is currently being performed or must still be performed. A dict case_id -&gt; [active task_id]
-that maps case identifiers for which a task exists to the identifiers of those tasks.</p>
-</dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.simulate">
-<code class="sig-name descname">simulate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">running_time</span></em>, <em class="sig-param"><span class="n">target_utilization_rate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.simulate"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.simulate" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Runs the simulation for the instance that was passed in the constructor.
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">running_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.simulate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the simulation for the instance that was passed in the constructor.
 The simulator generates events (i.e. cases with their associated arrival times, data, and tasks)
 as they are produced by the problem instance. The simulator generates a plan event each time a
 task or resource becomes available. Events are handled by the reporter.</p>
 <p>If the target utilization rate is set to a value (a fraction f) other than None, the simulator will ensure that resources
-are occupied for approximately the targeted fraction f of the time. It does that by making resources busy with �other
-tasks� (i.e. tasks other than the ones of the problem being simulated, like tasks in another process). These �other tasks�
+are occupied for approximately the targeted fraction f of the time. It does that by making resources busy with ‘other
+tasks’ (i.e. tasks other than the ones of the problem being simulated, like tasks in another process). These ‘other tasks’
 are not specified further and their activity is not logged, but the resources are being kept busy on those tasks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>running_time</strong> � the amount of simulation time the simulation should be run for.</p></li>
-<li><p><strong>target_utilization_rate</strong> � the targeted fraction (0 &lt; target_utilization_rate &lt; 1) of time resources should be occupied.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>running_time</strong> – the amount of simulation time the simulation should be run for.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.unassigned_tasks">
-<code class="sig-name descname">unassigned_tasks</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.Simulator.unassigned_tasks" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>The tasks that are currently not assigned. A dict task.id -&gt; task, where task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate">Task</code></a>.
+<span class="sig-name descname"><span class="pre">unassigned_tasks</span></span><a class="headerlink" href="#bpo.simulator.Simulator.unassigned_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>The tasks that are currently not assigned. A dict task.id -&gt; task, where task is an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Task" title="bpo.problems.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a>.
 A task is in this list if it must still be performed. After a task is completed does not re-appear in this list.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bpo.simulator.Simulator.working_nr_resources">
+<span class="sig-name descname"><span class="pre">working_nr_resources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.working_nr_resources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.working_nr_resources" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of resources that is actually on the work floor now, either available, busy or reserved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a number of resources.</p>
+</dd>
+</dl>
 </dd></dl>
-<dl class="py class code-definition">
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.TasksReporterElement">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">TasksReporterElement</code><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TasksReporterElement" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">bpo.simulator.ReporterElement</code></a></p>
-<p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate">ReporterElement</code></a> that keeps information about tasks, specifically:</p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">TasksReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TasksReporterElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
+<p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about tasks, specifically:</p>
 <ul class="simple">
 <li><p>tasks completed: the number of tasks that completed during the simulation run.</p></li>
 <li><p>task proc time: the average of the processing times of the completed tasks.</p></li>
 <li><p>task wait time: the average of the waiting times of the completed tasks.</p></li>
 </ul>
-<p>This information is returned by the <a class="reference internal" href="#bpo.simulator.TasksReporterElement.summarize" title="bpo.simulator.TasksReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate">TasksReporterElement.summarize()</code></a> method
+<p>This information is returned by the <a class="reference internal" href="#bpo.simulator.TasksReporterElement.summarize" title="bpo.simulator.TasksReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TasksReporterElement.summarize()</span></code></a> method
 by the specified labels.</p>
 <p><strong>Methods:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement.report" title="bpo.simulator.TasksReporterElement.report"><code class="xref py py-obj docutils literal notranslate">report</code></a>(event)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement.report" title="bpo.simulator.TasksReporterElement.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>(event)</p></td>
 <td><p>Is invoked when a simulation event occurs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement.restart" title="bpo.simulator.TasksReporterElement.restart"><code class="xref py py-obj docutils literal notranslate">restart</code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement.restart" title="bpo.simulator.TasksReporterElement.restart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restart</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run starts.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement.summarize" title="bpo.simulator.TasksReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate">summarize</code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TasksReporterElement.summarize" title="bpo.simulator.TasksReporterElement.summarize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize</span></code></a>()</p></td>
 <td><p>Is invoked when a simulation run ends.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method code-definition">
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.TasksReporterElement.report">
-<code class="sig-name descname">report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement.report"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TasksReporterElement.report" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation event occurs. Can store information about the event.</p>
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TasksReporterElement.report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation event occurs. Can store information about the event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>event</strong> � the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate">Event</code></a> that occurred.</p>
+<dd class="field-odd"><p><strong>event</strong> – the simulation <a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a> that occurred.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.TasksReporterElement.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement.restart"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TasksReporterElement.restart" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TasksReporterElement.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
 </dd></dl>
-<dl class="py method code-definition">
+
+<dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.TasksReporterElement.summarize">
-<code class="sig-name descname">summarize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement.summarize"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TasksReporterElement.summarize" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
+<span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TasksReporterElement.summarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a list of tuples (label, value), where label is a meaningful name for the reported aggregate information,
@@ -722,105 +729,111 @@ and value is the corresponding information.</p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
+
+<dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.TimeUnit">
-<em class="property">class </em><code class="sig-prename descclassname">bpo.simulator.</code><code class="sig-name descname">TimeUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TimeUnit"><span class="viewcode-link">[source]</span></a><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TimeUnit" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">enum.Enum</code></p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">TimeUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TimeUnit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TimeUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration for the unit in which simulation time is measured.</p>
 <p><strong>Attributes:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.DAYS" title="bpo.simulator.TimeUnit.DAYS"><code class="xref py py-obj docutils literal notranslate">DAYS</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.DAYS" title="bpo.simulator.TimeUnit.DAYS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DAYS</span></code></a></p></td>
 <td><p>Measured in days.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.HOURS" title="bpo.simulator.TimeUnit.HOURS"><code class="xref py py-obj docutils literal notranslate">HOURS</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.HOURS" title="bpo.simulator.TimeUnit.HOURS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HOURS</span></code></a></p></td>
 <td><p>Measured in hours.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.MINUTES" title="bpo.simulator.TimeUnit.MINUTES"><code class="xref py py-obj docutils literal notranslate">MINUTES</code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.MINUTES" title="bpo.simulator.TimeUnit.MINUTES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MINUTES</span></code></a></p></td>
 <td><p>Measured in minutes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.SECONDS" title="bpo.simulator.TimeUnit.SECONDS"><code class="xref py py-obj docutils literal notranslate">SECONDS</code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.TimeUnit.SECONDS" title="bpo.simulator.TimeUnit.SECONDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SECONDS</span></code></a></p></td>
 <td><p>Measured in seconds.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py attribute code-definition">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.TimeUnit.DAYS">
-<code class="sig-name descname">DAYS</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TimeUnit.DAYS" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Measured in days.</p>
+<span class="sig-name descname"><span class="pre">DAYS</span></span><a class="headerlink" href="#bpo.simulator.TimeUnit.DAYS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measured in days.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.TimeUnit.HOURS">
-<code class="sig-name descname">HOURS</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TimeUnit.HOURS" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Measured in hours.</p>
+<span class="sig-name descname"><span class="pre">HOURS</span></span><a class="headerlink" href="#bpo.simulator.TimeUnit.HOURS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measured in hours.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.TimeUnit.MINUTES">
-<code class="sig-name descname">MINUTES</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TimeUnit.MINUTES" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Measured in minutes.</p>
+<span class="sig-name descname"><span class="pre">MINUTES</span></span><a class="headerlink" href="#bpo.simulator.TimeUnit.MINUTES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measured in minutes.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
-<dl class="py attribute code-definition">
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="bpo.simulator.TimeUnit.SECONDS">
-<code class="sig-name descname">SECONDS</code><a aria-label="Copy link to this definition." class="headerlink tooltipped tooltipped-ne" href="#bpo.simulator.TimeUnit.SECONDS" role="button"><svg pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path></svg></a></dt>
-<dd>
-<p>Measured in seconds.</p>
+<span class="sig-name descname"><span class="pre">SECONDS</span></span><a class="headerlink" href="#bpo.simulator.TimeUnit.SECONDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measured in seconds.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
+
 </dd></dl>
+
 </section>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">Made with <a href="https://www.sphinx-doc.org">Sphinx 4.0.2</a></div>
-</footer>
-</main>
-<div class="sticky bottom-0 md:hidden print:hidden bg-white">
-<div class="flex justify-center items-center">
-<button aria-labelledby="menuLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSidebar">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="menuLabel">Menu</span>
-</button><button aria-labelledby="searchLabel" class="text-3xl p-4 flex items-center focus:bg-gray-200" id="openSearch">
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-<span class="pl-2 text-sm font-medium uppercase tracking-wide text-gray-700" id="searchLabel">Search</span>
-</button>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation index</a><ul>
+  <li><a href="api.html">API Documentation</a><ul>
+      <li>Previous: <a href="bpo.problems.html" title="previous chapter">bpo.problems module</a></li>
+      <li>Next: <a href="bpo.visualizers.html" title="next chapter">bpo.visualizers module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bpo.simulator.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
 </div>
-</div>
-<div class="w-full fixed bottom-0 left-0 z-10 bg-gray-900 overflow-x-hidden pt-10 flex flex-col items-center md:hidden transition-all opacity-0 transform transform-gpu translate-y-full duration-300" id="search-pane">
-<h4 class="text-xl text-white mb-4" id="search-label">Enter search term</h4><form action="search.html" class="flex w-full justify-between items-center max-w-sm px-12" id="searchbox" method="get">
-<input aria-labelledby="search-label" class="p-2 flex-1 rounded-none" name="q" placeholder="Search the docs" type="search"/>
-<button aria-label="Get search results" class="p-2 text-white bg-gray-700 hover:bg-gray-200 hover:text-pink-500 focus:bg-gray-200 focus:text-pink-500 tooltipped tooltipped-sw">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-</form>
-<button aria-label="Close menu" class="text-4xl text-gray-200 p-4 bottom-0 hover:text-pink-500 md:hidden focus:text-pink-500 self-center" id="closeSearch" title="Close menu">
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</div>
-<button class="fixed bottom-0 right-0 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" id="snackbar">
-  Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" id="screen"></div>
-</div>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js">
-</script>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-<script src="_static/jquery.js"></script>
-<script src="_static/underscore.js"></script>
-<script src="_static/doctools.js"></script>
-<script defer="" src="_static/theme.js"></script>
-</body>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright .
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+  </div>
+  
+  </body>
 </html>

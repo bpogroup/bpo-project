@@ -398,7 +398,7 @@ class Simulator:
 
         :return: a number of resources.
         """
-        return self.problem.schedule[self.now % len(self.problem.schedule)]
+        return self.problem.schedule[int(self.now % len(self.problem.schedule))]
 
     def working_nr_resources(self):
         """
