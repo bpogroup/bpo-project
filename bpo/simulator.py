@@ -280,7 +280,7 @@ class Reporter:
             reporter.restart()
 
     def report(self, event):
-        if event.moment > self.warmup:
+        if event.moment >= self.warmup:
             for reporter in self.reporters:
                 reporter.report(event)
 
@@ -440,9 +440,11 @@ class Simulator:
                 # generate a new planning event to start planning now for the new task
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 # generate a new arrival event for the first task of the next case
-                (t, task) = self.problem.next_case()
-                self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
-                self.events.sort()
+                next_case = self.problem.next_case()
+                if next_case is not None:
+                    (t, task) = next_case
+                    self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
+                    self.events.sort()
 
             # if e is a start event:
             elif event.event_type == EventType.START_TASK:
