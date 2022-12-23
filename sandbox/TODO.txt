@@ -6,7 +6,7 @@ X Add data distributions
 
 X Add task processing time distributions depending on: case data/ resource/ task/ tasks that have happened
 
-Include error term in previous step.
+X Include error term in previous step.
 
 Create simulator for the result.
 
@@ -15,8 +15,6 @@ Add random planner.
 Add simulation not pre-loaded with cases
 
 Add assignment when n tasks/resources are available (not each time one becomes available)
-
-Create simulator. Check simulated log against real log.
 
 Use both resource cost and cycle time as objective. Groups are compared on both of them equally.
 

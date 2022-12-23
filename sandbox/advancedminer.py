@@ -111,9 +111,13 @@ class StratifiedNumericDistribution:
         self._encoder = None
         self._regressor = None
 
+        self._stratifier = ''
+        self._stratified_errors = dict()
+        self._overall_mean = 0
+
     # onehot_columns will be onehot encoded, standardization_columns will be Z-Score normalized
     # all other features will be minmax normalized.
-    def learn(self, data, target_column, feature_columns, onehot_columns, standardization_columns):
+    def learn(self, data, target_column, feature_columns, onehot_columns, standardization_columns, stratifier):
         x = data[feature_columns]
         y = data[target_column]
 
@@ -127,35 +131,55 @@ class StratifiedNumericDistribution:
         self._standardization_columns = standardization_columns
         self._rest_columns = [col for col in feature_columns if col not in standardization_columns and col not in onehot_columns]
 
+        self._overall_mean = y.mean()
+
         standardized_data = self._standardizer.fit_transform(x[self._standardization_columns])
         normalized_data = self._normalizer.fit_transform(x[self._rest_columns])
         onehot_data = self._encoder.fit_transform(x[self._onehot_columns])
 
-        processed_x = np.concatenate([standardized_data, normalized_data, onehot_data], axis=1)
-        x_train, x_test, y_train, y_test = train_test_split(processed_x, y, test_size=0.2)
+        x = np.concatenate([standardized_data, normalized_data, onehot_data], axis=1)
 
-        self._regressor = MLPRegressor().fit(x_train, y_train)
+        self._regressor = MLPRegressor(hidden_layer_sizes=(x.shape[1], int(x.shape[1]/2), int(x.shape[1]/4)), activation='relu', solver='adam').fit(x, y)
 
-    # features is a dictionary that maps feature labels to values
+        # now calculate the errors
+        self._stratifier = stratifier
+        df_error = data[[self._stratifier]].copy()
+        df_error['y'] = data[target_column]
+        df_error['y_hat'] = list(self._regressor.predict(x))
+        df_error['error'] = df_error['y'] - df_error['y_hat']
+
+        overall_value = NormalDistribution()
+        overall_value.learn(list(df_error['error']))
+
+        possible_values = data[stratifier].unique()
+        for pv in possible_values:
+            self._stratified_errors[pv] = NormalDistribution()
+            stratified_errors = list(df_error[df_error[self._stratifier] == pv]['error'])
+            if len(stratified_errors) > 50:
+                self._stratified_errors[pv].learn(stratified_errors)
+            else:
+                self._stratified_errors[pv] = overall_value
+
+    # features is a dictionary that maps feature labels to lists of values
     def sample(self, features):
-        standardized_data = []
-        for feature in self._standardization_columns:
-            standardized_data.append(features[feature])
-        rest_data = []
-        for feature in self._rest_columns:
-            rest_data.append(features[feature])
-        onehot_data = []
-        for feature in self._onehot_columns:
-            onehot_data.append(features[feature])
+        data = pandas.DataFrame(features)
 
-        standardized_data = self._standardizer.transform([standardized_data])
-        normalized_data = self._normalizer.transform([rest_data])
-        onehot_data = self._encoder.transform([onehot_data])
+        standardized_data = self._standardizer.transform(data[self._standardization_columns])
+        normalized_data = self._normalizer.transform(data[self._rest_columns])
+        onehot_data = self._encoder.transform(data[self._onehot_columns])
 
         x = np.concatenate([standardized_data, normalized_data, onehot_data], axis=1)
 
-        return self._regressor.predict(x)[0]
-
+        processing_time = self._regressor.predict(x)[0]
+        if processing_time <= 0:
+            print("Using overall mean")
+            processing_time = self._overall_mean
+        error = self._stratified_errors[features[self._stratifier][0]].sample()
+        if processing_time + error > 0:
+            return processing_time + error
+        else:
+            print("Infeasible error")
+            return processing_time
 
 # Only cases that start on or after earliest_start and complete on or after latest_completion will be taken into account.
 # earliest_start and latest completion are datetime objects. They should either both be None or both have a value.
@@ -208,7 +232,6 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     resources = df['Resource'].unique()
 
     # Mine the processing time distributions as they depend on other elements
-
     # For each task, add the tasks that preceded it as columns
     # tt_happened: task type -> []
     # each entry i in the list for task type tt (i.e. tt_happened[tt][i])
@@ -236,35 +259,29 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
         df[tt] = tt_happened[tt]
     # Now generate the distribution
     processing_times = StratifiedNumericDistribution()
-
     features = ['Activity', 'Resource'] + list(datafields.keys()) + list(task_types)
     onehot = ['Activity', 'Resource'] + [datafield for datafield in datafields if datafields[datafield] == DistributionType.CATEGORICAL]
     standardization = [datafield for datafield in datafields if datafields[datafield] != DistributionType.CATEGORICAL]
+    processing_times.learn(df[features + ['Duration']], 'Duration', features, onehot, standardization, 'Activity')
 
-    processing_times.learn(df[features + ['Duration']], 'Duration', features, onehot, standardization)
-    pfeatures = dict()
-    for feature in features:
-        pfeatures[feature] = df.iloc[3][feature]
-    y = df.iloc[3]['Duration']
-    y_hat = processing_times.sample(pfeatures)
-
+    # Mine the control flow
     initial_tasks = dict()
     following_task = dict()
     interarrival_times = []
     last_arrival_time = None
     for index, row in df_cases.iterrows():
         if last_arrival_time is not None:
-            interarrival_times.append((row['Start Timestamp'] - last_arrival_time).total_seconds()/3600)
-        last_arrival_time = row['Start Timestamp']
-        if not row['Trace'][0] in initial_tasks.keys():
-            initial_tasks[row['Trace'][0]] = 0
-        initial_tasks[row['Trace'][0]] += 1
-        for i in range(len(row['Trace'])):
-            predecessor = row['Trace'][i]
-            if i+1 >= len(row['Trace']):
+            interarrival_times.append((row['case_start'] - last_arrival_time).total_seconds()/3600)
+        last_arrival_time = row['case_start']
+        if not row['trace'][0] in initial_tasks.keys():
+            initial_tasks[row['trace'][0]] = 0
+        initial_tasks[row['trace'][0]] += 1
+        for i in range(len(row['trace'])):
+            predecessor = row['trace'][i]
+            if i+1 >= len(row['trace']):
                 successor = None
             else:
-                successor = row['Trace'][i+1]
+                successor = row['trace'][i+1]
             if not (predecessor, successor) in following_task:
                 following_task[(predecessor, successor)] = 0
             following_task[(predecessor, successor)] += 1
@@ -285,15 +302,15 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
         for successor in next_task_distribution[predecessor]:
             successors.append((next_task_distribution[predecessor][successor]/task_occurrences[predecessor], successor))
         next_task_distribution[predecessor] = successors
+
+    # Mine the resource pools
     df_resources = df.groupby(['Activity', 'Resource'], as_index=False).agg(Duration_mean=('Duration', 'mean'), Duration_std=('Duration', 'std'), Resource_count=('Resource', 'count'))
     resource_pools = dict()
-    processing_time_distribution = dict()
     for tt in task_types:
         resource_pools[tt] = []
     for index, row in df_resources.iterrows():
         if row["Resource_count"] > min_resource_count:
             resource_pools[row['Activity']].append(row['Resource'])
-            processing_time_distribution[(row['Activity'], row['Resource'])] = (row['Duration_mean'], row['Duration_std'])
 
     # Mine the resource schedules
     begin = min(df['Start Timestamp'])
@@ -323,4 +340,3 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
 
 log = pandas.read_parquet("../bpo/resources/BPI Challenge 2017 - clean Jan Feb.parquet")
 res = mine_problem(log, datafields={'ApplicationType': DistributionType.CATEGORICAL, 'LoanGoal': DistributionType.CATEGORICAL, 'RequestedAmount': DistributionType.BETA})
-print(len(res))
