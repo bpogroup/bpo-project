@@ -1,11 +1,13 @@
 import random
-
 import pandas
 import datetime
 from statistics import mean
 from enum import Enum, auto
 import scipy
-
+import numpy as np
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPRegressor
 
 class DistributionType(Enum):
     """An enumeration for different types of probability distribution."""
@@ -95,6 +97,66 @@ class BetaDistribution:
         return scipy.stats.beta.rvs(self._a, self._b, self._loc, self._scale)
 
 
+class StratifiedNumericDistribution:
+
+    def __init__(self):
+        self._target_column = ''
+        self._feature_columns = []
+        self._onehot_columns = []
+        self._standardization_columns = []
+        self._rest_columns = []
+
+        self._normalizer = None
+        self._standardizer = None
+        self._encoder = None
+        self._regressor = None
+
+    # onehot_columns will be onehot encoded, standardization_columns will be Z-Score normalized
+    # all other features will be minmax normalized.
+    def learn(self, data, target_column, feature_columns, onehot_columns, standardization_columns):
+        x = data[feature_columns]
+        y = data[target_column]
+
+        self._normalizer = MinMaxScaler()
+        self._standardizer = StandardScaler()
+        self._encoder = OneHotEncoder(sparse=False)
+
+        self._target_column = target_column
+        self._feature_columns = feature_columns
+        self._onehot_columns = onehot_columns
+        self._standardization_columns = standardization_columns
+        self._rest_columns = [col for col in feature_columns if col not in standardization_columns and col not in onehot_columns]
+
+        standardized_data = self._standardizer.fit_transform(x[self._standardization_columns])
+        normalized_data = self._normalizer.fit_transform(x[self._rest_columns])
+        onehot_data = self._encoder.fit_transform(x[self._onehot_columns])
+
+        processed_x = np.concatenate([standardized_data, normalized_data, onehot_data], axis=1)
+        x_train, x_test, y_train, y_test = train_test_split(processed_x, y, test_size=0.2)
+
+        self._regressor = MLPRegressor().fit(x_train, y_train)
+
+    # features is a dictionary that maps feature labels to values
+    def sample(self, features):
+        standardized_data = []
+        for feature in self._standardization_columns:
+            standardized_data.append(features[feature])
+        rest_data = []
+        for feature in self._rest_columns:
+            rest_data.append(features[feature])
+        onehot_data = []
+        for feature in self._onehot_columns:
+            onehot_data.append(features[feature])
+
+        standardized_data = self._standardizer.transform([standardized_data])
+        normalized_data = self._normalizer.transform([rest_data])
+        onehot_data = self._encoder.transform([onehot_data])
+
+        x = np.concatenate([standardized_data, normalized_data, onehot_data], axis=1)
+
+        return self._regressor.predict(x)[0]
+
+
 # Only cases that start on or after earliest_start and complete on or after latest_completion will be taken into account.
 # earliest_start and latest completion are datetime objects. They should either both be None or both have a value.
 # datafields are a mapping field name to DistributionType, where field name is one of the columns of the log.
@@ -110,36 +172,81 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
         relevant_ids = list(df_cases.index)
         df = df[df['Case ID'].isin(relevant_ids)]
 
-    # learn the datafields and corresponding disrtibutions
-    datatypes = dict()
+    # Filter the data to the relevant columns and add the durations to the tasks
+    df = df[['Case ID', 'Activity', 'Resource', 'Start Timestamp', 'Complete Timestamp'] + list(datafields.keys())]
+    df['Duration'] = df[['Start Timestamp', 'Complete Timestamp']].apply(lambda tss: (tss[1]-tss[0]).total_seconds()/3600, axis=1)
+
+    # Sort the data
+    df = df.sort_values(by=['Case ID', 'Complete Timestamp'])
+
+    # Mine the datatypes and corresponding distributions
+    data_types = dict()
     for datafield in datafields:
         if datafields[datafield] == DistributionType.CATEGORICAL:
             distribution = CategoricalDistribution()
             distribution.learn(list(df[datafield].value_counts().index), list(df[datafield].value_counts().values))
-            datatypes[datafield] = distribution
+            data_types[datafield] = distribution
         elif datafields[datafield] == DistributionType.GAMMA:
             distribution = GammaDistribution()
             distribution.learn(list(df[datafield]))
-            datatypes[datafield] = distribution
+            data_types[datafield] = distribution
         elif datafields[datafield] == DistributionType.NORMAL:
             distribution = NormalDistribution()
             distribution.learn(list(df[datafield]))
-            datatypes[datafield] = distribution
+            data_types[datafield] = distribution
         elif datafields[datafield] == DistributionType.BETA:
             distribution = BetaDistribution()
             distribution.learn(list(df[datafield]))
-            datatypes[datafield] = distribution
+            data_types[datafield] = distribution
 
-    return datatypes
-
+    # Get the task_types
     task_types = df['Activity'].unique()
     if task_type_filter is not None:
         task_types = [tt for tt in task_types if task_type_filter(tt)]
 
+    # Get the resources
     resources = df['Resource'].unique()
 
-    df['Duration'] = df[['Start Timestamp', 'Complete Timestamp']].apply(lambda tss: (tss[1]-tss[0]).total_seconds()/3600, axis=1)
+    # Mine the processing time distributions as they depend on other elements
 
+    # For each task, add the tasks that preceded it as columns
+    # tt_happened: task type -> []
+    # each entry i in the list for task type tt (i.e. tt_happened[tt][i])
+    # is the number of times tasks of type tt have happened in a case in dataframe df up to but not including row i
+    tt_happened = dict()
+    for tt in task_types:
+        tt_happened[tt] = []
+    current_case = None
+    previous_task = None
+    i = 0
+    for index, row in df.iterrows():
+        if row['Case ID'] != current_case:  # if we are starting a new case, set all task counts to 0 again
+            current_case = row['Case ID']
+            for tt in task_types:
+                tt_happened[tt].append(0)
+        else:  # if we are on a case, task counts remain the same, but increase for the previous task
+            for tt in task_types:
+                if tt == previous_task:
+                    tt_happened[tt].append(tt_happened[tt][i-1] + 1)
+                else:
+                    tt_happened[tt].append(tt_happened[tt][i-1])
+        previous_task = row['Activity']
+        i += 1
+    for tt in task_types:
+        df[tt] = tt_happened[tt]
+    # Now generate the distribution
+    processing_times = StratifiedNumericDistribution()
+
+    features = ['Activity', 'Resource'] + list(datafields.keys()) + list(task_types)
+    onehot = ['Activity', 'Resource'] + [datafield for datafield in datafields if datafields[datafield] == DistributionType.CATEGORICAL]
+    standardization = [datafield for datafield in datafields if datafields[datafield] != DistributionType.CATEGORICAL]
+
+    processing_times.learn(df[features + ['Duration']], 'Duration', features, onehot, standardization)
+    pfeatures = dict()
+    for feature in features:
+        pfeatures[feature] = df.iloc[3][feature]
+    y = df.iloc[3]['Duration']
+    y_hat = processing_times.sample(pfeatures)
 
     initial_tasks = dict()
     following_task = dict()
@@ -188,7 +295,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
             resource_pools[row['Activity']].append(row['Resource'])
             processing_time_distribution[(row['Activity'], row['Resource'])] = (row['Duration_mean'], row['Duration_std'])
 
-    # MINE THE RESOURCE SCHEDULE
+    # Mine the resource schedules
     begin = min(df['Start Timestamp'])
     end = max(df['Complete Timestamp'])
     hr = (begin, begin + resource_schedule_timeunit)

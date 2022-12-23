@@ -4,9 +4,11 @@ X Add split dataset
 
 X Add data distributions
 
-Add task processing time distributions depending on: case data/ resource/ task/ tasks that have happened
+X Add task processing time distributions depending on: case data/ resource/ task/ tasks that have happened
 
 Include error term in previous step.
+
+Create simulator for the result.
 
 Add random planner.
 
