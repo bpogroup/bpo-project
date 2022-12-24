@@ -14,6 +14,8 @@ Add random planner.
 
 Add simulation not pre-loaded with cases
 
+Test the simulator.
+
 Add assignment when n tasks/resources are available (not each time one becomes available)
 
 Use both resource cost and cycle time as objective. Groups are compared on both of them equally.
