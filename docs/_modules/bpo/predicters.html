@@ -109,22 +109,6 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 
 
-<div class="viewcode-block" id="PerfectPredicter"><a class="viewcode-back" href="../../bpo.predicters.html#bpo.predicters.PerfectPredicter">[docs]</a><span class="k">class</span> <span class="nc">PerfectPredicter</span><span class="p">(</span><span class="n">Predicter</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A :class:`.Predicter` with perfect knowledge: it returns the exact values for the requested predictions.&quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="PerfectPredicter.predict_processing_time_task"><a class="viewcode-back" href="../../bpo.predicters.html#bpo.predicters.PerfectPredicter.predict_processing_time_task">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">predict_processing_time_task</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">problem</span><span class="o">.</span><span class="n">processing_time</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">resource</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PerfectPredicter.predict_remaining_processing_time"><a class="viewcode-back" href="../../bpo.predicters.html#bpo.predicters.PerfectPredicter.predict_remaining_processing_time">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">predict_remaining_processing_time</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">now</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">problem</span><span class="o">.</span><span class="n">processing_time</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">resource</span><span class="p">)</span> <span class="o">-</span> <span class="n">now</span></div>
-
-<div class="viewcode-block" id="PerfectPredicter.predict_next_task"><a class="viewcode-back" href="../../bpo.predicters.html#bpo.predicters.PerfectPredicter.predict_next_task">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">predict_next_task</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">environment</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
-
-
 <div class="viewcode-block" id="MeanPredicter"><a class="viewcode-back" href="../../bpo.predicters.html#bpo.predicters.MeanPredicter">[docs]</a><span class="k">class</span> <span class="nc">MeanPredicter</span><span class="p">(</span><span class="n">Predicter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A :class:`.Predicter` that predicts that the time a resource will take to perform a task</span>
 <span class="sd">    is the historical mean. Works only for instances of the :class:`.problems.MinedProblem`.&quot;&quot;&quot;</span>
@@ -159,7 +143,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -171,7 +155,7 @@
     </div>
   <div class="footer">
     &copy; Copyright .
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
   </div>
   
   </body>

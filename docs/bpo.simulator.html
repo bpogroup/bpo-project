@@ -62,10 +62,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.CaseReporterElement" title="bpo.simulator.CaseReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CaseReporterElement</span></code></a>()</p></td>
 <td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about cases, specifically:</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Event</span></code></a>(event_type, moment, task[, resource, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Event" title="bpo.simulator.Event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Event</span></code></a>(event_type, moment, task[, resource, ...])</p></td>
 <td><p>A simulation event.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement" title="bpo.simulator.EventLogReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventLogReporterElement</span></code></a>(filename[, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.EventLogReporterElement" title="bpo.simulator.EventLogReporterElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventLogReporterElement</span></code></a>(filename[, ...])</p></td>
 <td><p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that stored the simulation events that occur in an event log.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.EventType" title="bpo.simulator.EventType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventType</span></code></a>(value)</p></td>
@@ -90,7 +90,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.CaseReporterElement">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">CaseReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.CaseReporterElement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">CaseReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#CaseReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.CaseReporterElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about cases, specifically:</p>
 <ul class="simple">
@@ -150,7 +150,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.Event">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_tasks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Event" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_tasks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Event" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A simulation event.</p>
 <dl class="field-list simple">
@@ -169,7 +169,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.EventLogReporterElement">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventLogReporterElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em>, <em class="sig-param"><span class="pre">timeunit=&lt;TimeUnit.SECONDS:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">initial_time=datetime.datetime(2020</span></em>, <em class="sig-param"><span class="pre">1</span></em>, <em class="sig-param"><span class="pre">1</span></em>, <em class="sig-param"><span class="pre">0</span></em>, <em class="sig-param"><span class="pre">0)</span></em>, <em class="sig-param"><span class="pre">time_format='%Y-%m-%d</span> <span class="pre">%H:%M:%S.%f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventLogReporterElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeunit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeUnit.SECONDS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.datetime(2020,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S.%f'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that stored the simulation events that occur in an event log.
 The <a class="reference internal" href="#bpo.simulator.EventLogReporterElement.summarize" title="bpo.simulator.EventLogReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EventLogReporterElement.summarize()</span></code></a> method does not return any information.
@@ -240,7 +240,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.EventType">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventType" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration for the types of event that can happen in the simulator.</p>
 <p><strong>Attributes:</strong></p>
@@ -344,7 +344,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Reporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">warmup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Reporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">warmup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A Reporter consists of <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> and reports on the information that is kept by
 its elements. Consequently, it does not do much itself, it mainly passes on events to and
@@ -388,7 +388,7 @@ creates a reporter with a <code class="xref py py-class docutils literal notrans
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Reporter.aggregate">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summaries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter.aggregate" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summaries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Reporter.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Reporter.aggregate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -410,7 +410,7 @@ creates a reporter with a <code class="xref py py-class docutils literal notrans
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">ReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">ReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class that must be implemented by each concrete reporter element.
 A reporter element is part of a <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reporter</span></code></a>. It receives a <a class="reference internal" href="#bpo.simulator.ReporterElement.report" title="bpo.simulator.ReporterElement.report"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ReporterElement.report()</span></code></a> call,
@@ -438,7 +438,7 @@ a <a class="reference internal" href="#bpo.simulator.ReporterElement.restart" ti
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement.report">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.report" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is invoked when a simulation event occurs. Can store information about the event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -449,13 +449,13 @@ a <a class="reference internal" href="#bpo.simulator.ReporterElement.restart" ti
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement.restart">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.restart" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.restart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is invoked when a simulation run starts. Must erase all information to start a new report.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.ReporterElement.summarize">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.summarize" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#ReporterElement.summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.ReporterElement.summarize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is invoked when a simulation run ends. Must return aggregate information about stored event information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -469,7 +469,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A Simulator simulates a specified <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> using a specified <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a>.
 The results of the simulation are generated using the specified <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reporter</span></code></a>.
@@ -524,7 +524,7 @@ There are two main entry points into the simulator:</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.init_simulation" title="bpo.simulator.Simulator.init_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_simulation</span></code></a>()</p></td>
 <td><p>Re-initializes the simulation, such that it can be run again.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.replicate" title="bpo.simulator.Simulator.replicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replicate</span></code></a>(problem_instances, planner, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.replicate" title="bpo.simulator.Simulator.replicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replicate</span></code></a>(problem, planner, reporter, ...)</p></td>
 <td><p>Creates a simulator for each of the problem_instances, using the specified planner and reporter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(running_time)</p></td>
@@ -602,7 +602,7 @@ that maps case identifiers for which a task exists to the identifiers of those t
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bpo.simulator.Simulator.replicate">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">replicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_instances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.replicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.replicate" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">replicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replications</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#Simulator.replicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.Simulator.replicate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a simulator for each of the problem_instances, using the specified planner and reporter.
 Simulates each problem instance by calling the <a class="reference internal" href="#bpo.simulator.Simulator.simulate" title="bpo.simulator.Simulator.simulate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code></a> method on it using the
 specified simulation time. Returns the list of summaries generated by the reporter, one summary for
@@ -610,10 +610,11 @@ each simulated problem_instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>problem_instances</strong> – a list of instances of a <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a>.</p></li>
+<li><p><strong>problem</strong> – an instance of <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem" title="bpo.problems.Problem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Problem</span></code></a> to simulate.</p></li>
 <li><p><strong>planner</strong> – a <a class="reference internal" href="bpo.planners.html#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a>.</p></li>
 <li><p><strong>reporter</strong> – a <a class="reference internal" href="#bpo.simulator.Reporter" title="bpo.simulator.Reporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reporter</span></code></a>.</p></li>
 <li><p><strong>simulation_time</strong> – the amount of simulation time for which each problem instance should be simulated.</p></li>
+<li><p><strong>replications</strong> – the number of replications to do.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -673,7 +674,7 @@ A task is in this list if it must still be performed. After a task is completed 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.TasksReporterElement">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">TasksReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TasksReporterElement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">TasksReporterElement</span></span><a class="reference internal" href="_modules/bpo/simulator.html#TasksReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TasksReporterElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that keeps information about tasks, specifically:</p>
 <ul class="simple">
@@ -734,7 +735,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.TimeUnit">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">TimeUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TimeUnit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TimeUnit" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">TimeUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#TimeUnit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.TimeUnit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration for the unit in which simulation time is measured.</p>
 <p><strong>Attributes:</strong></p>
@@ -820,7 +821,7 @@ and value is the corresponding information.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -832,7 +833,7 @@ and value is the corresponding information.</p>
     </div>
   <div class="footer">
     &copy; Copyright .
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
   </div>
   
   </body>

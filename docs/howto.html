@@ -78,28 +78,23 @@ variants (of the process, forecasting technique or planning technique) can be co
 <span class="kn">from</span> <span class="nn">simulator</span> <span class="kn">import</span> <span class="n">Simulator</span><span class="p">,</span> <span class="n">Reporter</span>
 <span class="kn">from</span> <span class="nn">planners</span> <span class="kn">import</span> <span class="n">GreedyPlanner</span>
 
-<span class="n">problem_instances</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
-    <span class="n">problem_instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MMcProblem</span><span class="p">()</span><span class="o">.</span><span class="n">from_generator</span><span class="p">(</span><span class="mi">51000</span><span class="p">))</span>
+<span class="n">problem</span> <span class="o">=</span> <span class="n">MMcProblem</span><span class="p">()</span>
 <span class="n">planner</span> <span class="o">=</span> <span class="n">GreedyPlanner</span><span class="p">()</span>
 <span class="n">reporter</span> <span class="o">=</span> <span class="n">Reporter</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">Simulator</span><span class="o">.</span><span class="n">replicate</span><span class="p">(</span><span class="n">problem_instances</span><span class="p">,</span> <span class="n">planner</span><span class="p">,</span> <span class="n">reporter</span><span class="p">,</span> <span class="mi">50000</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">Simulator</span><span class="o">.</span><span class="n">replicate</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">planner</span><span class="p">,</span> <span class="n">reporter</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Reporter</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The example problem represents an M/M/c queue with an interarrival rate of 10 a service time of 9 and c=2 servers.
 The specification of the problem can be inspected in the MMcProblem code.</p>
-<p>First, problem instances must be created from the problem. This can automatically be done using the from_generator method, which
-exists for each problem. The method takes the amount of simulation time for which instances should be generated as a parameter.
-This amount of time should be slightly longer than the simulation time, so the simulator does not run out of cases to simulate.
-Each instance consists of cases that arrive at a simulated time. Each case has one or more tasks that must be performed on it (in this case only one task).</p>
+<p>First, the problem must be created. The problem will generate cases that arrive at a simulated time. Each case has one or more tasks that must be performed on it (in this case only one task).</p>
 <p>Second, a planner should be created that plans the assignment of tasks to resources. A default greedy planner exists that
 assigns each task to the first available resource.</p>
 <p>Third, a reporter should be created that collects information from the simulator. A default reporter exists that collects
 for each instance the number of cases that completed and the average cycle time per case as well as the number of
 tasks that completed and the average processing time and waiting time per task. The reporter takes the warmup time as
 a parameter, i.e. the simulation time during which no data is collected for reporting.</p>
-<p>Now, the simulator can be run for the problem instances with the planner and the reporter. The simulator also takes an
+<p>Now, the simulator can be run for a number of replications of the problem with the planner and the reporter. The simulator also takes an
 amount of simulation time for which it should be run. The simulator returns a list of results. This is the information
 that the reporter generates for each instance, i.e. the list has as many results as there are problem instances.</p>
 <p>Finally, the list of results can be aggregated. Each reporter has an aggregate method that aggregated the results
@@ -296,8 +291,9 @@ we can simulate and create a lineplot visualization for those problems as follow
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">How to use the framework</a><ul>
 <li><a class="reference internal" href="#quick-start">Quick start</a></li>
 <li><a class="reference internal" href="#defining-a-problem">Defining a problem</a></li>
@@ -307,7 +303,8 @@ we can simulate and create a lineplot visualization for those problems as follow
 </ul>
 </li>
 </ul>
-<h3>Related Topics</h3>
+
+  </div><h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation index</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Business Process Optimization</a></li>
@@ -325,7 +322,7 @@ we can simulate and create a lineplot visualization for those problems as follow
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -337,7 +334,7 @@ we can simulate and create a lineplot visualization for those problems as follow
     </div>
   <div class="footer">
     &copy; Copyright .
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
   </div>
   
   </body>

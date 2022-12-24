@@ -64,25 +64,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">case_id</span> <span class="o">=</span> <span class="n">case_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task_type</span> <span class="o">=</span> <span class="n">task_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">processing_times</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># resource -&gt; processing_time</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_tasks</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="nf">add_processing_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">processing_time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Used when instantiating a task: add the time it will take the specified resource to process this task.</span>
-
-<span class="sd">        :meta private:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">processing_times</span><span class="p">[</span><span class="n">resource</span><span class="p">]</span> <span class="o">=</span> <span class="n">processing_time</span>
-
-    <span class="k">def</span> <span class="nf">add_next_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Used when instantiating a task: add a task that can be performed in the case (with self.case_id)</span>
-<span class="sd">        when this task is completed. Note that this means that: for all t in self.next_tasks: self.case_id == t.case_id.</span>
-
-<span class="sd">        :meta private:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_type</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">case_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
@@ -163,49 +144,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cases</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># case_id -&gt; (arrival_time, initial_task)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resource_weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_schedule</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previous_case_arrival_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Problem.from_generator"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.from_generator">[docs]</a>    <span class="k">def</span> <span class="nf">from_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Instantiates the problem by generating cases, their tasks and the corresponding arrival times, processing times, and data at random.</span>
-<span class="sd">        Uses the methods interarrival_time_sample, processing_time_sample, data_sample, and next_task_types_sample to</span>
-<span class="sd">        randomly generate the cases and tasks. These can be implemented in specific problems to obtain the desired behavior.</span>
-
-<span class="sd">        :param duration: the latest simulation time at which a new case should arrive.</span>
-<span class="sd">        :return: an instance of the :class:`.Problem`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">now</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">next_case_id</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">next_task_id</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">unfinished_tasks</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># Instantiate cases at the interarrival time for the duration.</span>
-        <span class="c1"># Generate the first task for each case, without processing times and next tasks, add them to the unfinished tasks.</span>
-        <span class="k">while</span> <span class="n">now</span> <span class="o">&lt;</span> <span class="n">duration</span><span class="p">:</span>
-            <span class="n">at</span> <span class="o">=</span> <span class="n">now</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">interarrival_time_sample</span><span class="p">()</span>
-            <span class="n">initial_task_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_initial_task_type</span><span class="p">()</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">next_case_id</span><span class="p">,</span> <span class="n">initial_task_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">initial_task_type</span><span class="p">))</span>
-            <span class="n">next_task_id</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">unfinished_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cases</span><span class="p">[</span><span class="n">next_case_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">at</span><span class="p">,</span> <span class="n">task</span><span class="p">)</span>
-            <span class="n">next_case_id</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">now</span> <span class="o">=</span> <span class="n">at</span>
-        <span class="c1"># Finish the tasks by:</span>
-        <span class="c1"># 1. generating the processing times.</span>
-        <span class="c1"># 2. generating the next tasks, without processing times and next tasks, add them to the unfinished tasks.</span>
-        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unfinished_tasks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="n">unfinished_tasks</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource_pool</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">):</span>
-                <span class="n">pt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_time_sample</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">task</span><span class="p">)</span>
-                <span class="n">task</span><span class="o">.</span><span class="n">add_processing_time</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">pt</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_types_sample</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
-                <span class="n">new_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">tt</span><span class="p">))</span>
-                <span class="n">next_task_id</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">unfinished_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_task</span><span class="p">)</span>
-                <span class="n">task</span><span class="o">.</span><span class="n">add_next_task</span><span class="p">(</span><span class="n">new_task</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Problem.from_file"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.from_file">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
@@ -219,7 +165,7 @@
             <span class="n">instance</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">instance</span></div>
 
-<div class="viewcode-block" id="Problem.save_instance"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.save_instance">[docs]</a>    <span class="k">def</span> <span class="nf">save_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="Problem.save"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the problem to file.</span>
 
@@ -270,7 +216,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Restarts this problem instance, i.e.: sets the next case to arrive to the first case.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previous_case_arrival_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Problem.next_case"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.next_case">[docs]</a>    <span class="k">def</span> <span class="nf">next_case</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -280,23 +229,35 @@
 <span class="sd">                arrival_time is the simulation time at which the case arrives, and</span>
 <span class="sd">                initial_task is the first task to perform for the case.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="p">(</span><span class="n">arrival_time</span><span class="p">,</span> <span class="n">initial_task</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cases</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">return</span> <span class="n">arrival_time</span><span class="p">,</span> <span class="n">initial_task</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="n">arrival_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">previous_case_arrival_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">interarrival_time_sample</span><span class="p">()</span>
+        <span class="n">initial_task_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_initial_task_type</span><span class="p">()</span>
+        <span class="n">case_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span>
+        <span class="n">initial_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">case_id</span><span class="p">,</span> <span class="n">initial_task_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">initial_task_type</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Problem.processing_time"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.processing_time">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">processing_time</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">resource</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previous_case_arrival_time</span> <span class="o">=</span> <span class="n">arrival_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="n">arrival_time</span><span class="p">,</span> <span class="n">initial_task</span></div>
+
+<div class="viewcode-block" id="Problem.complete_task"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.complete_task">[docs]</a>    <span class="k">def</span> <span class="nf">complete_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the time it will take the resource to perform the task.</span>
+<span class="sd">        Adds the specified task to the case history.</span>
+<span class="sd">        Returns the list of next tasks that are enabled after the task with the specified task_id in the specified case_id is completed.</span>
 
-<span class="sd">        :param resource: one of the :attr:`.Problem.resources` of the problem.</span>
-<span class="sd">        :param task: a :class:`.Task` that should come from the problem.</span>
-<span class="sd">        :return: a float representing a duration in simulation time.</span>
+<span class="sd">        :param task: the :class:`.Task` that completed.</span>
+<span class="sd">        :return: a list of tasks</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">task</span><span class="o">.</span><span class="n">processing_times</span><span class="p">[</span><span class="n">resource</span><span class="p">]</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+
+        <span class="n">next_tasks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_types_sample</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+            <span class="n">new_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">tt</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">next_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_task</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">next_tasks</span></div></div>
 
 
 <div class="viewcode-block" id="MinedProblem"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem">[docs]</a><span class="k">class</span> <span class="nc">MinedProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
@@ -542,7 +503,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -554,7 +515,7 @@
     </div>
   <div class="footer">
     &copy; Copyright .
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
   </div>
   
   </body>

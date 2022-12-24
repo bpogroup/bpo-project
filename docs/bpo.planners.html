@@ -71,14 +71,14 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Planner</span></code></a>()</p></td>
 <td><p>Abstract class that all planners must implement.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.planners.PredictiveHeuristicPlanner" title="bpo.planners.PredictiveHeuristicPlanner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PredictiveHeuristicPlanner</span></code></a>(predicter, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.planners.PredictiveHeuristicPlanner" title="bpo.planners.PredictiveHeuristicPlanner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PredictiveHeuristicPlanner</span></code></a>(predicter, ...)</p></td>
 <td><p>A <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a> that tries to assign a task to the optimal resource.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.planners.GreedyPlanner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">GreedyPlanner</span></span><a class="reference internal" href="_modules/bpo/planners.html#GreedyPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.GreedyPlanner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">GreedyPlanner</span></span><a class="reference internal" href="_modules/bpo/planners.html#GreedyPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.GreedyPlanner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.planners.Planner</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a> that assigns tasks to resources in an anything-goes manner.</p>
 <p><strong>Methods:</strong></p>
@@ -115,7 +115,7 @@ at which the resource must be assigned to the task (typically, this can also be 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.planners.HeuristicPlanner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">HeuristicPlanner</span></span><a class="reference internal" href="_modules/bpo/planners.html#HeuristicPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.HeuristicPlanner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">HeuristicPlanner</span></span><a class="reference internal" href="_modules/bpo/planners.html#HeuristicPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.HeuristicPlanner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.planners.Planner</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a> that takes each task and tries to assign it to the optimal resource.
 The optimal resource must be one of <a class="reference internal" href="bpo.problems.html#bpo.problems.Problem.resources" title="bpo.problems.Problem.resources"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Problem.resources</span></code></a> and specified as
@@ -155,7 +155,7 @@ at which the resource must be assigned to the task (typically, this can also be 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.planners.ImbalancedPredictivePlanner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">ImbalancedPredictivePlanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/planners.html#ImbalancedPredictivePlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.ImbalancedPredictivePlanner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">ImbalancedPredictivePlanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/planners.html#ImbalancedPredictivePlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.ImbalancedPredictivePlanner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.planners.Planner</span></code></a></p>
 <p>Specific planner for the <code class="xref py py-class docutils literal notranslate"><span class="pre">problem.ImbalancedProblem</span></code>, to be used for test purposes.
 A <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a> that tries to assign a task to the optimal resource,
@@ -199,7 +199,7 @@ at which the resource must be assigned to the task (typically, this can also be 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.planners.Planner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">Planner</span></span><a class="reference internal" href="_modules/bpo/planners.html#Planner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.Planner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">Planner</span></span><a class="reference internal" href="_modules/bpo/planners.html#Planner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.Planner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class that all planners must implement.</p>
 <p><strong>Methods:</strong></p>
@@ -216,7 +216,7 @@ at which the resource must be assigned to the task (typically, this can also be 
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="bpo.planners.Planner.assign">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/planners.html#Planner.assign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.Planner.assign" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/planners.html#Planner.assign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.Planner.assign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assign tasks to resources from the simulation environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -236,7 +236,7 @@ at which the resource must be assigned to the task (typically, this can also be 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.planners.PredictiveHeuristicPlanner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">PredictiveHeuristicPlanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_lookahead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/planners.html#PredictiveHeuristicPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.PredictiveHeuristicPlanner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.planners.</span></span><span class="sig-name descname"><span class="pre">PredictiveHeuristicPlanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_lookahead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/planners.html#PredictiveHeuristicPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.planners.PredictiveHeuristicPlanner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.planners.Planner</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.planners.Planner" title="bpo.planners.Planner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planner</span></code></a> that tries to assign a task to the optimal resource.
 This is the resource that is predicted to have the lowest processing time
@@ -304,7 +304,7 @@ at which the resource must be assigned to the task (typically, this can also be 
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -316,7 +316,7 @@ at which the resource must be assigned to the task (typically, this can also be 
     </div>
   <div class="footer">
     &copy; Copyright .
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
   </div>
   
   </body>

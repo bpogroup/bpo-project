@@ -27,21 +27,16 @@ The code below illustrates how to quickly get started with an example problem.
     from simulator import Simulator, Reporter
     from planners import GreedyPlanner
 
-    problem_instances = []
-    for i in range(20):
-        problem_instances.append(MMcProblem().from_generator(51000))
+    problem = MMcProblem()
     planner = GreedyPlanner()
     reporter = Reporter(10000)
-    results = Simulator.replicate(problem_instances, planner, reporter, 50000)
+    results = Simulator.replicate(problem, planner, reporter, 50000, 10)
     print(Reporter.aggregate(results))
 
 The example problem represents an M/M/c queue with an interarrival rate of 10 a service time of 9 and c=2 servers.
 The specification of the problem can be inspected in the MMcProblem code.
 
-First, problem instances must be created from the problem. This can automatically be done using the from_generator method, which
-exists for each problem. The method takes the amount of simulation time for which instances should be generated as a parameter.
-This amount of time should be slightly longer than the simulation time, so the simulator does not run out of cases to simulate.
-Each instance consists of cases that arrive at a simulated time. Each case has one or more tasks that must be performed on it (in this case only one task).
+First, the problem must be created. The problem will generate cases that arrive at a simulated time. Each case has one or more tasks that must be performed on it (in this case only one task).
 
 Second, a planner should be created that plans the assignment of tasks to resources. A default greedy planner exists that
 assigns each task to the first available resource.
@@ -51,7 +46,7 @@ for each instance the number of cases that completed and the average cycle time 
 tasks that completed and the average processing time and waiting time per task. The reporter takes the warmup time as
 a parameter, i.e. the simulation time during which no data is collected for reporting.
 
-Now, the simulator can be run for the problem instances with the planner and the reporter. The simulator also takes an
+Now, the simulator can be run for a number of replications of the problem with the planner and the reporter. The simulator also takes an
 amount of simulation time for which it should be run. The simulator returns a list of results. This is the information
 that the reporter generates for each instance, i.e. the list has as many results as there are problem instances.
 
