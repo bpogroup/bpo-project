@@ -15,4 +15,4 @@ The business process to simulate can be specified, but also mined from a busines
 
 More information on how to use the framework can be found in the documentation_.
 
-.. _documentation: https://rmdijkman.github.io/bpo-project/
+.. _documentation: https://bpogroup.github.io/bpo-project/
