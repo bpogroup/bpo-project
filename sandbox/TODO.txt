@@ -10,9 +10,9 @@ X Include error term in previous step.
 
 X Add simulation not pre-loaded with cases
 
-Create simulator for the result.
+X Create simulator for the result.
 
-Add random planner.
+X Add random planner.
 
 Test the simulator.
 

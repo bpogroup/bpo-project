@@ -3,6 +3,7 @@ from simulator import Simulator, Reporter, EventLogReporterElement, TimeUnit
 from planners import GreedyPlanner, HeuristicPlanner, ImbalancedPredictivePlanner, PredictiveHeuristicPlanner
 from predicters import ImbalancedPredicter, MeanPredicter
 from visualizers import boxplot, line_with_ci
+from distributions import DistributionType
 from miners import mine_problem
 import pandas
 import numpy as np
@@ -48,25 +49,18 @@ def try_execution_traces():
 
 
 # Mining a problem from an event log and saving it to file
-def try_mine_problem_generator():
-    log = pandas.read_csv("./resources/BPI Challenge 2017 - clean.zip")
-    problem = mine_problem(log)
-    problem.save_generator("../temp/BPI Challenge 2017 - generator.pickle")
-
-
-# Load a mined problem from a file, generate a problem instance
-def try_generate_mined_problem_instance():
-    problem = MinedProblem.generator_from_file("../temp/BPI Challenge 2017 - generator.pickle")
-    problem_instance = problem.from_generator(24*30*13)  # Running for longer than the simulation time, so we do not run out of tasks
-    problem_instance.save_instance("../temp/BPI Challenge 2017 - instance.pickle")
+def try_mine_problem():
+    log = pandas.read_parquet("../bpo/resources/BPI Challenge 2017 - clean Jan Feb.parquet")
+    problem = mine_problem(log, datafields={'ApplicationType': DistributionType.CATEGORICAL, 'LoanGoal': DistributionType.CATEGORICAL, 'RequestedAmount': DistributionType.BETA})
+    problem.save("../temp/BPI Challenge 2017 - clean Jan Feb - problem.pickle")
 
 
 # Load a mined problem from file, simulating it and saving the log
 def try_simulate_mined_problem():
-    problem_instance = MinedProblem.from_file("../temp/BPI Challenge 2017 - instance.pickle")
+    problem = MinedProblem.from_file("../temp/BPI Challenge 2017 - clean Jan Feb - problem.pickle")
     reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - simulated.csv", TimeUnit.HOURS)])
-    simulator = Simulator(problem_instance, reporter, PredictiveHeuristicPlanner(MeanPredicter(), 10, 0.1))
-    simulator.simulate(24*30*12)
+    simulator = Simulator(problem, reporter, GreedyPlanner())
+    simulator.simulate(24)
 
 
 def main():
@@ -74,10 +68,9 @@ def main():
     # try_several_planners()
     # try_comparison()
     # try_multiple_comparison()
-    try_execution_traces()
-    # try_mine_problem_generator()
-    # try_generate_mined_problem_instance()
-    # try_simulate_mined_problem()
+    # try_execution_traces()
+    # try_mine_problem()
+    try_simulate_mined_problem()
 
 
 if __name__ == "__main__":

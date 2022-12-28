@@ -11,15 +11,16 @@ class Task:
     :param task_id: the identifier of the task.
     :param case_id: the identifier of the case to which the task belongs.
     :param task_type: the type of the task, i.e. one of the :attr:`.Problem.task_types`.
-    :param data: a dictionary with additional data that is the result of the task,
-                 each item is a label -> value pair.
     """
 
-    def __init__(self, task_id, case_id, task_type, data):
+    def __init__(self, task_id, case_id, task_type):
         self.id = task_id
         self.case_id = case_id
         self.task_type = task_type
-        self.data = data
+        """
+        a dictionary with additional data that is the result of the task, each item is a label -> value pair.
+        """
+        self.data = dict()
 
     def __str__(self):
         return self.task_type + "(" + str(self.case_id) + ")_" + str(self.id) + (str(self.data) if len(self.data) > 0 else "")
@@ -150,11 +151,11 @@ class Problem(ABC):
         """
         raise NotImplementedError
 
-    def data_sample(self, task_type):
+    def data_sample(self, task):
         """
-        Randomly samples data for the task type.
+        Randomly samples data for the task.
 
-        :param task_type: one of the :attr:`.Problem.task_types` of the problem.
+        :param task: the :class:`.Task` for which the data will be sampled.
         :return: a dictionary with additional data that can be stored in :attr:`.Task.data`.
         """
         return dict()
@@ -188,7 +189,8 @@ class Problem(ABC):
         arrival_time = self.previous_case_arrival_time + self.interarrival_time_sample()
         initial_task_type = self.sample_initial_task_type()
         case_id = self.next_case_id
-        initial_task = Task(self.next_task_id, case_id, initial_task_type, self.data_sample(initial_task_type))
+        initial_task = Task(self.next_task_id, case_id, initial_task_type)
+        initial_task.data = self.data_sample(initial_task)
 
         self.next_case_id += 1
         self.next_task_id += 1
@@ -209,134 +211,12 @@ class Problem(ABC):
 
         next_tasks = []
         for tt in self.next_task_types_sample(task):
-            new_task = Task(self.next_task_id, task.case_id, tt, self.data_sample(tt))
+            new_task = Task(self.next_task_id, task.case_id, tt)
+            new_task.data = self.data_sample(new_task)
             self.next_task_id += 1
             next_tasks.append(new_task)
 
         return next_tasks
-
-
-class MinedProblem(Problem):
-    """
-    A specific :class:`.Problem` that represents process that is mined from
-    a business process event log, using :meth:`miners.mine_problem`.
-    The problem generates customer cases that have the same properties
-    as the cases in the event log from which it originate in terms of:
-    arrival rate, next-task probabilities, and performance of resources on
-    task types in terms of processing time distribution.
-    """
-
-    resources = []
-    task_types = []
-
-    def __init__(self):
-        super().__init__()
-        """
-        The initial task type distribution. A list of tuples of probability/ task type, where probability is
-        the probability that the task type is the initial task type of a case.
-        """
-        self.initial_task_distribution = []
-        """
-        The next task type distribution per task type. Maps a task type to a list of probability/ task type tuples, 
-        where each pair is a next task type and the probability that that task type is the next task type. If
-        a tuple is probability/ None, this represents the probability that there is no next task and the 
-        case completes. 
-        """
-        self.next_task_distribution = dict()
-        """
-        The average interarrival time.
-        """
-        self.mean_interarrival_time = 0
-        """
-        The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that 
-        type.
-        """
-        self.resource_pools = dict()
-        """
-        The processing time distribution per task type/resource combination. Maps a tuple of a task type/ resource
-        combination to a tuple of a mean/ standard deviation of the time the resource spends processing tasks of
-        the type. 
-        """
-        self.processing_time_distribution = dict()
-
-    def sample_initial_task_type(self):
-        rd = random.random()
-        rs = 0
-        for (p, tt) in self.initial_task_distribution:
-            rs += p
-            if rd < rs:
-                return tt
-        print("WARNING: the probabilities of initial tasks do not add up to 1.0")
-        return self.initial_task_distribution[0]
-
-    def resource_pool(self, task_type):
-        return self.resource_pools[task_type]
-
-    def interarrival_time_sample(self):
-        return random.expovariate(1/self.mean_interarrival_time)
-
-    def next_task_types_sample(self, task):
-        rd = random.random()
-        rs = 0
-        for (p, tt) in self.next_task_distribution[task.task_type]:
-            rs += p
-            if rd < rs:
-                if tt is None:
-                    return []
-                else:
-                    return [tt]
-        print("WARNING: the probabilities of next tasks do not add up to 1.0")
-        if self.next_task_distribution[0][1] is None:
-            return []
-        else:
-            return [self.next_task_distribution[0][1]]
-
-    def processing_time_sample(self, resource, task):
-        (mu, sigma) = self.processing_time_distribution[(task.task_type, resource)]
-        pt = random.gauss(mu, sigma)
-        while pt < 0:  # We do not allow negative values for processing time.
-            pt = random.gauss(mu, sigma)
-        return pt
-
-    @classmethod
-    def generator_from_file(cls, filename):
-        """
-        Loads a problem instance generator from the specified file.
-        The loaded generator is a normal problem, but without instance.
-        Instances still must be created using :meth:`.from_generator`.
-
-        :param filename: the name of the file from which to read the problem.
-        :return: an object of the :class:`.Problem` without instance information.
-        """
-        o = MinedProblem()
-        with open(filename, 'rb') as handle:
-            o.resources = pickle.load(handle)
-            o.task_types = pickle.load(handle)
-            o.initial_task_distribution = pickle.load(handle)
-            o.next_task_distribution = pickle.load(handle)
-            o.mean_interarrival_time = pickle.load(handle)
-            o.resource_pools = pickle.load(handle)
-            o.processing_time_distribution = pickle.load(handle)
-            o.resource_weights = pickle.load(handle)
-            o.schedule = pickle.load(handle)
-        return o
-
-    def save_generator(self, filename):
-        """
-        Saves the problem to file without instance information.
-
-        :param filename: the name of the file to save the problem to.
-        """
-        with open(filename, 'wb') as handle:
-            pickle.dump(self.resources, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.task_types, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.initial_task_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.next_task_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.mean_interarrival_time, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.resource_pools, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.processing_time_distribution, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.resource_weights, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.schedule, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 class MMcProblem(Problem):
@@ -402,7 +282,7 @@ class ImbalancedProblem(Problem):
     def interarrival_time_sample(self):
         return random.expovariate(1/10)
 
-    def data_sample(self, task_type):
+    def data_sample(self, task):
         data = dict()
         data["optimal_resource"] = random.choice(self.resources)
         return data
@@ -432,12 +312,123 @@ class SequentialProblem(Problem):
     def interarrival_time_sample(self):
         return random.expovariate(1/20)
 
-    def data_sample(self, task_type):
+    def data_sample(self, task):
         data = dict()
-        data["optimal_resource"] = "R" + task_type[1]
+        data["optimal_resource"] = "R" + task.task_type[1]
         return data
 
     def next_task_types_sample(self, task):
         if task.task_type == "T1":
             return ["T2"]
         return []
+
+
+class MinedProblem(Problem):
+    """
+    A specific :class:`.Problem` that represents process that is mined from
+    a business process event log, using :meth:`miners.mine_problem`.
+    The problem generates customer cases that have the same properties
+    as the cases in the event log from which it originate in terms of:
+    arrival rate, next-task probabilities, and performance of resources on
+    task types in terms of processing time distribution.
+    """
+
+    resources = []
+    task_types = []
+
+    def __init__(self):
+        super().__init__()
+        """
+        The initial task type distribution. A list of tuples of probability/ task type, where probability is
+        the probability that the task type is the initial task type of a case.
+        """
+        self.initial_task_distribution = []
+        """
+        The next task type distribution per task type. Maps a task type to a list of probability/ task type tuples, 
+        where each pair is a next task type and the probability that that task type is the next task type. If
+        a tuple is probability/ None, this represents the probability that there is no next task and the 
+        case completes. 
+        """
+        self.next_task_distribution = dict()
+        """
+        The average interarrival time.
+        """
+        self.mean_interarrival_time = 0
+        """
+        The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that 
+        type.
+        """
+        self.resource_pools = dict()
+        """
+        The data types. Is a mapping of data type names to distributions from which the data will be sampled.
+        In this class data is associated with a case. For each task in a case the same data will be returned.
+        """
+        self.data_types = dict()
+        self.__case_data = dict()
+        """
+        The processing time is a stratified distribution that depends on various features, specifically:
+        the task that is performed, the resource performing the task, the history of the case (i.e. how many instanced 
+        of each task type completed so far), and the data of the case.
+        """
+        self.processing_times = dict()
+        self.__number_task_type_occurrences = dict()
+
+    def sample_initial_task_type(self):
+        rd = random.random()
+        rs = 0
+        for (p, tt) in self.initial_task_distribution:
+            rs += p
+            if rd < rs:
+                return tt
+        print("WARNING: the probabilities of initial tasks do not add up to 1.0")
+        return self.initial_task_distribution[0]
+
+    def resource_pool(self, task_type):
+        return self.resource_pools[task_type]
+
+    def interarrival_time_sample(self):
+        return random.expovariate(1/self.mean_interarrival_time)
+
+    def next_task_types_sample(self, task):
+        rd = random.random()
+        rs = 0
+        for (p, tt) in self.next_task_distribution[task.task_type]:
+            rs += p
+            if rd < rs:
+                if tt is None:
+                    return []
+                else:
+                    return [tt]
+        print("WARNING: the probabilities of next tasks do not add up to 1.0")
+        if self.next_task_distribution[0][1] is None:
+            return []
+        else:
+            return [self.next_task_distribution[0][1]]
+
+    def processing_time_sample(self, resource, task):
+        features = {**self.__number_task_type_occurrences[task.case_id], 'Activity': task.task_type, 'Resource': resource, **task.data}
+        return self.processing_times.sample(features)
+
+    def data_sample(self, task):
+        if task.case_id not in self.__case_data:
+            self.__case_data[task.case_id] = dict()
+            for dt in self.data_types:
+                self.__case_data[task.case_id][dt] = self.data_types[dt].sample()
+        return self.__case_data
+
+    def restart(self):
+        super().restart()
+        self.__case_data = dict()
+        self.__number_task_type_occurrences = dict()
+
+    def next_case(self):
+        arrival_time, initial_task = super().next_case()
+        self.__number_task_type_occurrences[initial_task.case_id] = dict()
+        for tt in self.task_types:
+            self.__number_task_type_occurrences[initial_task.case_id][tt] = 0
+        return arrival_time, initial_task
+
+    def complete_task(self, task):
+        next_tasks = super().complete_task(task)
+        self.__number_task_type_occurrences[task.case_id][task.task_type] += 1
+        return next_tasks
