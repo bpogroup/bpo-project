@@ -212,20 +212,28 @@ class EventLogReporterElement(ReporterElement):
     the timeunit in which simulation time is measured must be passed as well as the
     initial_time moment in calendar time from which the simulation time will be measured.
     A particular simulation_time moment will then be stored in the log as:
-    initial_time + simulation_time timeunits
+    initial_time + simulation_time timeunits. Data can also be reported on by specifying the
+    corresponding data fields. The names of these data fields must correspond to names of data fields as
+    they appear in the problem.
 
     :param filename: the name of the file in which the event log must be stored.
     :param timeunit: the :class:`.TimeUnit` of simulation time.
     :param initial_time: a datetime value.
     :param time_format: a datetime formatting string.
+    :param data_fields: the data fields to report in the log.
     """
-    def __init__(self, filename, timeunit=TimeUnit.SECONDS, initial_time=datetime(2020, 1, 1), time_format="%Y-%m-%d %H:%M:%S.%f"):
+    def __init__(self, filename, timeunit=TimeUnit.SECONDS, initial_time=datetime(2020, 1, 1), time_format="%Y-%m-%d %H:%M:%S.%f", data_fields=[]):
         self.task_start_times = dict()
         self.timeunit = timeunit
         self.initial_time = initial_time
         self.time_format = time_format
+        self.data_fields = data_fields
         self.logfile = open(filename, "wt")
-        self.logfile.write("case_id,task,resource,start_time,completion_time\n")
+        self.logfile.write("case_id,task,resource,start_time,completion_time")
+        for df in self.data_fields:
+            self.logfile.write(",")
+            self.logfile.write(df)
+        self.logfile.write("\n")
 
     def restart(self):
         raise NotImplementedError
@@ -240,7 +248,11 @@ class EventLogReporterElement(ReporterElement):
             self.logfile.write(str(event.task.task_type) + ",")
             self.logfile.write(str(event.resource) + ",")
             self.logfile.write(displace(self.task_start_times[event.task.id]).strftime(self.time_format) + ",")
-            self.logfile.write(displace(event.moment).strftime(self.time_format) + "\n")
+            self.logfile.write(displace(event.moment).strftime(self.time_format))
+            for df in self.data_fields:
+                self.logfile.write(",")
+                self.logfile.write('"' + str(event.task.data[df]) + '"')
+            self.logfile.write("\n")
             self.logfile.flush()
             del self.task_start_times[event.task.id]
 
@@ -424,6 +436,7 @@ class Simulator:
         """
         # repeat until the end of the simulation time:
         while self.now <= running_time:
+            print(round(self.now*100/running_time))
             # get the first event e from the events
             event = self.events.pop(0)
             # t = time of e

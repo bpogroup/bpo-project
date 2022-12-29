@@ -414,7 +414,7 @@ class MinedProblem(Problem):
             self.__case_data[task.case_id] = dict()
             for dt in self.data_types:
                 self.__case_data[task.case_id][dt] = self.data_types[dt].sample()
-        return self.__case_data
+        return self.__case_data[task.case_id]
 
     def restart(self):
         super().restart()

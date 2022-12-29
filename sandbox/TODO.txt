@@ -14,7 +14,11 @@ X Create simulator for the result.
 
 X Add random planner.
 
-Test the simulator.
+X Test the simulator.
+
+X Add event log reporting on data fields.
+
+Make the simulator more realistic.
 
 Add assignment when n tasks/resources are available (not each time one becomes available)
 

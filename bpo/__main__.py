@@ -58,7 +58,7 @@ def try_mine_problem():
 # Load a mined problem from file, simulating it and saving the log
 def try_simulate_mined_problem():
     problem = MinedProblem.from_file("../temp/BPI Challenge 2017 - clean Jan Feb - problem.pickle")
-    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - simulated.csv", TimeUnit.HOURS)])
+    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - clean Jan Feb - simulated log.csv", TimeUnit.HOURS, data_fields=list(problem.data_types.keys()))])
     simulator = Simulator(problem, reporter, GreedyPlanner())
     simulator.simulate(24)
 

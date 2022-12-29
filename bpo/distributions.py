@@ -160,7 +160,7 @@ class StratifiedNumericDistribution:
 
     # features is a dictionary that maps feature labels to lists of values
     def sample(self, features):
-        data = pandas.DataFrame(features)
+        data = pandas.DataFrame(features, index=[1])
 
         standardized_data = self._standardizer.transform(data[self._standardization_columns])
         normalized_data = self._normalizer.transform(data[self._rest_columns])
@@ -170,11 +170,9 @@ class StratifiedNumericDistribution:
 
         processing_time = self._regressor.predict(x)[0]
         if processing_time <= 0:
-            print("Using overall mean")
             processing_time = self._overall_mean
-        error = self._stratified_errors[features[self._stratifier][0]].sample()
+        error = self._stratified_errors[features[self._stratifier]].sample()
         if processing_time + error > 0:
             return processing_time + error
         else:
-            print("Infeasible error")
             return processing_time

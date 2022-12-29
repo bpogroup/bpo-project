@@ -38,6 +38,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     df['Start Timestamp'] = pandas.to_datetime(df['Start Timestamp'], format=datetime_format)
     df['Complete Timestamp'] = pandas.to_datetime(df['Complete Timestamp'], format=datetime_format)
     df_cases = df.groupby('Case ID').agg(case_start=('Start Timestamp', 'min'), case_complete=('Start Timestamp', 'min'), trace=('Activity', lambda tss: list(tss)))
+    df_cases = df_cases.sort_values(by='case_start')
     if earliest_start is not None and latest_completion is not None:
         df_cases = df_cases[(df_cases['case_start'] >= earliest_start) & (df_cases['case_complete'] <= latest_completion)]
         relevant_ids = list(df_cases.index)
