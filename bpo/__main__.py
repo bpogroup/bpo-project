@@ -2,11 +2,12 @@ from problems import ImbalancedProblem, SequentialProblem, MMcProblem, MinedProb
 from simulator import Simulator, Reporter, EventLogReporterElement, TimeUnit
 from planners import GreedyPlanner, HeuristicPlanner, ImbalancedPredictivePlanner, PredictiveHeuristicPlanner
 from predicters import ImbalancedPredicter, MeanPredicter
-from visualizers import boxplot, line_with_ci
+from visualizers import boxplot, line_with_ci, statistics
 from distributions import DistributionType
 from miners import mine_problem
 import pandas
 import numpy as np
+import datetime
 
 
 def try_mmc():
@@ -50,20 +51,20 @@ def try_execution_traces():
 
 # Mining a problem from an event log and saving it to file
 def try_mine_problem():
-    log = pandas.read_parquet("../bpo/resources/BPI Challenge 2017 - clean Jan Feb.parquet")
-    problem = mine_problem(log, datafields={'ApplicationType': DistributionType.CATEGORICAL, 'LoanGoal': DistributionType.CATEGORICAL, 'RequestedAmount': DistributionType.BETA})
-    problem.save("../temp/BPI Challenge 2017 - clean Jan Feb - problem.pickle")
+    log = pandas.read_csv("../bpo/resources/BPI Challenge 2017 - clean.zip")
+    problem = mine_problem(log, earliest_start=datetime.datetime(2016, 1, 1), latest_completion=datetime.datetime(2016, 6, 30), datafields={'ApplicationType': DistributionType.CATEGORICAL, 'LoanGoal': DistributionType.CATEGORICAL, 'RequestedAmount': DistributionType.BETA})
+    problem.save("../temp/BPI Challenge 2017 - clean Jan Jun - problem.pickle")
 
 
 # Load a mined problem from file, simulating it and saving the log
 def try_simulate_mined_problem():
-    problem = MinedProblem.from_file("../temp/BPI Challenge 2017 - clean Jan Feb - problem.pickle")
-    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - clean Jan Feb - simulated log.csv", TimeUnit.HOURS, data_fields=list(problem.data_types.keys()))])
+    problem = MinedProblem.from_file("../temp/BPI Challenge 2017 - clean Jan Jun - problem.pickle")
+    reporter = Reporter(warmup=0, reporter_elements=[EventLogReporterElement("../temp/BPI Challenge 2017 - clean Jan Jun - simulated log.csv", TimeUnit.HOURS, data_fields=list(problem.data_types.keys()))])
     simulator = Simulator(problem, reporter, GreedyPlanner())
-    simulator.simulate(24)
+    simulator.simulate(24*365)
 
 
-def main():
+if __name__ == "__main__":
     # try_mmc()
     # try_several_planners()
     # try_comparison()
@@ -72,6 +73,13 @@ def main():
     # try_mine_problem()
     try_simulate_mined_problem()
 
+    sl = pandas.read_csv("../bpo/resources/BPI Challenge 2017 - clean.zip")
+    sl = sl.rename(columns={"Case ID": "case_id", "Activity": "task", "Resource": "resource", "Start Timestamp": "start_time", "Complete Timestamp": "completion_time"})
+    s = statistics(sl)
+    del s['Interarrrival times']
+    boxplot(s)
 
-if __name__ == "__main__":
-    main()
+    sl = pandas.read_csv("../temp/BPI Challenge 2017 - clean Jan Jun - simulated log.csv")
+    s = statistics(sl)
+    del s['Interarrrival times']
+    boxplot(s)

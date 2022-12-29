@@ -133,7 +133,8 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
             if not (predecessor, successor) in following_task:
                 following_task[(predecessor, successor)] = 0
             following_task[(predecessor, successor)] += 1
-    mean_interarrival_time = sum(interarrival_times)/len(interarrival_times)  # Assuming exponential distribution, so we only need the mean
+    interarrival_time = GammaDistribution()
+    interarrival_time.learn(interarrival_times)
     initial_task_distribution = []
     for it in initial_tasks:
         initial_task_distribution.append((initial_tasks[it]/len(df_cases), it))
@@ -193,7 +194,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     result.resources = list(resources)  # The resources
     result.initial_task_distribution = initial_task_distribution  # The initial task type distribution
     result.next_task_distribution = next_task_distribution  # The next task type distribution per task type
-    result.mean_interarrival_time = mean_interarrival_time  # The interarrival time
+    result.interarrival_time = interarrival_time  # The interarrival time
     result.resource_pools = resource_pools  # The resource pool per task type
     result.data_types = data_types
     result.processing_times = processing_times  # The processing time distributions

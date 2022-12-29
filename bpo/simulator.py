@@ -436,7 +436,6 @@ class Simulator:
         """
         # repeat until the end of the simulation time:
         while self.now <= running_time:
-            print(round(self.now*100/running_time))
             # get the first event e from the events
             event = self.events.pop(0)
             # t = time of e

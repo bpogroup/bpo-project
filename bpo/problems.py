@@ -351,9 +351,9 @@ class MinedProblem(Problem):
         """
         self.next_task_distribution = dict()
         """
-        The average interarrival time.
+        The interarrival time distribution.
         """
-        self.mean_interarrival_time = 0
+        self.interarrival_time = 0
         """
         The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that 
         type.
@@ -387,7 +387,7 @@ class MinedProblem(Problem):
         return self.resource_pools[task_type]
 
     def interarrival_time_sample(self):
-        return random.expovariate(1/self.mean_interarrival_time)
+        return self.interarrival_time.sample()
 
     def next_task_types_sample(self, task):
         rd = random.random()

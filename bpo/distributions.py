@@ -172,6 +172,11 @@ class StratifiedNumericDistribution:
         if processing_time <= 0:
             processing_time = self._overall_mean
         error = self._stratified_errors[features[self._stratifier]].sample()
+        max_retries = 10
+        retry = 0
+        while retry < max_retries and processing_time + error <= 0:
+            error = self._stratified_errors[features[self._stratifier]].sample()
+            retry += 1
         if processing_time + error > 0:
             return processing_time + error
         else:
