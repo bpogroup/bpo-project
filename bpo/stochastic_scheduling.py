@@ -31,7 +31,7 @@ class StochasticSchedulingProblem(Problem):
         return random.expovariate(1/mu)
 
     def interarrival_time_sample(self):
-        if len(self.cases) < self._n:
+        if not self.all_cases_generated():
             return 0
         else:
             return float("inf")
@@ -42,7 +42,7 @@ class StochasticSchedulingProblem(Problem):
         return data
 
     def all_cases_generated(self):
-        return len(self.cases) >= self._n
+        return self.nr_cases_generated() >= self._n
 
 
 class SPTPlanner(Planner):
@@ -68,10 +68,9 @@ class SPTPlanner(Planner):
 
 
 if __name__ == "__main__":
-    problem_instances = []
-    for i in range(20):
-        problem_instances.append(StochasticSchedulingProblem(100).from_generator(1000000))
+    problem = StochasticSchedulingProblem(100)
     planner = SPTPlanner()
     reporter = Reporter()
-    results = Simulator.replicate(problem_instances, planner, reporter, 1000000)
+    results = Simulator.replicate(problem, planner, reporter, 1000000, 20)
+
     print(Reporter.aggregate(results))

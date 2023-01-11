@@ -199,6 +199,14 @@ class Problem(ABC):
 
         return arrival_time, initial_task
 
+    def nr_cases_generated(self):
+        """
+        Returns the number of cases that has been generated.
+
+        :return: an integer number of cases that has been generated for the problem so far.
+        """
+        return self.next_case_id
+
     def complete_task(self, task):
         """
         Adds the specified task to the case history.
