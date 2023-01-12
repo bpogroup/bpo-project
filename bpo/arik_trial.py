@@ -139,7 +139,8 @@ if __name__ == "__main__":
 
     print('start')
     #number of jobs:
-    N = 10
+    N = 1000
+    J=100
 
     #activities:
 
@@ -149,26 +150,73 @@ if __name__ == "__main__":
     #we will use Erlang distribution per activity. The mean of the 3 activities is the same (K*mean), but the variance is different (K*mean^2)
     mean = [1 / 10, 1 / 5, 1]
     steps = [10, 5, 1]
-
+    stdev = [steps[i]*(mean[i]**2) for i in range(len(mean))]
     #generate jobs with one activity per case (for now):
 
-    activities = np.random.choice(activity_names, size=N, p=probabilities)
+    activities_training = np.random.choice(activity_names, size=N, p=probabilities)
 
-    print(activities[0:10])
+    #print(activities_training[0:10])
 
 
 
     #generate N erlang durations, same mean, diff variance per activity
 
 
-
-
-
-    #processing_times = [Distribution(dist_type=DistributionType.erlang, K=steps[activities[i]], rate=1/mean[activities[i]]).sample() for i in range(N)]
+    processing_times = [Distribution(dist_type=DistributionType.erlang, K=steps[activities_training[i]], rate=1/mean[activities_training[i]]).sample() for i in range(N)]
 
     #print(processing_times[0:10])
     #print(np.mean(processing_times), np.std(processing_times))
 
-    #I can try to learn from this data.
+    est_mean = np.mean(processing_times)
+    est_stdev = np.std(processing_times)
 
+
+    activities_test = np.random.choice(activity_names, size=J, p=probabilities)
+
+    E = 10
+
+    for experiment in range(E):
+        settings = [1,2]
+        for setting in settings:
+
+            #setting = 1
+
+
+            if setting == 1:
+                # setting 1:
+                # schedule according to mu (predicted value)
+
+                sequence = [i for i in range(len(activities_test))]  #any arbitrary sequence works as all of them have the same mean
+
+            elif setting==2:
+                #setting 2:
+                #schedule smallest variance first
+                variance_order = [(i, stdev[activities_test[i]]) for i in range(len(activities_test))]
+                sorted_variance = sorted(variance_order, key=lambda x: x[1])
+                sequence = [el[0] for el in sorted_variance]
+
+            schedule = []
+            for s in sequence:
+                schedule.append(mean[activities_test[s]]*steps[activities_test[s]])
+
+
+            #estimate cost based on R runs:
+            R = 10000
+            est_W = []
+            est_I = []
+            for r in range(R):
+                processing_times = [Distribution(dist_type=DistributionType.erlang, K=steps[activities_test[sequence[i]]],
+                                             rate= 1 / mean[activities_test[sequence[i]]]).sample() for i in range(J)]
+                W = [0]
+                I = [0]
+
+                for i in range(J-1):
+                    W.append(max(0, W[len(W)-1] + processing_times[i]-schedule[i]))
+                    I.append(max(0, -(W[len(W)-1] + processing_times[i]-schedule[i])))
+                est_W.append(np.mean(W))
+                est_I.append(np.mean(I))
+            omega = 0.5
+            est_c = omega*np.mean(est_W) + (1-omega)*(np.mean(est_I))
+
+            print('Estimated cost for setting', setting, 'experiment number', experiment, 'is', est_c)
 
