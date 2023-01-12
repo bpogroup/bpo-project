@@ -162,7 +162,44 @@ class Problem(ABC):
                 unfinished_tasks.append(new_task)
                 task.add_next_task(new_task)
         return self
+    def from_prediction(self, duration):
+        """
+        Instantiates the problem by generating cases, their tasks and the corresponding arrival times, processing times, and data at random.
+        Uses the methods interarrival_time_sample, processing_time_sample, data_sample, and next_task_types_sample to
+        randomly generate the cases and tasks. These can be implemented in specific problems to obtain the desired behavior.
 
+        :param duration: the latest simulation time at which a new case should arrive.
+        :return: an instance of the :class:`.Problem`.
+        """
+        now = 0
+        next_case_id = 0
+        next_task_id = 0
+        unfinished_tasks = []
+        # Instantiate cases at the interarrival time for the duration.
+        # Generate the first task for each case, without processing times and next tasks, add them to the unfinished tasks.
+        while now < duration:
+            at = now + self.interarrival_time_sample()
+            initial_task_type = self.sample_initial_task_type()
+            task = Task(next_task_id, next_case_id, initial_task_type, self.data_sample(initial_task_type))
+            next_task_id += 1
+            unfinished_tasks.append(task)
+            self.cases[next_case_id] = (at, task)
+            next_case_id += 1
+            now = at
+        # Finish the tasks by:
+        # 1. generating the processing times.
+        # 2. generating the next tasks, without processing times and next tasks, add them to the unfinished tasks.
+        while len(unfinished_tasks) > 0:
+            task = unfinished_tasks.pop(0)
+            for r in self.resource_pool(task.task_type):
+                pt = self.processing_time_sample(r, task)
+                task.add_processing_time(r, pt)
+            for tt in self.next_task_types_sample(task):
+                new_task = Task(next_task_id, task.case_id, tt, self.data_sample(tt))
+                next_task_id += 1
+                unfinished_tasks.append(new_task)
+                task.add_next_task(new_task)
+        return self
     @classmethod
     def from_file(cls, filename):
         """
