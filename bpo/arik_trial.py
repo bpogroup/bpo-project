@@ -132,9 +132,6 @@ class Distribution:
             return -1
 
 if __name__ == "__main__":
-
-
-
     #problem setting:
 
     print('start')
@@ -156,8 +153,6 @@ if __name__ == "__main__":
     activities_training = np.random.choice(activity_names, size=N, p=probabilities)
 
     #print(activities_training[0:10])
-
-
 
     #generate N erlang durations, same mean, diff variance per activity
 
