@@ -25,7 +25,12 @@ class DistributionType(Enum):
     :meta hide-value:"""
 
     BETA = auto()
-    """A normal distribution.
+    """A beta distribution.
+
+    :meta hide-value:"""
+
+    ERLANG = auto()
+    """An Erlang distribution.
 
     :meta hide-value:"""
 
@@ -59,6 +64,34 @@ class GammaDistribution:
 
     def sample(self):
         return scipy.stats.gamma.rvs(self._alpha, loc=self._loc, scale=self._scale)
+
+
+class ErlangDistribution:
+
+    def __init__(self):
+        self._shape = 0
+        self._rate = 0
+
+    def __init__(self, shape, scale):
+        self._shape = shape
+        self._rate = scale
+
+    def learn(self, values):
+        shape, loc, scale = scipy.stats.erlang.fit(values)
+        self._shape = shape
+        self._rate = scale
+
+    def sample(self):
+        return scipy.stats.erlang.rvs(self._shape, scale=self._rate)
+
+    def mean(self):
+        return scipy.stats.erlang.mean(self._shape, scale=self._rate)
+
+    def std(self):
+        return scipy.stats.erlang.std(self._shape, scale=self._rate)
+
+    def var(self):
+        return scipy.stats.erlang.var(self._shape, scale=self._rate)
 
 
 class NormalDistribution:
@@ -127,7 +160,8 @@ class StratifiedNumericDistribution:
         self._feature_columns = feature_columns
         self._onehot_columns = onehot_columns
         self._standardization_columns = standardization_columns
-        self._rest_columns = [col for col in feature_columns if col not in standardization_columns and col not in onehot_columns]
+        self._rest_columns = [col for col in feature_columns if
+                              col not in standardization_columns and col not in onehot_columns]
 
         self._overall_mean = y.mean()
 
@@ -137,7 +171,8 @@ class StratifiedNumericDistribution:
 
         x = np.concatenate([standardized_data, normalized_data, onehot_data], axis=1)
 
-        self._regressor = MLPRegressor(hidden_layer_sizes=(x.shape[1], int(x.shape[1]/2), int(x.shape[1]/4)), activation='relu', solver='adam').fit(x, y)
+        self._regressor = MLPRegressor(hidden_layer_sizes=(x.shape[1], int(x.shape[1] / 2), int(x.shape[1] / 4)),
+                                       activation='relu', solver='adam').fit(x, y)
 
         # now calculate the errors
         self._stratifier = stratifier
