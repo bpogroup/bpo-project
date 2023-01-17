@@ -449,8 +449,12 @@ class Simulator:
                 self.unassigned_tasks[event.task.id] = event.task
                 self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, event.task))
                 self.busy_cases[event.task.case_id] = [event.task.id]
-                # generate a new planning event to start planning now for the new task
-                self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
+                if self.problem.is_event(event.task.task_type):  # events can start immediately
+                    self.events.append((self.now, Event(EventType.START_TASK, self.now, task, None)))
+                    del self.unassigned_tasks[task.id]
+                    self.assigned_tasks[task.id] = (task, None, self.now)
+                else:  # tasks must be planned
+                    self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 # generate a new arrival event for the first task of the next case
                 next_case = self.problem.next_case()
                 if next_case is not None:
@@ -464,19 +468,21 @@ class Simulator:
                 t = self.now + self.problem.processing_time_sample(event.resource, event.task)
                 self.events.append((t, Event(EventType.COMPLETE_TASK, t, event.task, event.resource)))
                 self.events.sort()
-                # set resource to busy
-                del self.reserved_resources[event.resource]
-                self.busy_resources[event.resource] = (event.task, self.now)
+                if not self.problem.is_event(event.task.task_type):  # for actual tasks (not events)
+                    # set resource to busy
+                    del self.reserved_resources[event.resource]
+                    self.busy_resources[event.resource] = (event.task, self.now)
 
             # if e is a complete event:
             elif event.event_type == EventType.COMPLETE_TASK:
-                # set resource to available, if it is still desired, otherwise set it to away
-                del self.busy_resources[event.resource]
-                if self.working_nr_resources() <= self.desired_nr_resources():
-                    self.available_resources.add(event.resource)
-                else:
-                    self.away_resources.append(event.resource)
-                    self.away_resources_weights.append(self.problem.resource_weights[self.problem.resources.index(event.resource)])
+                if not self.problem.is_event(event.task.task_type):  # for actual tasks (not events)
+                    # set resource to available, if it is still desired, otherwise set it to away
+                    del self.busy_resources[event.resource]
+                    if self.working_nr_resources() <= self.desired_nr_resources():
+                        self.available_resources.add(event.resource)
+                    else:
+                        self.away_resources.append(event.resource)
+                        self.away_resources_weights.append(self.problem.resource_weights[self.problem.resources.index(event.resource)])
                 # remove task from assigned tasks
                 del self.assigned_tasks[event.task.id]
                 self.busy_cases[event.task.case_id].remove(event.task.id)
@@ -487,6 +493,10 @@ class Simulator:
                     self.unassigned_tasks[next_task.id] = next_task
                     self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, next_task))
                     self.busy_cases[event.task.case_id].append(next_task.id)
+                    if self.problem.is_event(next_task.task_type):  # events can start immediately
+                        self.events.append((self.now, Event(EventType.START_TASK, self.now, next_task, None)))
+                        del self.unassigned_tasks[next_task.id]
+                        self.assigned_tasks[next_task.id] = (next_task, None, self.now)
                 if len(self.busy_cases[event.task.case_id]) == 0:
                     self.events.append((self.now, Event(EventType.COMPLETE_CASE, self.now, event.task)))
                 # generate a new planning event to start planning now for the newly available resource and next tasks

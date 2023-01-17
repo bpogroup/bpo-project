@@ -83,8 +83,21 @@ class Problem(ABC):
     @property
     @abstractmethod
     def task_types(self):
-        """A list of identifiers (typically labels) of task types."""
+        """
+        A list of identifiers (typically labels) of task types.
+        """
         raise NotImplementedError
+
+    def is_event(self, task_type):
+        """
+        Returns True if the task type is actually an event.
+        Events start immediately when they are activated.
+        They do not require a resource.
+
+        :param task_type: one of :attr:`.Problem.task_types`
+        :return: True or False, depending on whether the specified task type is an event or not
+        """
+        return False
 
     @abstractmethod
     def sample_initial_task_type(self):
