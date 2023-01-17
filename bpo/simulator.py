@@ -144,33 +144,49 @@ class TasksReporterElement(ReporterElement):
     by the specified labels.
     """
     def __init__(self):
-        self.nr_tasks_completed = 0
-        self.nr_tasks_started = 0
-        self.processing_time = 0
-        self.waiting_time = 0
-        self.task_start_times = dict()
-        self.task_activation_times = dict()
+        self.nr_tasks_completed = dict()  # task_type X nr tasks completed of that type
+        self.nr_tasks_started = dict()  # task_type X nr tasks started of that type
+        self.processing_time = dict()  # task_type X total processing time of tasks of that type
+        self.waiting_time = dict()  # task_type X total waiting time of tasks of that type
+        self.task_start_times = dict()  # task id X start time
+        self.task_activation_times = dict()  # task id X activation time
+        self.task_types = []
 
     def restart(self):
         self.__init__()
 
     def report(self, event):
+        if event.event_type not in {EventType.TASK_ACTIVATE, EventType.START_TASK, EventType.COMPLETE_TASK}:
+            return
+
+        if event.task.task_type not in self.task_types:
+            self.task_types.append(event.task.task_type)
+            self.nr_tasks_completed[event.task.task_type] = 0
+            self.nr_tasks_started[event.task.task_type] = 0
+            self.processing_time[event.task.task_type] = 0
+            self.waiting_time[event.task.task_type] = 0
+
         if event.event_type == EventType.TASK_ACTIVATE:
             self.task_activation_times[event.task.id] = event.moment
         elif event.event_type == EventType.START_TASK:
             self.task_start_times[event.task.id] = event.moment
             if event.task.id in self.task_activation_times.keys():
-                self.nr_tasks_started += 1
-                self.waiting_time += event.moment - self.task_activation_times[event.task.id]
+                self.nr_tasks_started[event.task.task_type] += 1
+                self.waiting_time[event.task.task_type] += event.moment - self.task_activation_times[event.task.id]
                 del self.task_activation_times[event.task.id]
         elif event.event_type == EventType.COMPLETE_TASK:
             if event.task.id in self.task_start_times.keys():
-                self.nr_tasks_completed += 1
-                self.processing_time += event.moment - self.task_start_times[event.task.id]
+                self.nr_tasks_completed[event.task.task_type] += 1
+                self.processing_time[event.task.task_type] += event.moment - self.task_start_times[event.task.id]
                 del self.task_start_times[event.task.id]
 
     def summarize(self):
-        return [("tasks completed", self.nr_tasks_completed), ("task proc time", self.processing_time/self.nr_tasks_completed), ("task wait time", self.waiting_time/self.nr_tasks_started)]
+        result = []
+        for task_type in self.task_types:
+            result.append(("task " + task_type + " completed", self.nr_tasks_completed[task_type]))
+            result.append(("task " + task_type + " proc time", self.processing_time[task_type] / self.nr_tasks_completed[task_type]))
+            result.append(("task " + task_type + " wait time", self.waiting_time[task_type] / self.nr_tasks_started[task_type]))
+        return result
 
 
 class CaseReporterElement(ReporterElement):
@@ -449,12 +465,7 @@ class Simulator:
                 self.unassigned_tasks[event.task.id] = event.task
                 self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, event.task))
                 self.busy_cases[event.task.case_id] = [event.task.id]
-                if self.problem.is_event(event.task.task_type):  # events can start immediately
-                    self.events.append((self.now, Event(EventType.START_TASK, self.now, task, None)))
-                    del self.unassigned_tasks[task.id]
-                    self.assigned_tasks[task.id] = (task, None, self.now)
-                else:  # tasks must be planned
-                    self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
+                self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 # generate a new arrival event for the first task of the next case
                 next_case = self.problem.next_case()
                 if next_case is not None:
@@ -493,10 +504,6 @@ class Simulator:
                     self.unassigned_tasks[next_task.id] = next_task
                     self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, next_task))
                     self.busy_cases[event.task.case_id].append(next_task.id)
-                    if self.problem.is_event(next_task.task_type):  # events can start immediately
-                        self.events.append((self.now, Event(EventType.START_TASK, self.now, next_task, None)))
-                        del self.unassigned_tasks[next_task.id]
-                        self.assigned_tasks[next_task.id] = (next_task, None, self.now)
                 if len(self.busy_cases[event.task.case_id]) == 0:
                     self.events.append((self.now, Event(EventType.COMPLETE_CASE, self.now, event.task)))
                 # generate a new planning event to start planning now for the newly available resource and next tasks
@@ -553,9 +560,10 @@ class Simulator:
                         # assign task
                         del self.unassigned_tasks[task.id]
                         self.assigned_tasks[task.id] = (task, resource, moment)
-                        # reserve resource
-                        self.available_resources.remove(resource)
-                        self.reserved_resources[resource] = (event.task, moment)
+                        if not self.problem.is_event(task.task_type):  # for actual tasks (not events)
+                            # reserve resource
+                            self.available_resources.remove(resource)
+                            self.reserved_resources[resource] = (event.task, moment)
                     self.events.sort()
 
     @staticmethod

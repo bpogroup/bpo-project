@@ -2,7 +2,8 @@ import random
 from problems import Problem
 from planners import Planner
 from simulator import Simulator, Reporter
-from math import sqrt
+from distributions import ErlangDistribution
+from visualizers import boxplot
 
 
 class StochasticSchedulingProblem(Problem):
@@ -10,22 +11,41 @@ class StochasticSchedulingProblem(Problem):
     A specific :class:`.Problem` that represents a simple stochastic scheduling problem, i.e.:
     - it has n cases with 1 task that arrive at time 0.
     - it has 1 resource.
-    - task processing time is exponential with some mu that differs per case (we will assign shortest processing time first)
-    (task processing times are assigned through data variables)
+    When the cases arrive, an event happens first. This event can have a processing time that is dependent on when the task is scheduled.
+    I.e.: cases arrive at t=0, if a case is scheduled for t=10, the event takes t=10, after which the task is enabled.
     """
 
     resources = ["R"]
-    task_types = ["T"]
+    task_types = ["E", "T"]
 
     def __init__(self, n):
         super().__init__()
         self._n = n
+        self._scheduled_times = dict()
+        self._case_data = dict()
+
+    def is_event(self, task_type):
+        return task_type == "E"
 
     def sample_initial_task_type(self):
-        return "T"
+        return "E"
+
+    def all_cases_scheduled(self):
+        return len(self._scheduled_times) == self._n
+
+    def schedule_case(self, case_id, time):
+        self._scheduled_times[case_id] = time
+
+    def nr_jobs(self):
+        return self._n
 
     def processing_time_sample(self, resource, task):
-        return task.data["P"]
+        assert self.all_cases_scheduled()  # this should only happen after all cases are scheduled
+
+        if task.task_type == "E":
+            return self._scheduled_times[task.case_id]
+        else:
+            return task.data["P"]
 
     def interarrival_time_sample(self):
         if not self.all_cases_generated():
@@ -33,98 +53,95 @@ class StochasticSchedulingProblem(Problem):
         else:
             return float("inf")
 
-    def data_sample(self, task_type):
-        data = dict()
-        data["P"] = random.uniform(1, 5)
-        return data
-
     def all_cases_generated(self):
         return self.nr_cases_generated() >= self._n
 
-
-class StratifiedStochasticSchedulingProblem(Problem):
-    """
-    A specific :class:`.Problem` that represents a stratified stochastic scheduling problem,
-    i.e. a variant of the stochastic scheduling problem in which:
-    - there are two classes of cases, a and b
-    - there is a processing time P of the task T
-    - there is also a prediction of the processing time, P_hat
-    - this prediction has an error that differs per class: error_a, error_b
-    - there is also an overall prediction error: error
-    - we distinguish between a P_hat that is not stratified, but has the error that is the same for both classes, and a P_hat that is stratified
-    The properties for a particular case are stored in the case's task T data, with fields:
-    P, P_hat, P_hat_stratified, error, error_a, error_b, class
-    """
-
-    resources = ["R"]
-    task_types = ["T"]
-
-    def __init__(self, n):
-        super().__init__()
-        self._n = n
-
-    def sample_initial_task_type(self):
-        return "T"
-
-    def processing_time_sample(self, resource, task):
-        return task.data["P"]
-
-    def interarrival_time_sample(self):
-        if not self.all_cases_generated():
-            return 0
+    def next_task_types_sample(self, task):
+        if task.task_type == "E":
+            return ["T"]
         else:
-            return float("inf")
+            return []
 
-    def data_sample(self, task_type):
-        data = dict()
-        data["P"] = random.uniform(1, 5)
-        alpha = 0.5  # the fraction of cases of class a
-        data["class"] = random.choices(["a", "b"], weights=[alpha, 1-alpha], k=1)[0]
-        data["error_a"] = 1  # the error is normally distributed with mean 0 and this variance
-        data["error_b"] = 0.5  # the error is normally distributed with mean 0 and this variance
-        data["error"] = (alpha**2) * data["error_a"] + ((1-alpha)**2) * data["error_b"]  # the overall (variance of) error can be computed from the errors of the individual classes
-        # now we compute P_hat by adding an error sample to P
-        class_specific_error_sample = random.normalvariate(0, sqrt(data["error_" + data["class"]]))
-        data["P_hat_stratified"] = data["P"] + class_specific_error_sample  # this can lead to negative mu_hat, which is strictly speaking impossible, but since it is just a prediction, it should not matter
-        general_error_sample = random.normalvariate(0, sqrt(data["error"]))
-        data["P_hat"] = data["P"] + general_error_sample  # this can lead to negative mu_hat, which is strictly speaking impossible, but since it is just a prediction, it should not matter
-        return data
+    def data_sample(self, task):
+        if task.task_type == "E":
+            # We have three types of cases 0, 1, 2 with likelihood weight[i] that a case is of type i.
+            # The processing time of a task of case i is Erlang distributed with shape shapes[i] and rate rates[i]
+            shapes = [10, 5, 1]
+            rates = [1/10, 1/5, 1/1]
+            weights = [0.5, 0.4, 0.1]
+            data = dict()
+            case_type = random.choices([0, 1, 2], weights=weights, k=1)[0]
+            distro = ErlangDistribution(shapes[case_type], rates[case_type])
+            data["type"] = case_type
+            data["mean"] = distro.mean()
+            data["variance"] = distro.var()
+            data["P"] = distro.sample()
+            self._case_data[task.case_id] = data
+        return self._case_data[task.case_id]
 
-    def all_cases_generated(self):
-        return self.nr_cases_generated() >= self._n
+    def restart(self):
+        super().restart()
+        self._scheduled_times = dict()
+        self._case_data = dict()
 
 
-class SPTPlanner(Planner):
+class SVTScheduler(Planner):
     """
-    A :class:`.Planner` that assigns shortest processing time first.
+    A :class:`.Planner` that schedules shortest variance first.
 
-    Note that this planner uses the actual processing time P to determine which task has the shortest processing time.
-    Strictly speaking we do not know this actual processing time and we should calculate with P_hat or P_hat_stratified.
+    The constructor takes the sorting criterion. This can be a data element from the problem.
     """
+
+    def __init__(self, sorting_criterion):
+        super().__init__()
+        self._sorting_criterion = sorting_criterion
 
     def assign(self, environment):
-        if len(environment.available_resources) == 0:
-            return []  # for efficiency
+        # In stochastic scheduling, we will wait for all cases to arrive (i.e. for n events to be in the set of unassigned tasks).
+        # Then we schedule.
+        if len(environment.unassigned_tasks.values()) == environment.problem.nr_jobs():
+            assert len([task for task in environment.unassigned_tasks.values() if environment.problem.is_event(task.task_type)]) == environment.problem.nr_jobs()  # The n unassigned tasks all should all be events.
+            # Schedule the cases shortest variance first.
+            task_list = [(task.data[self._sorting_criterion], task) for task in environment.unassigned_tasks.values()]
+            task_list.sort(key=lambda x: x[0])
+            t = 0
+            for (_, task) in task_list:
+                environment.problem.schedule_case(task.case_id, t)
+                t += task.data["mean"]
+            # Assign all events (to no resource) and return that assignment.
+            return [(task, None, environment.now) for task in environment.unassigned_tasks.values()]
 
-        if not environment.problem.all_cases_generated():
-            return []  # in stochastic scheduling, we will wait for all cases to arrive before assigning them
+        # Now all cases have arrived and are scheduled. So all events have been assigned.
+        # We still need to assign each task when it arrives.
+        if environment.problem.all_cases_scheduled():
+            assert len([task for task in environment.unassigned_tasks.values() if environment.problem.is_event(task.task_type)]) == 0  # There should be no unassigned events.
 
-        assignments = []
-        best_task = None
-        best_mu = None
-        for task in environment.unassigned_tasks.values():
-            if best_task is None or task.data["P"] < best_mu:
-                best_task = task
-                best_mu = task.data["P"]
-        assignments.append((best_task, list(environment.available_resources)[0], environment.now))
+            # We still process the tasks shortest variance first.
+            assignments = []
+            best_task = None
+            best_variance = None
+            for task in environment.unassigned_tasks.values():
+                if best_task is None or task.data[self._sorting_criterion] < best_variance:
+                    best_task = task
+                    best_variance = task.data[self._sorting_criterion]
+            assignments.append((best_task, list(environment.available_resources)[0], environment.now))
 
-        return assignments
+            return assignments
+
+        # If not all cases have arrived or not all cases are scheduled:
+        # we do not do anything yet.
+        return []
 
 
 if __name__ == "__main__":
-    problem = StratifiedStochasticSchedulingProblem(100)
-    planner = SPTPlanner()
-    reporter = Reporter()
-    results = Simulator.replicate(problem, planner, reporter, 1000000, 20)
+    problem = StochasticSchedulingProblem(500)
 
-    print(Reporter.aggregate(results))
+    stratified_results = Simulator.replicate(problem, SVTScheduler("variance"), Reporter(), 1000000, 100)
+    print(Reporter.aggregate(stratified_results))
+
+    # This is a bit nasty, we are relying here on the mean always being the same, such that the cases are basically sorted at random.
+    # It would be better to sort according to the non-stratified variance (of the overall processing time distributions).
+    # However, that would also be the same for all cases, so it would lead to the same effect.
+    non_stratified_results = Simulator.replicate(problem, SVTScheduler("mean"), Reporter(), 1000000, 100)
+
+    boxplot({'stratified': stratified_results['task T wait time'], 'non-stratified': non_stratified_results['task T wait time']})
