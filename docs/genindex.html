@@ -162,14 +162,18 @@
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.CaseReporterElement">CaseReporterElement (class in bpo.simulator)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.COMPLETE_CASE">COMPLETE_CASE (bpo.simulator.EventType attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.COMPLETE_TASK">COMPLETE_TASK (bpo.simulator.EventType attribute)</a>
 </li>
-      <li><a href="bpo.problems.html#bpo.problems.Problem.complete_task">complete_task() (bpo.problems.Problem method)</a>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.complete_task">complete_task() (bpo.problems.MinedProblem method)</a>
+
+      <ul>
+        <li><a href="bpo.problems.html#bpo.problems.Problem.complete_task">(bpo.problems.Problem method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -179,6 +183,8 @@
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.data_sample">data_sample() (bpo.problems.ImbalancedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.MinedProblem.data_sample">(bpo.problems.MinedProblem method)</a>
+</li>
         <li><a href="bpo.problems.html#bpo.problems.Problem.data_sample">(bpo.problems.Problem method)</a>
 </li>
         <li><a href="bpo.problems.html#bpo.problems.SequentialProblem.data_sample">(bpo.problems.SequentialProblem method)</a>
@@ -218,10 +224,6 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.generator_from_file">generator_from_file() (bpo.problems.MinedProblem class method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.planners.html#bpo.planners.GreedyPlanner">GreedyPlanner (class in bpo.planners)</a>
 </li>
   </ul></td>
@@ -252,6 +254,8 @@
 </li>
       <li><a href="bpo.problems.html#bpo.problems.MinedProblem.initial_task_distribution">initial_task_distribution (bpo.problems.MinedProblem attribute)</a>
 </li>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.interarrival_time">interarrival_time (bpo.problems.MinedProblem attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.interarrival_time_sample">interarrival_time_sample() (bpo.problems.ImbalancedProblem method)</a>
@@ -266,6 +270,8 @@
         <li><a href="bpo.problems.html#bpo.problems.SequentialProblem.interarrival_time_sample">(bpo.problems.SequentialProblem method)</a>
 </li>
       </ul></li>
+      <li><a href="bpo.problems.html#bpo.problems.Problem.is_event">is_event() (bpo.problems.Problem method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -280,8 +286,6 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.mean_interarrival_time">mean_interarrival_time (bpo.problems.MinedProblem attribute)</a>
-</li>
       <li><a href="bpo.predicters.html#bpo.predicters.MeanPredicter">MeanPredicter (class in bpo.predicters)</a>
 </li>
       <li><a href="bpo.miners.html#bpo.miners.mine_problem">mine_problem() (in module bpo.miners)</a>
@@ -317,8 +321,12 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="bpo.problems.html#bpo.problems.Problem.next_case">next_case() (bpo.problems.Problem method)</a>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.next_case">next_case() (bpo.problems.MinedProblem method)</a>
+
+      <ul>
+        <li><a href="bpo.problems.html#bpo.problems.Problem.next_case">(bpo.problems.Problem method)</a>
 </li>
+      </ul></li>
       <li><a href="bpo.problems.html#bpo.problems.MinedProblem.next_task_distribution">next_task_distribution (bpo.problems.MinedProblem attribute)</a>
 </li>
       <li><a href="bpo.problems.html#bpo.problems.MinedProblem.next_task_types_sample">next_task_types_sample() (bpo.problems.MinedProblem method)</a>
@@ -332,6 +340,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.simulator.html#bpo.simulator.Simulator.now">now (bpo.simulator.Simulator attribute)</a>
+</li>
+      <li><a href="bpo.problems.html#bpo.problems.Problem.nr_cases_generated">nr_cases_generated() (bpo.problems.Problem method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -437,9 +447,11 @@
         <li><a href="bpo.problems.html#bpo.problems.SequentialProblem.resources">(bpo.problems.SequentialProblem attribute)</a>
 </li>
       </ul></li>
-      <li><a href="bpo.problems.html#bpo.problems.Problem.restart">restart() (bpo.problems.Problem method)</a>
+      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.restart">restart() (bpo.problems.MinedProblem method)</a>
 
       <ul>
+        <li><a href="bpo.problems.html#bpo.problems.Problem.restart">(bpo.problems.Problem method)</a>
+</li>
         <li><a href="bpo.simulator.html#bpo.simulator.CaseReporterElement.restart">(bpo.simulator.CaseReporterElement method)</a>
 </li>
         <li><a href="bpo.simulator.html#bpo.simulator.EventLogReporterElement.restart">(bpo.simulator.EventLogReporterElement method)</a>
@@ -471,16 +483,14 @@
       </ul></li>
       <li><a href="bpo.problems.html#bpo.problems.Problem.save">save() (bpo.problems.Problem method)</a>
 </li>
-      <li><a href="bpo.problems.html#bpo.problems.MinedProblem.save_generator">save_generator() (bpo.problems.MinedProblem method)</a>
-</li>
       <li><a href="bpo.problems.html#bpo.problems.Problem.schedule">schedule (bpo.problems.Problem property)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.SCHEDULE_RESOURCES">SCHEDULE_RESOURCES (bpo.simulator.EventType attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.simulator.html#bpo.simulator.TimeUnit.SECONDS">SECONDS (bpo.simulator.TimeUnit attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="bpo.problems.html#bpo.problems.SequentialProblem">SequentialProblem (class in bpo.problems)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.Simulator.simulate">simulate() (bpo.simulator.Simulator method)</a>
@@ -488,6 +498,8 @@
       <li><a href="bpo.simulator.html#bpo.simulator.Simulator">Simulator (class in bpo.simulator)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.START_TASK">START_TASK (bpo.simulator.EventType attribute)</a>
+</li>
+      <li><a href="bpo.visualizers.html#bpo.visualizers.statistics">statistics() (in module bpo.visualizers)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.CaseReporterElement.summarize">summarize() (bpo.simulator.CaseReporterElement method)</a>
 
@@ -512,6 +524,8 @@
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.TASK_ACTIVATE">TASK_ACTIVATE (bpo.simulator.EventType attribute)</a>
 </li>
       <li><a href="bpo.simulator.html#bpo.simulator.EventType.TASK_PLANNED">TASK_PLANNED (bpo.simulator.EventType attribute)</a>
+</li>
+      <li><a href="bpo.problems.html#bpo.problems.Task.task_type">task_type (bpo.problems.Task attribute)</a>
 </li>
       <li><a href="bpo.problems.html#bpo.problems.ImbalancedProblem.task_types">task_types (bpo.problems.ImbalancedProblem attribute)</a>
 

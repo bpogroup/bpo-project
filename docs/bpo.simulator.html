@@ -169,7 +169,7 @@ and value is the corresponding information.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bpo.simulator.EventLogReporterElement">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventLogReporterElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeunit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeUnit.SECONDS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.datetime(2020,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S.%f'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bpo.simulator.</span></span><span class="sig-name descname"><span class="pre">EventLogReporterElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeunit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeUnit.SECONDS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.datetime(2020,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S.%f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/simulator.html#EventLogReporterElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.simulator.EventLogReporterElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">bpo.simulator.ReporterElement</span></code></a></p>
 <p>A <a class="reference internal" href="#bpo.simulator.ReporterElement" title="bpo.simulator.ReporterElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReporterElement</span></code></a> that stored the simulation events that occur in an event log.
 The <a class="reference internal" href="#bpo.simulator.EventLogReporterElement.summarize" title="bpo.simulator.EventLogReporterElement.summarize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EventLogReporterElement.summarize()</span></code></a> method does not return any information.
@@ -178,7 +178,9 @@ into a time format that can be read and interpreted by a process mining tool. To
 the timeunit in which simulation time is measured must be passed as well as the
 initial_time moment in calendar time from which the simulation time will be measured.
 A particular simulation_time moment will then be stored in the log as:
-initial_time + simulation_time timeunits</p>
+initial_time + simulation_time timeunits. Data can also be reported on by specifying the
+corresponding data fields. The names of these data fields must correspond to names of data fields as
+they appear in the problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -186,6 +188,7 @@ initial_time + simulation_time timeunits</p>
 <li><p><strong>timeunit</strong> – the <a class="reference internal" href="#bpo.simulator.TimeUnit" title="bpo.simulator.TimeUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeUnit</span></code></a> of simulation time.</p></li>
 <li><p><strong>initial_time</strong> – a datetime value.</p></li>
 <li><p><strong>time_format</strong> – a datetime formatting string.</p></li>
+<li><p><strong>data_fields</strong> – the data fields to report in the log.</p></li>
 </ul>
 </dd>
 </dl>

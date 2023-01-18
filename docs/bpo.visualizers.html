@@ -65,6 +65,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#bpo.visualizers.line_with_ci" title="bpo.visualizers.line_with_ci"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line_with_ci</span></code></a>(series)</p></td>
 <td><p>Creates a line graph for the data series.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bpo.visualizers.statistics" title="bpo.visualizers.statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statistics</span></code></a>(log[, datetime_format])</p></td>
+<td><p>Creates statistics for the interarrival time and the processing times of the given log.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -92,6 +95,22 @@ confidence interval.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>series</strong> – a dictionary that maps numerical x values to (y, ci) numerical pairs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bpo.visualizers.statistics">
+<span class="sig-prename descclassname"><span class="pre">bpo.visualizers.</span></span><span class="sig-name descname"><span class="pre">statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y/%m/%d</span> <span class="pre">%H:%M:%S'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bpo/visualizers.html#statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bpo.visualizers.statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates statistics for the interarrival time and the processing times of the given log.
+Returns the statistics as a dictionary with the labels of the statistics as keys and as values lists
+with all the observed times. The log must contain the columns case_id, task, resource, start_time, completion_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log</strong> – a pandas dataframe containing the log.</p></li>
+<li><p><strong>datetime_format</strong> – optional parameter with the datetime formatting rule that will be used to interpret the start and completion timestamps</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

@@ -55,15 +55,16 @@
 <span class="sd">    :param task_id: the identifier of the task.</span>
 <span class="sd">    :param case_id: the identifier of the case to which the task belongs.</span>
 <span class="sd">    :param task_type: the type of the task, i.e. one of the :attr:`.Problem.task_types`.</span>
-<span class="sd">    :param data: a dictionary with additional data that is the result of the task,</span>
-<span class="sd">                 each item is a label -&gt; value pair.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">case_id</span><span class="p">,</span> <span class="n">task_type</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">case_id</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">task_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">case_id</span> <span class="o">=</span> <span class="n">case_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task_type</span> <span class="o">=</span> <span class="n">task_type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a dictionary with additional data that is the result of the task, each item is a label -&gt; value pair.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_type</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">case_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
@@ -126,8 +127,21 @@
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">task_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A list of identifiers (typically labels) of task types.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A list of identifiers (typically labels) of task types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Problem.is_event"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.is_event">[docs]</a>    <span class="k">def</span> <span class="nf">is_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the task type is actually an event.</span>
+<span class="sd">        Events start immediately when they are activated.</span>
+<span class="sd">        They do not require a resource.</span>
+
+<span class="sd">        :param task_type: one of :attr:`.Problem.task_types`</span>
+<span class="sd">        :return: True or False, depending on whether the specified task type is an event or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="Problem.sample_initial_task_type"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.sample_initial_task_type">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">sample_initial_task_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -194,11 +208,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Problem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+<div class="viewcode-block" id="Problem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Randomly samples data for the task type.</span>
+<span class="sd">        Randomly samples data for the task.</span>
 
-<span class="sd">        :param task_type: one of the :attr:`.Problem.task_types` of the problem.</span>
+<span class="sd">        :param task: the :class:`.Task` for which the data will be sampled.</span>
 <span class="sd">        :return: a dictionary with additional data that can be stored in :attr:`.Task.data`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span></div>
@@ -232,7 +246,8 @@
         <span class="n">arrival_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">previous_case_arrival_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">interarrival_time_sample</span><span class="p">()</span>
         <span class="n">initial_task_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_initial_task_type</span><span class="p">()</span>
         <span class="n">case_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span>
-        <span class="n">initial_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">case_id</span><span class="p">,</span> <span class="n">initial_task_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">initial_task_type</span><span class="p">))</span>
+        <span class="n">initial_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">case_id</span><span class="p">,</span> <span class="n">initial_task_type</span><span class="p">)</span>
+        <span class="n">initial_task</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">initial_task</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -240,6 +255,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">return</span> <span class="n">arrival_time</span><span class="p">,</span> <span class="n">initial_task</span></div>
+
+<div class="viewcode-block" id="Problem.nr_cases_generated"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.nr_cases_generated">[docs]</a>    <span class="k">def</span> <span class="nf">nr_cases_generated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of cases that has been generated.</span>
+
+<span class="sd">        :return: an integer number of cases that has been generated for the problem so far.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_case_id</span></div>
 
 <div class="viewcode-block" id="Problem.complete_task"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.Problem.complete_task">[docs]</a>    <span class="k">def</span> <span class="nf">complete_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -253,134 +276,12 @@
 
         <span class="n">next_tasks</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_types_sample</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
-            <span class="n">new_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">tt</span><span class="p">))</span>
+            <span class="n">new_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span>
+            <span class="n">new_task</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sample</span><span class="p">(</span><span class="n">new_task</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">next_task_id</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">next_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_task</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">next_tasks</span></div></div>
-
-
-<div class="viewcode-block" id="MinedProblem"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem">[docs]</a><span class="k">class</span> <span class="nc">MinedProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A specific :class:`.Problem` that represents process that is mined from</span>
-<span class="sd">    a business process event log, using :meth:`miners.mine_problem`.</span>
-<span class="sd">    The problem generates customer cases that have the same properties</span>
-<span class="sd">    as the cases in the event log from which it originate in terms of:</span>
-<span class="sd">    arrival rate, next-task probabilities, and performance of resources on</span>
-<span class="sd">    task types in terms of processing time distribution.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">resources</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">task_types</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The initial task type distribution. A list of tuples of probability/ task type, where probability is</span>
-<span class="sd">        the probability that the task type is the initial task type of a case.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The next task type distribution per task type. Maps a task type to a list of probability/ task type tuples, </span>
-<span class="sd">        where each pair is a next task type and the probability that that task type is the next task type. If</span>
-<span class="sd">        a tuple is probability/ None, this represents the probability that there is no next task and the </span>
-<span class="sd">        case completes. </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The average interarrival time.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mean_interarrival_time</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that </span>
-<span class="sd">        type.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resource_pools</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The processing time distribution per task type/resource combination. Maps a tuple of a task type/ resource</span>
-<span class="sd">        combination to a tuple of a mean/ standard deviation of the time the resource spends processing tasks of</span>
-<span class="sd">        the type. </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">processing_time_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-
-<div class="viewcode-block" id="MinedProblem.sample_initial_task_type"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.sample_initial_task_type">[docs]</a>    <span class="k">def</span> <span class="nf">sample_initial_task_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">rd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-        <span class="n">rs</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">:</span>
-            <span class="n">rs</span> <span class="o">+=</span> <span class="n">p</span>
-            <span class="k">if</span> <span class="n">rd</span> <span class="o">&lt;</span> <span class="n">rs</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">tt</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: the probabilities of initial tasks do not add up to 1.0&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="MinedProblem.resource_pool"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.resource_pool">[docs]</a>    <span class="k">def</span> <span class="nf">resource_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource_pools</span><span class="p">[</span><span class="n">task_type</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="MinedProblem.interarrival_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.interarrival_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">interarrival_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">expovariate</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_interarrival_time</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="MinedProblem.next_task_types_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.next_task_types_sample">[docs]</a>    <span class="k">def</span> <span class="nf">next_task_types_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
-        <span class="n">rd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-        <span class="n">rs</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">]:</span>
-            <span class="n">rs</span> <span class="o">+=</span> <span class="n">p</span>
-            <span class="k">if</span> <span class="n">rd</span> <span class="o">&lt;</span> <span class="n">rs</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">tt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">[]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">[</span><span class="n">tt</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: the probabilities of next tasks do not add up to 1.0&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span></div>
-
-<div class="viewcode-block" id="MinedProblem.processing_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.processing_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">processing_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
-        <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_time_distribution</span><span class="p">[(</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span> <span class="n">resource</span><span class="p">)]</span>
-        <span class="n">pt</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
-        <span class="k">while</span> <span class="n">pt</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># We do not allow negative values for processing time.</span>
-            <span class="n">pt</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pt</span></div>
-
-<div class="viewcode-block" id="MinedProblem.generator_from_file"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.generator_from_file">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">generator_from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads a problem instance generator from the specified file.</span>
-<span class="sd">        The loaded generator is a normal problem, but without instance.</span>
-<span class="sd">        Instances still must be created using :meth:`.from_generator`.</span>
-
-<span class="sd">        :param filename: the name of the file from which to read the problem.</span>
-<span class="sd">        :return: an object of the :class:`.Problem` without instance information.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">o</span> <span class="o">=</span> <span class="n">MinedProblem</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">resources</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">task_types</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">next_task_distribution</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">mean_interarrival_time</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">resource_pools</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">processing_time_distribution</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">resource_weights</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">schedule</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">o</span></div>
-
-<div class="viewcode-block" id="MinedProblem.save_generator"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.save_generator">[docs]</a>    <span class="k">def</span> <span class="nf">save_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Saves the problem to file without instance information.</span>
-
-<span class="sd">        :param filename: the name of the file to save the problem to.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_types</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_interarrival_time</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource_pools</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processing_time_distribution</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource_weights</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schedule</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="MMcProblem"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MMcProblem">[docs]</a><span class="k">class</span> <span class="nc">MMcProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
@@ -446,7 +347,7 @@
 <div class="viewcode-block" id="ImbalancedProblem.interarrival_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.ImbalancedProblem.interarrival_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">interarrival_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">expovariate</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ImbalancedProblem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.ImbalancedProblem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+<div class="viewcode-block" id="ImbalancedProblem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.ImbalancedProblem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;optimal_resource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div></div>
@@ -476,15 +377,126 @@
 <div class="viewcode-block" id="SequentialProblem.interarrival_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.SequentialProblem.interarrival_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">interarrival_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">expovariate</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">20</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SequentialProblem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.SequentialProblem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+<div class="viewcode-block" id="SequentialProblem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.SequentialProblem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;optimal_resource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;R&quot;</span> <span class="o">+</span> <span class="n">task_type</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;optimal_resource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;R&quot;</span> <span class="o">+</span> <span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="SequentialProblem.next_task_types_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.SequentialProblem.next_task_types_sample">[docs]</a>    <span class="k">def</span> <span class="nf">next_task_types_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">task_type</span> <span class="o">==</span> <span class="s2">&quot;T1&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;T2&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[]</span></div></div>
+
+
+<div class="viewcode-block" id="MinedProblem"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem">[docs]</a><span class="k">class</span> <span class="nc">MinedProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A specific :class:`.Problem` that represents process that is mined from</span>
+<span class="sd">    a business process event log, using :meth:`miners.mine_problem`.</span>
+<span class="sd">    The problem generates customer cases that have the same properties</span>
+<span class="sd">    as the cases in the event log from which it originate in terms of:</span>
+<span class="sd">    arrival rate, next-task probabilities, and performance of resources on</span>
+<span class="sd">    task types in terms of processing time distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">resources</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">task_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The initial task type distribution. A list of tuples of probability/ task type, where probability is</span>
+<span class="sd">        the probability that the task type is the initial task type of a case.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The next task type distribution per task type. Maps a task type to a list of probability/ task type tuples, </span>
+<span class="sd">        where each pair is a next task type and the probability that that task type is the next task type. If</span>
+<span class="sd">        a tuple is probability/ None, this represents the probability that there is no next task and the </span>
+<span class="sd">        case completes. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The interarrival time distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interarrival_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The resource pool per task type. Maps each task type to the list of resources that can execute tasks of that </span>
+<span class="sd">        type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resource_pools</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The data types. Is a mapping of data type names to distributions from which the data will be sampled.</span>
+<span class="sd">        In this class data is associated with a case. For each task in a case the same data will be returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_types</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__case_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The processing time is a stratified distribution that depends on various features, specifically:</span>
+<span class="sd">        the task that is performed, the resource performing the task, the history of the case (i.e. how many instanced </span>
+<span class="sd">        of each task type completed so far), and the data of the case.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processing_times</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__number_task_type_occurrences</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MinedProblem.sample_initial_task_type"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.sample_initial_task_type">[docs]</a>    <span class="k">def</span> <span class="nf">sample_initial_task_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">:</span>
+            <span class="n">rs</span> <span class="o">+=</span> <span class="n">p</span>
+            <span class="k">if</span> <span class="n">rd</span> <span class="o">&lt;</span> <span class="n">rs</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tt</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: the probabilities of initial tasks do not add up to 1.0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.resource_pool"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.resource_pool">[docs]</a>    <span class="k">def</span> <span class="nf">resource_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource_pools</span><span class="p">[</span><span class="n">task_type</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.interarrival_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.interarrival_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">interarrival_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interarrival_time</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MinedProblem.next_task_types_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.next_task_types_sample">[docs]</a>    <span class="k">def</span> <span class="nf">next_task_types_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="n">rd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">]:</span>
+            <span class="n">rs</span> <span class="o">+=</span> <span class="n">p</span>
+            <span class="k">if</span> <span class="n">rd</span> <span class="o">&lt;</span> <span class="n">rs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">tt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">tt</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: the probabilities of next tasks do not add up to 1.0&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">next_task_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.processing_time_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.processing_time_sample">[docs]</a>    <span class="k">def</span> <span class="nf">processing_time_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">__number_task_type_occurrences</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">],</span> <span class="s1">&#39;Activity&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span> <span class="s1">&#39;Resource&#39;</span><span class="p">:</span> <span class="n">resource</span><span class="p">,</span> <span class="o">**</span><span class="n">task</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">processing_times</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">features</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MinedProblem.data_sample"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.data_sample">[docs]</a>    <span class="k">def</span> <span class="nf">data_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">case_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__case_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__case_data</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_types</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__case_data</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">][</span><span class="n">dt</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_types</span><span class="p">[</span><span class="n">dt</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__case_data</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MinedProblem.restart"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__case_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__number_task_type_occurrences</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MinedProblem.next_case"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.next_case">[docs]</a>    <span class="k">def</span> <span class="nf">next_case</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">arrival_time</span><span class="p">,</span> <span class="n">initial_task</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">next_case</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__number_task_type_occurrences</span><span class="p">[</span><span class="n">initial_task</span><span class="o">.</span><span class="n">case_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_types</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__number_task_type_occurrences</span><span class="p">[</span><span class="n">initial_task</span><span class="o">.</span><span class="n">case_id</span><span class="p">][</span><span class="n">tt</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">arrival_time</span><span class="p">,</span> <span class="n">initial_task</span></div>
+
+<div class="viewcode-block" id="MinedProblem.complete_task"><a class="viewcode-back" href="../../bpo.problems.html#bpo.problems.MinedProblem.complete_task">[docs]</a>    <span class="k">def</span> <span class="nf">complete_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="n">next_tasks</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">complete_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__number_task_type_occurrences</span><span class="p">[</span><span class="n">task</span><span class="o">.</span><span class="n">case_id</span><span class="p">][</span><span class="n">task</span><span class="o">.</span><span class="n">task_type</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">next_tasks</span></div></div>
 </pre></div>
 
             <div class="clearer"></div>
