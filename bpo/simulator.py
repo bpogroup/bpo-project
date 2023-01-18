@@ -450,6 +450,7 @@ class Simulator:
 
         :param running_time: the amount of simulation time the simulation should be run for.
         """
+        tasks_per = resources_per = nr_per = 0
         # repeat until the end of the simulation time:
         while self.now <= running_time:
             # get the first event e from the events
@@ -467,11 +468,9 @@ class Simulator:
                 self.busy_cases[event.task.case_id] = [event.task.id]
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                 # generate a new arrival event for the first task of the next case
-                next_case = self.problem.next_case()
-                if next_case is not None:
-                    (t, task) = next_case
-                    self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
-                    self.events.sort()
+                (t, task) = self.problem.next_case()
+                self.events.append((t, Event(EventType.CASE_ARRIVAL, t, task)))
+                self.events.sort()
 
             # if e is a start event:
             elif event.event_type == EventType.START_TASK:
@@ -546,11 +545,15 @@ class Simulator:
                         self.away_resources_weights.append(self.problem.resource_weights[self.problem.resources.index(r)])
                 # plan the next resource schedule event
                 self.events.append((self.now+1, Event(EventType.SCHEDULE_RESOURCES, self.now+1, None)))
+                self.events.sort()
 
             # if e is a planning event: do assignment
             elif event.event_type == EventType.PLAN_TASKS:
                 # there only is an assignment if there are free resources and tasks
                 if len(self.unassigned_tasks) > 0 and len(self.available_resources) > 0:
+                    tasks_per += len(self.unassigned_tasks)
+                    resources_per += len(self.available_resources)
+                    nr_per += 1
                     assignments = self.planner.assign(self)
                     # for each newly assigned task:
                     for (task, resource, moment) in assignments:
@@ -565,6 +568,8 @@ class Simulator:
                             self.available_resources.remove(resource)
                             self.reserved_resources[resource] = (event.task, moment)
                     self.events.sort()
+
+        print(tasks_per/nr_per, resources_per/nr_per)
 
     @staticmethod
     def replicate(problem, planner, reporter, simulation_time, replications):

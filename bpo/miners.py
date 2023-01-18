@@ -2,10 +2,10 @@ import pandas
 import datetime
 from statistics import mean
 from problems import MinedProblem
-from distributions import DistributionType, CategoricalDistribution, BetaDistribution, GammaDistribution, NormalDistribution, StratifiedNumericDistribution
+from distributions import DistributionType, CategoricalDistribution, BetaDistribution, GammaDistribution, NormalDistribution, StratifiedNumericDistribution, UniformDistribution
 
 
-def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S", earliest_start=None, latest_completion=None, min_resource_count=2, resource_schedule_timeunit=datetime.timedelta(hours=1), resource_schedule_repeat=168, datafields=dict()):
+def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S", earliest_start=None, latest_completion=None, min_resource_count=2, resource_schedule_timeunit=datetime.timedelta(hours=1), resource_schedule_repeat=168, datafields=dict(), max_error_std=None):
     """
     Mines a problem and returns it as a :class:`.problems.Problem` that can be simulated.
     The log from which the model is mined must at least have the columns
@@ -29,9 +29,9 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
                                of the processing time cannot be computed.
     :param resource_schedule_timeunit: the timeunit in which resource schedules should be represented. Default is 1 hour.
     :param resource_schedule_repeat: the number of times after which the resource schedule is expected to repeat itself. Default is 168 repeats (of 1 hour is a week).
-    :return: a :class:`.problems.Problem`.
     :param datafields: a mapping of string to DistributionType, where string must be the name is one of the columns of the log.
-
+    :param max_error_std: a distribution that describes the maximum standard deviation of the error that the processing times can have. It must be specified as a fraction of the mean processing time. The actual fraction will be sampled from this probability distribution. By default, no maximum is set.
+    :return: a :class:`.problems.Problem`.
     """
 
     df = log.copy()
@@ -110,7 +110,7 @@ def mine_problem(log, task_type_filter=None, datetime_format="%Y/%m/%d %H:%M:%S"
     features = ['Activity', 'Resource'] + list(datafields.keys()) + list(task_types)
     onehot = ['Activity', 'Resource'] + [datafield for datafield in datafields if datafields[datafield] == DistributionType.CATEGORICAL]
     standardization = [datafield for datafield in datafields if datafields[datafield] != DistributionType.CATEGORICAL]
-    processing_times.learn(df[features + ['Duration']], 'Duration', features, onehot, standardization, 'Activity')
+    processing_times.learn(df[features + ['Duration']], 'Duration', features, onehot, standardization, 'Activity', max_error_std)
 
     # Mine the control flow
     initial_tasks = dict()

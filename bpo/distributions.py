@@ -34,6 +34,11 @@ class DistributionType(Enum):
 
     :meta hide-value:"""
 
+    UNIFORM = auto()
+    """A uniform distribution.
+
+    :meta hide-value:"""
+
 
 class CategoricalDistribution:
 
@@ -47,6 +52,20 @@ class CategoricalDistribution:
 
     def sample(self):
         return random.choices(self._values, weights=self._weights)[0]
+
+
+class UniformDistribution:
+
+    def __init__(self, minimum=0, maximum=0):
+        self.minimum = minimum
+        self.maximum = maximum
+
+    def learn(self, values):
+        self.minimum = min(values)
+        self.maximum = max(values)
+
+    def sample(self):
+        return random.uniform(self.minimum, self.maximum)
 
 
 class GammaDistribution:
@@ -96,17 +115,17 @@ class ErlangDistribution:
 
 class NormalDistribution:
 
-    def __init__(self):
-        self._mu = 0
-        self._std = 0
+    def __init__(self, mu = 0, std = 0):
+        self.mu = mu
+        self.std = std
 
     def learn(self, values):
         fit_mu, fit_std = scipy.stats.norm.fit(values)
-        self._mu = fit_mu
-        self._std = fit_std
+        self.mu = fit_mu
+        self.std = fit_std
 
     def sample(self):
-        return scipy.stats.norm.rvs(self._mu, self._std)
+        return scipy.stats.norm.rvs(self.mu, self.std)
 
 
 class BetaDistribution:
@@ -148,7 +167,11 @@ class StratifiedNumericDistribution:
 
     # onehot_columns will be onehot encoded, standardization_columns will be Z-Score normalized
     # all other features will be minmax normalized.
-    def learn(self, data, target_column, feature_columns, onehot_columns, standardization_columns, stratifier):
+    # The maximum standard deviation of the error can be given as a fraction to the mean predicted value.
+    # If the mean predicted value is m, the standard deviation of the error will be the min(actual error std, mean * max_error_std).
+    # The max_error_std is given as a distribution itself, from which the max error is drawn for each strata.
+    # For a max_error_std of None, no maximum will be set.
+    def learn(self, data, target_column, feature_columns, onehot_columns, standardization_columns, stratifier, max_error_std):
         x = data[feature_columns]
         y = data[target_column]
 
@@ -192,6 +215,11 @@ class StratifiedNumericDistribution:
                 self._stratified_errors[pv].learn(stratified_errors)
             else:
                 self._stratified_errors[pv] = overall_value
+            if max_error_std is not None:
+                pv_mean = float(df_error[df_error[self._stratifier] == pv]['y'].mean())
+                pv_max_error_std = max_error_std.sample() * pv_mean
+                if self._stratified_errors[pv].std > pv_max_error_std:
+                    self._stratified_errors[pv] = NormalDistribution(0, pv_max_error_std)
 
     # features is a dictionary that maps feature labels to lists of values
     def sample(self, features):
