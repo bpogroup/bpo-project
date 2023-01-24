@@ -40,6 +40,14 @@ class EventType(Enum):
     """Resources are scheduled every full clock tick.
 
     :meta hide-value:"""
+    RESOURCE_LEAVING = auto()
+    """A resource is leaving.
+
+    :meta hide-value:"""
+    RESOURCE_JOINING = auto()
+    """A resource is joining.
+
+    :meta hide-value:"""
 
 
 class TimeUnit(Enum):
@@ -219,6 +227,39 @@ class CaseReporterElement(ReporterElement):
         return [("cases completed", self.nr_cases_completed), ("case cycle time", self.cycle_time/self.nr_cases_completed)]
 
 
+class ResourceReporterElement(ReporterElement):
+    """
+    A :class:`.ReporterElement` that keeps information about the occupancy rate of the resources.
+
+    This information is returned by the :meth:`.CaseReporterElement.summarize` method.
+    """
+    def __init__(self):
+        self.nr_resources_in_process = 0  # i.e. resources either available or busy, common mathematical symbol: c
+        self.nr_resources_busy = 0  # n
+        self.previous_event_time = 0 # t
+        self.rho_times_time = 0  # we are computing rho = n/c as an area under curve over time until t, so to get the actual rho, it must be dived by the time t in the end
+
+    def restart(self):
+        self.__init__()
+
+    def report(self, event):
+        if event.event_type == EventType.RESOURCE_JOINING or event.event_type == EventType.RESOURCE_LEAVING or (event.event_type == EventType.START_TASK and event.resource is not None) or (event.event_type == EventType.COMPLETE_TASK and event.resource is not None):
+            if self.nr_resources_in_process > 0:
+                self.rho_times_time += (self.nr_resources_busy / self.nr_resources_in_process) * (event.moment - self.previous_event_time)
+            self.previous_event_time = event.moment
+            if event.event_type == EventType.RESOURCE_JOINING:
+                self.nr_resources_in_process += 1
+            elif event.event_type == EventType.RESOURCE_LEAVING:
+                self.nr_resources_in_process -= 1
+            elif event.event_type == EventType.START_TASK and event.resource is not None:
+                self.nr_resources_busy += 1
+            elif event.event_type == EventType.COMPLETE_TASK and event.resource is not None:
+                self.nr_resources_busy -= 1
+
+    def summarize(self):
+        return [("rho", self.rho_times_time/self.previous_event_time)]
+
+
 class EventLogReporterElement(ReporterElement):
     """
     A :class:`.ReporterElement` that stored the simulation events that occur in an event log.
@@ -254,17 +295,21 @@ class EventLogReporterElement(ReporterElement):
     def restart(self):
         raise NotImplementedError
 
+    def displace(self, time):
+        return self.initial_time + (timedelta(seconds=time) if self.timeunit == TimeUnit.SECONDS else timedelta(
+            minutes=time) if self.timeunit == TimeUnit.MINUTES else timedelta(
+            hours=time) if self.timeunit == TimeUnit.HOURS else timedelta(
+            days=time) if self.timeunit == TimeUnit.DAYS else None)
+
     def report(self, event):
-        def displace(time):
-            return self.initial_time + (timedelta(seconds=time) if self.timeunit == TimeUnit.SECONDS else timedelta(minutes=time) if self.timeunit == TimeUnit.MINUTES else timedelta(hours=time) if self.timeunit == TimeUnit.HOURS else timedelta(days=time) if self.timeunit == TimeUnit.DAYS else None)
         if event.event_type == EventType.START_TASK:
             self.task_start_times[event.task.id] = event.moment
         elif event.event_type == EventType.COMPLETE_TASK and event.task.id in self.task_start_times.keys():
             self.logfile.write(str(event.task.case_id) + ",")
             self.logfile.write(str(event.task.task_type) + ",")
             self.logfile.write(str(event.resource) + ",")
-            self.logfile.write(displace(self.task_start_times[event.task.id]).strftime(self.time_format) + ",")
-            self.logfile.write(displace(event.moment).strftime(self.time_format))
+            self.logfile.write(self.displace(self.task_start_times[event.task.id]).strftime(self.time_format) + ",")
+            self.logfile.write(self.displace(event.moment).strftime(self.time_format))
             for df in self.data_fields:
                 self.logfile.write(",")
                 self.logfile.write('"' + str(event.task.data[df]) + '"')
@@ -298,7 +343,7 @@ class Reporter:
     def __init__(self, warmup=0, reporter_elements=None):
         self.warmup = warmup
         if reporter_elements is None:
-            default_reporters = [TasksReporterElement(), CaseReporterElement()]
+            default_reporters = [TasksReporterElement(), CaseReporterElement(), ResourceReporterElement()]
             self.reporters = default_reporters
         else:
             self.reporters = reporter_elements
@@ -409,6 +454,7 @@ class Simulator:
         # set all resources to available
         for r in self.problem.resources:
             self.available_resources.add(r)
+            self.reporter.report(Event(EventType.RESOURCE_JOINING, self.now, None, resource=r))
 
         # generate resource scheduling event to start the schedule
         self.events.append((0, Event(EventType.SCHEDULE_RESOURCES, 0, None)))
@@ -493,6 +539,7 @@ class Simulator:
                     else:
                         self.away_resources.append(event.resource)
                         self.away_resources_weights.append(self.problem.resource_weights[self.problem.resources.index(event.resource)])
+                        self.reporter.report(Event(EventType.RESOURCE_LEAVING, self.now, None, resource=event.resource))
                 # remove task from assigned tasks
                 del self.assigned_tasks[event.task.id]
                 self.busy_cases[event.task.case_id].remove(event.task.id)
@@ -529,6 +576,7 @@ class Simulator:
                         del self.away_resources[away_resource_i]
                         del self.away_resources_weights[away_resource_i]
                         self.available_resources.add(random_resource)
+                        self.reporter.report(Event(EventType.RESOURCE_JOINING, self.now, None, resource=random_resource))
                     # generate a new planning event to put them to work
                     self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
                     self.events.sort()
@@ -543,6 +591,7 @@ class Simulator:
                         # add them to the away resources
                         self.away_resources.append(r)
                         self.away_resources_weights.append(self.problem.resource_weights[self.problem.resources.index(r)])
+                        self.reporter.report(Event(EventType.RESOURCE_LEAVING, self.now, None, resource=r))
                 # plan the next resource schedule event
                 self.events.append((self.now+1, Event(EventType.SCHEDULE_RESOURCES, self.now+1, None)))
                 self.events.sort()
@@ -568,8 +617,6 @@ class Simulator:
                             self.available_resources.remove(resource)
                             self.reserved_resources[resource] = (event.task, moment)
                     self.events.sort()
-
-        print(tasks_per/nr_per, resources_per/nr_per)
 
     @staticmethod
     def replicate(problem, planner, reporter, simulation_time, replications):

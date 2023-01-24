@@ -1,7 +1,7 @@
 import random
 from problems import Problem
 from planners import Planner
-from simulator import Simulator, Reporter
+from simulator import Simulator, Reporter, ResourceReporterElement
 from distributions import ErlangDistribution
 from visualizers import boxplot
 
@@ -134,14 +134,15 @@ class SVTScheduler(Planner):
 
 
 if __name__ == "__main__":
-    problem = StochasticSchedulingProblem(500)
+    problem = StochasticSchedulingProblem(100)
 
-    stratified_results = Simulator.replicate(problem, SVTScheduler("variance"), Reporter(), 1000000, 100)
+    stratified_results = Simulator.replicate(problem, SVTScheduler("variance"), Reporter(reporter_elements=[ResourceReporterElement()]), 1000000, 20)
     print(Reporter.aggregate(stratified_results))
 
     # This is a bit nasty, we are relying here on the mean always being the same, such that the cases are basically sorted at random.
     # It would be better to sort according to the non-stratified variance (of the overall processing time distributions).
     # However, that would also be the same for all cases, so it would lead to the same effect.
-    non_stratified_results = Simulator.replicate(problem, SVTScheduler("mean"), Reporter(), 1000000, 100)
+    non_stratified_results = Simulator.replicate(problem, SVTScheduler("mean"), Reporter(reporter_elements=[ResourceReporterElement()]), 1000000, 20)
+    print(Reporter.aggregate(non_stratified_results))
 
-    boxplot({'stratified': stratified_results['task T wait time'], 'non-stratified': non_stratified_results['task T wait time']})
+    # boxplot({'stratified': stratified_results['task T wait time'], 'non-stratified': non_stratified_results['task T wait time']})
