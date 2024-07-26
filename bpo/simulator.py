@@ -393,6 +393,10 @@ class Simulator:
         The tasks that are currently not assigned. A dict task.id -> task, where task is an instance of :class:`.Task`.
         A task is in this list if it must still be performed. After a task is completed does not re-appear in this list.
         """
+        self.nr_waiting_tasks = dict()
+        """
+        Maps task types to the number of unassigned tasks of that type.
+        """
         self.assigned_tasks = dict()
         """
         The tasks that are currently assigned. A dict task.id -> (task, resource, start), where:
@@ -482,6 +486,24 @@ class Simulator:
         """
         return len(self.available_resources) + len(self.busy_resources) + len(self.reserved_resources)
 
+    def add_waiting_task(self, task):
+        """
+        Adds a task to the waiting list.
+
+        :param task: an instance of :class:`.Task`.
+        """
+        if task.task_type not in self.nr_waiting_tasks.keys():
+            self.nr_waiting_tasks[task.task_type] = 0
+        self.nr_waiting_tasks[task.task_type] += 1
+    
+    def remove_waiting_task(self, task):
+        """
+        Removes a task from the waiting list.
+
+        :param task: an instance of :class:`.Task`.
+        """
+        self.nr_waiting_tasks[task.task_type] -= 1
+
     def simulate(self, running_time):
         """
         Runs the simulation for the instance that was passed in the constructor.
@@ -510,6 +532,7 @@ class Simulator:
             if event.event_type == EventType.CASE_ARRIVAL:
                 # add new task
                 self.unassigned_tasks[event.task.id] = event.task
+                self.add_waiting_task(event.task)
                 self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, event.task))
                 self.busy_cases[event.task.case_id] = [event.task.id]
                 self.events.append((self.now, Event(EventType.PLAN_TASKS, self.now, None, nr_tasks=len(self.unassigned_tasks), nr_resources=len(self.available_resources))))
@@ -548,6 +571,7 @@ class Simulator:
                 # generate unassigned tasks for each next task
                 for next_task in next_tasks:
                     self.unassigned_tasks[next_task.id] = next_task
+                    self.add_waiting_task(next_task)
                     self.reporter.report(Event(EventType.TASK_ACTIVATE, self.now, next_task))
                     self.busy_cases[event.task.case_id].append(next_task.id)
                 if len(self.busy_cases[event.task.case_id]) == 0:
@@ -611,6 +635,7 @@ class Simulator:
                         self.reporter.report(Event(EventType.TASK_PLANNED, self.now, task))
                         # assign task
                         del self.unassigned_tasks[task.id]
+                        self.remove_waiting_task(task)
                         self.assigned_tasks[task.id] = (task, resource, moment)
                         if not self.problem.is_event(task.task_type):  # for actual tasks (not events)
                             # reserve resource

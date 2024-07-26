@@ -20,6 +20,34 @@ class Planner(ABC):
         raise NotImplementedError
 
 
+class WrapperPlanner(Planner):
+    """
+    A planner that simplifies the implementation of a planner by wrapping it as a policy function.
+    """
+    def __init__(self, policy_function):
+        self.policy_function = policy_function
+
+    def assign(self, environment):
+        available_resources = list(environment.available_resources)
+        tasks = [task for task in environment.unassigned_tasks.values() if not environment.problem.is_event(task.task_type)]
+        assignments = self.policy_function(available_resources, tasks, environment)
+        assigned_resources = []
+        for (task, resource) in assignments:
+            if task not in environment.unassigned_tasks.values():
+                raise Exception("ERROR: trying to assign a task that is not in the unassigned_tasks.")
+            if resource not in environment.available_resources:
+                raise Exception("ERROR: trying to assign a resource that is not in available_resources.")
+            if resource not in environment.problem.resource_pool(task.task_type):
+                raise Exception("ERROR: trying to assign a resource to a task that is not in its resource pool.")
+            if resource in assigned_resources:
+                raise Exception("ERROR: trying to assign a resource to multiple tasks.")
+            assigned_resources.append(resource)
+        for event in environment.unassigned_tasks.values():
+            if environment.problem.is_event(event.task_type):
+                assignments.append((event, None))
+        return [(task, resource, environment.now) for task, resource in assignments]
+
+
 # Greedy assignment
 class GreedyPlanner(Planner):
     """A :class:`.Planner` that assigns tasks to resources in an anything-goes manner."""
