@@ -32,6 +32,7 @@ class WrapperPlanner(Planner):
         tasks = [task for task in environment.unassigned_tasks.values() if not environment.problem.is_event(task.task_type)]
         assignments = self.policy_function(available_resources, tasks, environment)
         assigned_resources = []
+        assigned_tasks = []
         for (task, resource) in assignments:
             if task not in environment.unassigned_tasks.values():
                 raise Exception("ERROR: trying to assign a task that is not in the unassigned_tasks.")
@@ -41,7 +42,10 @@ class WrapperPlanner(Planner):
                 raise Exception("ERROR: trying to assign a resource to a task that is not in its resource pool.")
             if resource in assigned_resources:
                 raise Exception("ERROR: trying to assign a resource to multiple tasks.")
+            if task in assigned_tasks:
+                raise Exception("ERROR: trying to assign multiple resources to a task.")
             assigned_resources.append(resource)
+            assigned_tasks.append(task)
         for event in environment.unassigned_tasks.values():
             if environment.problem.is_event(event.task_type):
                 assignments.append((event, None))
