@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bpo"
+version = "1.0.0"
+authors = [
+  { name="Remco Dijkman", email="r.m.dijkman@tue.nl" },
+]
+description = "A package for business process optimization."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = {file = "LICENSE.rst"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "matplotlib==3.9.0",
+    "pandas==2.2.2",
+    "scikit-learn==1.5.1"
+]
+
+[tool.hatch.build]
+exclude = [
+    "/doc*",
+    "/examples",
+    "/sandbox",
+    "/tests",
+    "/temp",
+    "/TODO.rst",
+    "/.*",
+    "/requirements.txt",
+    "/bpo/resources"
+]
